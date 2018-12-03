@@ -1,0 +1,10 @@
+{
+  "ValidityReminderSettings": {
+    "Reminder1": "90",
+    "Reminder2": "50",
+    "Reminder3": "30",
+    "ValidityReminderToEmail": "m.nithya@steadfastglobal.com,nithyamari31.yahoo.in,nitikishu25@gmail.com",
+    "ValidityReminderCCEmail": "admin@yourdomain.com",
+    "ValidityReminderBCCEmail": "m.nithya@steadfastglobal.com"
+  }
+}

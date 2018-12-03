@@ -1,0 +1,846 @@
+﻿ 
+
+    <style>
+        .modal-dialog 
+        {
+           width: 800px;
+           margin-top:55px;
+        }
+
+        .scrollbar {
+            overflow-y: auto;
+            height: calc(100vh - 320px);
+        }
+        /*.scrollbarpopup {
+            overflow-y: auto;
+            height: calc(100vh - 420px);
+        }*/
+
+        /*clear two search close icon in IE browser*/
+
+        input[type=text]::-ms-clear 
+        {
+            display: none;
+        }
+        ::-webkit-input-placeholder {
+            /* Chrome/Opera/Safari */
+            color: #c2c3c0;
+        }
+
+        ::-moz-placeholder {
+            /* Firefox 19+ */
+            color: #c2c3c0;
+        }
+
+        :-ms-input-placeholder {
+            /* IE 10+ */
+            color: #c2c3c0;
+        }
+
+        :-moz-placeholder {
+            /* Firefox 18- */
+            color: #c2c3c0;
+        }
+       
+    </style>
+
+
+
+
+
+    <script type="text/javascript">
+                try { ace.settings.loadState('sidebar') } catch (e) { }
+                        $(function () {
+                    // init plugin (with callback)
+                    $('#MFacilityID').clearSearch({ callback: function () { console.log("cleared"); } });
+                    $('#MAddressID').clearSearch({ callback: function () { console.log("cleared"); } });
+                    $('#MRegionID').clearSearch({ callback: function () { console.log("cleared"); } });
+                    $('#MAreaID').clearSearch({ callback: function () { console.log("cleared"); } });
+                    $('#MCountryID').clearSearch({ callback: function () { console.log("cleared"); } });
+                    $('#MStateID').clearSearch({ callback: function () { console.log("cleared"); } });
+                    $('#MCityID').clearSearch({ callback: function () { console.log("cleared"); } });
+                    $('#MPCodeID').clearSearch({ callback: function () { console.log("cleared"); } });
+                    $('#MCPersonID').clearSearch({ callback: function () { console.log("cleared"); } });
+                    $('#MEmailID').clearSearch({ callback: function () { console.log("cleared"); } });
+                    $('#MIsActiveID').clearSearch({ callback: function () { console.log("cleared"); } });
+                    $('#UserNameID').clearSearch({ callback: function () { console.log("cleared"); } });
+                });
+
+                $(function () {
+                    $(".sidebar ul li ul li").closest("li").find(".active").removeClass("active");
+                    $("#ManageFacilityID").addClass("active").parents(".nav li").addClass("active open");
+
+                });
+        function isNumberKey(evt) 
+        {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+              && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+
+
+       
+
+    </script>
+    <!--   End  09/03/17 -->
+ 
+ 
+                            <!-- PAGE CONTENT BEGINS -->
+
+                            <div >
+                                <!--Add New Popup-->
+                                <div class="container">
+                                    <!-- Modal -->
+                                    <form name="profileform">
+                                        <div class="modal fade" id="myModal" role="dialog" tabindex="-1">
+                                            <div class="modal-dialog ">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header" >
+
+                                                        <h4 class="modal-title pull-left "><strong>Add New Office Location</strong></h4>
+                                                        <button type="button" class="close pull-right" title="Close"
+                                                                data-dismiss="modal" aria-hidden="true">
+                                                            x
+
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        <div class="row" style="margin-bottom:1%">
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Office Location Name</strong><span class="Mandatory">*</span></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <input id="Facilitynameidd" type="text" name="FacilityName" class="form-control" 
+                                                                       placeholder="Facility Name" maxlength="50"
+                                                                ng-model="Facility.FacilityName" ng-required="true"
+                                                                capitalize
+                                                                  maxlength="50"
+                                                                       ng-change="FacilityDuplicateCheck()">
+                                                                <!--<span class="error" ng-show="profileform.FacilityName.$invalid && profileform.FacilityName.$dirty">Please enter the Facility Name</span>-->
+
+                                                            </div>
+                                                            <div class="col-xs-2"><h6><strong>Region</strong><span class="Mandatory">*</span></h6></div>
+                                                            <div class="col-xs-4">
+                                                                <input type="text" name="Region" class="form-control" ng-model="Facility.Region" 
+                                                              ng-required="true"  placeholder="Enter the Region" title="Enter the Region"
+                                                                ng-pattern="/^[a-zA-Z\s]*$/" 
+                                                                onkeypress="return isCharacterKey(event)">
+                                                                <!--<span class="error" ng-show="profileform.Region.required && profileform.Region.$dirty ">Please enter the Region</span>
+                                                                <span class="error" ng-show="profileform.Region.$error.pattern && profileform.Region.$dirty">Region  accepts only characters</span>-->
+
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="row" style="margin-bottom:1%">
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Office Location Address</strong></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <!--<input type="text" name="Address" class="form-control" ng-model="Facility.Address">-->
+                                                                <textarea name="Description" style="width: 100%; max-height: 200px; max-width: 100%;"
+                                                               ng-model="Facility.Address"  onkeydown="return (event.keyCode!=13);"  placeholder="Enter the Address" title="Enter the Address"
+                                                                 maxlength="255"></textarea>
+
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Area</strong><span class="Mandatory">*</span></h6>
+
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <input type="text" name="Area" class="form-control" ng-model="Facility.Area" 
+                                                                ng-required="true" ng-pattern="/^[a-zA-Z\s]*$/"  placeholder="Enter the Area" title="Enter the Area"
+                                                                onkeypress="return isCharacterKey(event)">
+
+                                                                <!--<span class="error" ng-show="profileform.Area.$error.required && profileform.Area.$dirty">Please enter the Area</span>
+                                                                <span class="error" ng-show="profileform.Area.$error.pattern && profileform.Area.$dirty">Area  accepts only characters</span>-->
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="row" style="margin-bottom:1%">
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Country</strong><span class="Mandatory">*</span></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <!--<select id="Countryid" class="form-control" ng-model="MFacility"
+                                                                        ng-options="MFacility as MFacility.FacilityName  for MFacility in Facilities" required>
+                                                                    <option value="" disabled>Select</option>
+
+                                                                </select>-->
+                                                             <select    id="Countryid"   required 
+                                                                 typeof="text" 
+                                                                name="BuildingName" 
+                                                                   form="profileform"  class="form-control" ng-change="InsertCountryChange(ViewCountryDetail._id)"
+                                                                    ng-model="ViewCountryDetail._id">
+                                                                       <option value="">Select</option>
+                                                                     <option  ng-repeat="ViewCountryDetail in ViewCountryDetails"
+                                                                      value="{{ViewCountryDetail._id}}" ng-bind="ViewCountryDetail.CountryName">
+                                                                        </option>
+                                                                </select>
+																
+
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Zip Code</strong><span class="Mandatory">*</span></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <input type="text" name="Postal_Code" class="form-control" ng-model="Facility.Postal_Code"
+                                                                 ng-required="true" ng-pattern="/^[0-9]*$/"  onkeypress="return isNumberKey(event)"
+                                                                 placeholder="Enter the Zip Code" title="Enter the Zip Code">
+                                                                <!--<span class="error" ng-show="profileform.Postal_Code.required && profileform.Postal_Code.$dirty">Please enter the Zip Code</span>
+                                                                <span class="error" ng-show="profileform.Postal_Code.$error.pattern && profileform.Postal_Code.$dirty">Zip Code  accepts only digits</span>-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom:1%">
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>State</strong><span class="Mandatory">*</span></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                
+                                                                    	<select id="Stateid" class="form-control" ng-model="ViewStateDetail._id"
+                                                                 ng-change="InsertstateChange(ViewStateDetail._id)" required
+                                                                       >
+                                                                    <option value="" >Select</option>
+                                                                        <option  ng-repeat="ViewStateDetail in ViewInsertStateDetails" 
+                                                                        value="{{ViewStateDetail._id}}" ng-bind="ViewStateDetail.StateName">
+                                                                         </option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-xs-2"><h6><strong>Contact Person</strong><span class="Mandatory">*</span></h6></div>
+                                                            <div class="col-xs-4">
+                                                                <input type="text" name="Contact_Person" class="form-control" 
+                                                                  ng-model="Facility.Contact_Person" ng-required="true" 
+                                                                ng-pattern="/^[a-zA-Z\s]*$/"  placeholder="Enter the Contact Person" title="Enter the Contact Person"
+                                                                 onkeypress="return isCharacterKey(event)"
+                                                                >
+                                                              
+                                                                <!--<span class="error" ng-show="profileform.Contact_Person.$error.required && profileform.Contact_Person.$dirty">Please enter the Contact Person</span>
+                                                                <span class="error" ng-show="profileform.Contact_Person.$error.pattern && profileform.Contact_Person.$dirty">Contact Person accepts only characters</span>-->
+
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom:1%">
+                                                            <div class="col-xs-2"><h6><strong>City</strong><span class="Mandatory">*</span></h6></div>
+                                                            <div class="col-xs-4">
+                                                                
+                                                                   <select id="Cityid" class="form-control" ng-model="InsertCity" required>
+                                                                    <option value="">Select</option>
+                                                                    <option ng-repeat="ViewCityDetail in InsertViewCityDetails"
+                                                                     value="{{ViewCityDetail._id}}" ng-bind="ViewCityDetail.CityName">
+                                                                        
+                                                                    </option>
+                                                                    
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Contact Email</strong><span class="Mandatory">*</span></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                               <input type="text" name="Contact_Email" class="form-control" 
+                                                                ng-model="Facility.Contact_Email"  placeholder="Enter the Contact Email" title="Enter the Contact Email"
+                                                                ng-required="true"ng-pattern="/^[a-z.]+[a-z0-9_]+@[a-z]+\.[a-z]{2,3}$/">
+                                                               
+                                                               
+                                                                <!--<span style="color:Red" ng-show="profileform.Contact_Email.$invalid&&profileform.Contact_Email.$dirty&&profileform.Contact_Email.$error.pattern">Enter a Valid Email Id</span>-->
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom:1%">
+                                                            <div class="col-xs-2"><h6><strong>IsActive?</strong></h6></div>
+                                                            <div class="col-xs-4">
+                                                                <input type="checkbox" name="IsActive" class="form-control"
+                                                                       ng-model="Facility.IsActive" style="width:20px;">
+                                                           </div>
+
+                                                              <div class="row" style="margin-bottom:1%">
+                                                            <!-- <div class="col-xs-2"><h6><strong>Late Trays on Dumb Waiters</strong></h6></div>
+                                                            <div class="col-xs-4">
+                                                                <input type="checkbox" name="Late_trays_on_DumbWaiters" class="form-control"
+                                                                       ng-model="Facility.Late_trays_on_DumbWaiters" style="width:20px;">
+                                                            </div> -->
+                                                        </div>
+                                                        </div>
+
+                                                      
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                         <button class="btn btn-primary" ng-click="AddNewFacility()" ng-disabled="disableds || profileform.$invalid"
+                                                         data-dismiss="modal"  title=" Save Changes">Save</button>&nbsp;&nbsp;
+                                                        <button class="btn btn-primary" data-dismiss="modal" ng-click="deselect()" type="reset"  title="Close Add Form Without Saving Changes">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!--Update Popup Code-->
+                                  <div class="container">
+                                    <!-- Modal -->
+                                    <form name="Updateprofileform">
+                                        <div class="modal fade" id="UpdateModal" role="dialog" tabindex="-1">
+                                            <div class="modal-dialog ">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header" >
+
+                                                        <h4 class="modal-title pull-left "><strong>Office Location Name</strong>({{SelectedFacilityName}})</h4>
+                                                        <button type="button" class="close pull-right"
+                                                                data-dismiss="modal" aria-hidden="true" title="Close">
+                                                            x
+
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        <div class="row" style="margin-bottom:1%">
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Office Location Name</strong><span class="Mandatory">*</span></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <input id="Facilitynameid" type="text" name="FacilityName" class="form-control"
+                                                                       maxlength="50"
+                                                                 ng-model="ViewUpdateFacilityDetails[0].FacilityName" ng-required="true" 
+                                                                 ng-change="FacilityDuplicateCheckForUpdate(ViewUpdateFacilityDetails[0].FacilityName)"
+                                                                 capitalize
+                                                                 >
+                                                                <!--<span class="error" ng-show="Updateprofileform.FacilityName.$invalid && Updateprofileform.FacilityName.$dirty">Please enter the Facility Name</span>-->
+                                                            </div>
+                                                            <div class="col-xs-2"><h6><strong>Region</strong><span class="Mandatory">*</span></h6></div>
+                                                            <div class="col-xs-4">
+                                                                
+
+                                                                 <input type="text" name="Region" class="form-control" ng-pattern="/^[a-zA-Z\s]*$/"
+                                                                       ng-model="ViewUpdateFacilityDetails[0].Region" ng-required="true" 
+                                                                       onkeypress="return isCharacterKey(event)">
+                                                                <!--<span class="error" ng-show="Updateprofileform.Region.$invalid && Updateprofileform.Region.$dirty">Please enter the Region</span>-->
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="row" style="margin-bottom:1%">
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Office Location Address</strong></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <!--<input type="text" name="Address" class="form-control" ng-model="Facility.Address">-->
+                                                                <textarea name="Description" 
+                                                                style="width: 100%; max-height: 200px; max-width: 100%;"
+                                                                 ng-model="ViewUpdateFacilityDetails[0].Address" maxlength="255" onkeydown="return (event.keyCode!=13);"></textarea>
+
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Area</strong><span class="Mandatory">*</span></h6>
+
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                               <input type="text" name="Area" class="form-control" ng-model="ViewUpdateFacilityDetails[0].Area" 
+                                                                ng-required="true" onkeypress="return isCharacterKey(event)" ng-pattern="/^[a-zA-Z\s]*$/" >
+                                                                <!--<span class="error" ng-show="Updateprofileform.Area.$invalid && Updateprofileform.Area.$dirty">Please enter the Area</span>-->
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="row" style="margin-bottom:1%">
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Country</strong><span class="Mandatory">*</span></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+
+                                                                <select id="UpdateCountryid" required
+                                                                        typeof="text"
+                                                                        name="BuildingName"
+                                                                        form="Updateprofileform" class="form-control"
+                                                                        ng-change="CountryChange(ViewUpdateFacilityDetails[0].Country)"
+                                                                        ng-model="ViewUpdateFacilityDetails[0].Country">
+                                                                    <option value="">Select</option>
+                                                                    <option ng-repeat="ViewCountryDetail in ViewCountryDetails" ng-bind="ViewCountryDetail.CountryName"
+                                                                    value="{{ViewCountryDetail._id}}">
+                                                                      
+                                                                    </option>
+                                                                </select>
+
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Zip Code</strong><span class="Mandatory">*</span></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <input type="text" name="Postal_Code" class="form-control" 
+                                                                ng-model="ViewUpdateFacilityDetails[0].Postal_Code" required
+                                                                       onkeypress="return isNumberKey(event)">
+                                                                <!--<span class="error" ng-show="Updateprofileform.Postal_Code.$invalid && Updateprofileform.Postal_Code.$dirty">Please enter the Zip Code</span>-->
+                                                        </div>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom:1%">
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>State</strong><span class="Mandatory">*</span></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                  
+                                                                <select id="UpdateStateid" class="form-control" ng-model="ViewUpdateFacilityDetails[0].State"
+                                                                 ng-change="stateChange(ViewUpdateFacilityDetails[0].State)" required
+                                                                       >
+                                                                    <option value="" >Select</option>
+                                                                        <option  ng-repeat="ViewStateDetailsUpdate in ViewStateDetailsUpdates" 
+                                                                        value="{{ViewStateDetailsUpdate._id}}" ng-bind="ViewStateDetailsUpdate.StateName"
+                                                                         >
+                                                                         </option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-xs-2"><h6><strong>Contact Person</strong><span class="Mandatory">*</span></h6></div>
+                                                            <div class="col-xs-4">
+                                                                <input type="text" name="Contact_Person" class="form-control"
+                                                                 ng-model="ViewUpdateFacilityDetails[0].Contact_Person" 
+                                                                 ng-required="true"  
+                                                                  ng-pattern="/^[a-zA-Z\s]*$/"
+                                                                 onkeypress="return isCharacterKey(event)"
+                                                                  >
+                                                                <!--<span class="error" ng-show="Updateprofileform.Contact_Person.$invalid && Updateprofileform.Contact_Person.$dirty">Please enter the Contact Person</span>-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom:1%">
+                                                            <div class="col-xs-2"><h6><strong>City</strong><span class="Mandatory">*</span></h6></div>
+                                                            <div class="col-xs-4">
+                                                                  
+                                                               <select id="UpdateCityid" class="form-control" ng-model="ViewUpdateFacilityDetails[0].City"  required>
+                                                                    <option value="">Select</option>
+                                                                    <option ng-repeat="ViewCityDetails in ViewCityDetailsUpdate" ng-bind="ViewCityDetails.CityName"
+                                                                     value="{{ViewCityDetails._id}} "      >
+                                                                  
+                                                                     
+                                                                    </option>
+
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Contact Email</strong><span class="Mandatory">*</span></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                               <input type="email" name="Contact_Email" class="form-control" ng-model="ViewUpdateFacilityDetails[0].Contact_Email"
+                                                                 ng-required="true" ng-pattern="/^[a-z.]+[a-z0-9_]+@[a-z]+\.[a-z]{2,3}$/">
+                                                                
+                                                                <!--<span class="error" ng-show="Updateprofileform.Contact_Email.$invalid && Updateprofileform.Contact_Email.$dirty">Please enter the Contact Email</span>-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="margin-bottom:1%">
+                                                            <div class="col-xs-2"><h6><strong>IsActive?</strong></h6></div>
+                                                            <div class="col-xs-4">
+                                                                <input type="checkbox" name="IsActive" class="form-control" ng-change="checkchanged(ViewUpdateFacilityDetails[0].IsActive)"
+                                                                       ng-model="ViewUpdateFacilityDetails[0].IsActive" style="width:20px;">
+                                                            </div>
+
+                                                            <!-- <div class="col-xs-2"><h6><strong>Late Trays on Dumb Waiters</strong></h6></div>
+                                                            <div class="col-xs-4">
+                                                                <input type="checkbox" name="Late_trays_on_DumbWaiters" class="form-control"
+                                                                       ng-model="ViewUpdateFacilityDetails[0].Late_trays_on_DumbWaiters" style="width:20px;">
+                                                            </div> -->
+                                                        </div>
+
+                                                        <!--<div class="row" style="margin-bottom:1%">-->
+                                                            
+                                                        <!--</div>-->
+                                                    </div>
+                                                    <div class="modal-footer" ng-controller="SlideController" >
+                                                         <div ng-show="FacilityButtonShow">
+                                                         <button class="btn btn-primary" ng-click="UpdateFacilityValues()" ng-disabled="Updateprofileform.$invalid || disableds"  title=" Save Changes"
+                                                                data-dismiss="modal" >
+                                                                 
+                                                            Update
+                                                        </button>&nbsp;&nbsp;
+                                                        <button class="btn btn-primary" data-dismiss="modal" ng-click="deselect()" type="reset"  title="Close Edit Form Without Saving Changes">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            
+
+
+                                <!-- Show Facility Data's -->
+                                <div>
+                                    <form editable-form name="ManageFacilityForm" oncancel="cancel()" onaftersave="saveManageFacilityTable()">
+                                        <div class="row">
+
+                                            <div class="col-xs-12">
+                                                  <div class="panel panel-default panel-table">
+                                                    <div class="panel-heading">
+                                                        <div class="row">
+
+                                                            <div class="col col-xs-5">
+                                                            </div>
+                                                            <div class="col col-xs-4">
+                                                                  <label style="-webkit-text-fill-color:#438eb9" title="Manage Office Location"> <b>Manage Office Location </b> </label>
+                                                            </div>
+                                                            <div class="col col-xs-3 text-right" ng-controller="SlideController" >
+                                                                      <div ng-show="FacilityButtonShow">
+                                                                <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-sm btn-primary btn-create"  title="Add New Office Location">Add New Office Location</button>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel-body scrollbar">
+                                                        <table class="table table-striped table-bordered table-list" ng-controller="SlideController">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th ng-show="FacilityButtonShow" width="5%"><strong><a href="" title="Edit">Edit</a></strong></th>
+                                                                    <!--<th style="width: 5%;"><Strong><a href="">Action</a></Strong></th>-->
+                                                                    <th style="width: 10%;">
+                                                                        <a href="" ng-click="orderByField='FacilityName'; reverseSort = !reverseSort" title="Office Location Name">Office Location Name</a>
+                                                                    </th>
+
+                                                                    <th style="width:  20%">
+                                                                        <a href="" ng-click="orderByField='Address'; reverseSort = !reverseSort" title="Office Location  Address">Office Location Address</a>
+                                                                    </th>
+                                                                     <th style="width:  5%;">
+                                                                        <a href="" ng-click="orderByField='Region'; reverseSort = !reverseSort" title="Region">Region</a>
+                                                                    </th>
+
+                                                                    <th style="width:  5%;">
+                                                                        <a href="" ng-click="orderByField='Area'; reverseSort = !reverseSort" title="Area">Area</a>
+                                                                    </th>
+                                                                    <th style="width:  10%">
+                                                                        <a href="" ng-click="orderByField='Country'; reverseSort = !reverseSort" title="Country">Country</a>
+                                                                    </th>
+                                                                    <th style="width:  5%">
+                                                                        <a href="" ng-click="orderByField='State'; reverseSort = !reverseSort" title="State">State</a>
+                                                                    </th>
+                                                                    <th style="width:  5%">
+                                                                        <a href="" ng-click="orderByField='City'; reverseSort = !reverseSort" title="City">City</a>
+                                                                    </th>
+
+                                                                    <th style="width:  5%;">
+                                                                        <a href="" ng-click="orderByField='Postal_Code'; reverseSort = !reverseSort" title="Zip Code">Zip Code</a>
+                                                                    </th>
+                                                                    <th style="width:  10%;">
+                                                                        <a href="" ng-click="orderByField='Contact_Person'; reverseSort = !reverseSort" title="Contact Person">Contact Person</a>
+                                                                    </th>
+                                                                    <th style="width: 10%;">
+                                                                        <a href="" ng-click="orderByField='Contact_Email'; reverseSort = !reverseSort" title="Contact Email">Contact Email</a>
+                                                                    </th>
+                                                                    <th style="width:  5%;">
+                                                                        <a href="" ng-click="orderByField='IsActive'; reverseSort = !reverseSort" title="IsActive?">IsActive?</a>
+                                                                    </th>
+                                                                    
+                                                                        <!-- <th style="width:  5%;">
+                                                                        <a href="" ng-click="orderByField='Late_trays_on_DumbWaiters'; reverseSort = !reverseSort" title="Late_trays_on_DumbWaiters?"> Late Trays on Dumb Waiters</a>
+                                                                    </th> -->
+                                                                    <th style="width: 5%;">
+                                                                        <a href="" title="Assign User">Assign User</a>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td ng-show="FacilityButtonShow"></td>
+                                                                    <td> 
+                                                                        <input type="text" id="MFacilityID" ng-model="Manage_Facility1.FacilityName" placeholder="search" class="searchbox"  onkeydown="return (event.keyCode!=13);"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="MAddressID" ng-model="Manage_Facility1.Address" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="MRegionID" ng-model="Manage_Facility1.Region" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="MAreaID" ng-model="Manage_Facility1.Area" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="MCountryID" ng-model="Country" ng-change="CountryNameFilter(Country)"
+                                                                         placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="MStateID" ng-model="State" 
+                                                                        placeholder="search" class="searchbox" ng-change="StateNameFilter(State)"
+                                                                         onkeydown="return (event.keyCode!=13);" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="MCityID" ng-model="City"
+                                                                         placeholder="search" class="searchbox" ng-change="CityNameFilter(City)"
+                                                                          onkeydown="return (event.keyCode!=13);"/>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="MPCodeID" ng-model="Manage_Facility1.Postal_Code" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="MCPersonID" ng-model="Manage_Facility1.Contact_Person" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="MEmailID" ng-model="Manage_Facility1.Contact_Email" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <!--<input type="text" id="MIsActiveID" ng-model="Manage_Facility1.IsActive" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);" />-->
+
+                                                                         <select name="DropFilter" ng-model="Manage_Facility1.IsActive" class="searchbox">
+                                                                                <option value="">All</option>
+                                                                                 <option value=false>False</option>
+                                                                                  <option value=true>True</option>  
+                                                                    </td>
+                                                                    <!-- <td>
+                                                                       
+                                                                          <select name="DropFilterDumpWaiter" ng-model="Manage_Facility1.Late_trays_on_DumbWaiters" class="searchbox">
+                                                                                <option value="">All</option>
+                                                                                 <option value=false>False</option>
+                                                                                  <option value=true>True</option>  
+                                                                    </td> -->
+                                                                    
+                                                                    <td></td>
+                                                                </tr>
+
+
+                                                               <tr dir-paginate="Manage_Facility in ViewFacilitys | filter:DropFilterDumpWaiter | filter:DropFilter |
+                                                               filter:customCountryNameFilter| filter:customStateNameFilter|filter:customCityNameFilter|
+                                                               
+                                                                orderBy:'_id':'Desc' | filter:Manage_Facility1 | orderBy:orderByField:reverseSort  | itemsPerPage:ItemsPerPageCount1 " 
+                                                                ng-class-odd="'odd'"  >
+                                                                    <!--<td align="center">
+                                                                        <a class="btn btn-danger deleteBtn" data-toggle="modal" ng-click="DeleteManageFacility(Manage_Facility._id)"
+                                                                           data-target="#FacilityPopupID"><em class="fa fa-trash"></em></a>
+                                                                    </td>-->
+                                                                    <td ng-show="FacilityButtonShow" align="center">
+                                                                        <a class="editpadding btn btn-default deleteBtn" data-toggle="modal" 
+                                                                           ng-click="TakeFacilityIDAndName(Manage_Facility._id,Manage_Facility.FacilityName);UpdateManageFacility(Manage_Facility._id,Manage_Facility.Country,Manage_Facility.State);checkfacilitybyuser(Manage_Facility._id)" 
+                                                                           data-target="#UpdateModal"  title="Edit"><em class="fa fa-pencil "></em></a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span e-ng-change="applyHighlight($data)" ng-attr-title="{{Manage_Facility.FacilityName}}"
+                                                                              editable-text="Manage_Facility.FacilityName" e-form="ManageFacilityForm" ng-bind=" Manage_Facility.FacilityName || 'empty'">
+                                                                            
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span e-ng-change="applyHighlight($data)" ng-attr-title="{{Manage_Facility.Address}}"
+                                                                              editable-text="Manage_Facility.Address" ng-bind="Manage_Facility.Address || 'empty'"
+                                                                              e-form="ManageFacilityForm">
+                                                                       
+                                                                        </span>
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <span e-ng-change="applyHighlight($data)" ng-attr-title="{{Manage_Facility.Region}}"
+                                                                              editable-text="Manage_Facility.Region" ng-bind=" Manage_Facility.Region || 'empty' "
+                                                                              e-form="ManageFacilityForm">
+                                                                          
+                                                                        </span>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <span e-ng-change="applyHighlight($data)" ng-attr-title="{{Manage_Facility.Area}}"
+                                                                              editable-text="Manage_Facility.Area" ng-bind="Manage_Facility.Area || 'empty' "
+                                                                              e-form="ManageFacilityForm">
+                                                                           
+                                                                        </span>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <span e-form="rowform"  ng-attr-title="{{showCountryName(Manage_Facility) || 'empty'}}" ng-bind=" showCountryName(Manage_Facility) || 'empty'">
+
+                                                                            
+                                                                        </span>
+
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <span e-form="rowform" ng-attr-title="{{showStateName(Manage_Facility) || 'empty'"  ng-bind="showStateName(Manage_Facility) || 'empty'"> 
+
+                                                                            
+                                                                        </span>
+
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <span e-form="rowform" ng-attr-title="{{ showCityName(Manage_Facility) || 'empty'" ng-bind=" showCityName(Manage_Facility) || 'empty'">
+
+                                                                           
+                                                                        </span>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <span e-ng-change="applyHighlight($data)" editable-number="Manage_Facility.Postal_Code"
+                                                                         ng-attr-title="{{Manage_Facility.Postal_Code}}" ng-bind="Manage_Facility.Postal_Code || 'empty'"
+                                                                              e-form="ManageFacilityForm">
+                                                                          
+                                                                        </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span e-ng-change="applyHighlight($data)"
+                                                                              editable-text="Manage_Facility.Contact_Person" ng-attr-title="{{Manage_Facility.Contact_Person}}"
+                                                                              e-form="ManageFacilityForm" ng-bind=" Manage_Facility.Contact_Person || 'empty'">
+                                                                           
+                                                                        </span>
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <span e-ng-change="applyHighlight($data)" editable-text="Manage_Facility.Contact_Email" ng-attr-title="{{Manage_Facility.Contact_Email}}"
+                                                                              e-form="ManageFacilityForm" ng-bind="Manage_Facility.Contact_Email || 'empty' ">
+                                                                            
+                                                                        </span>
+                                                                    </td>
+                                                                    <td align="center">
+                                                                        <span e-ng-change="applyHighlight($data)" ng-checked="Manage_Facility.IsActive" ng-attr-title="{{Manage_Facility.IsActive}}" 
+                                                                              editable-checkbox="Manage_Facility.IsActive" e-form="ManageFacilityForm">
+                                                                            <input type="checkbox" ng-model="Manage_Facility.IsActive" ng-disabled="true" />
+                                                                        </span>
+                                                                    </td>
+<!-- 
+                                                                     <td align="center">
+                                                                        <span e-ng-change="applyHighlight($data)" ng-checked="Manage_Facility.Late_trays_on_DumbWaiters" ng-attr-title="{{Manage_Facility.Late_trays_on_DumbWaiters}}" 
+                                                                              editable-checkbox="Manage_Facility.Late_trays_on_DumbWaiters" e-form="ManageFacilityForm">
+                                                                            <input type="checkbox" ng-model="Manage_Facility.Late_trays_on_DumbWaiters" ng-disabled="true" />
+                                                                        </span>
+                                                                    </td> -->
+
+                                                                    <td align="center">
+                                                                        <input type="image"  
+                                                                        ng-click="GetFacilityId(Manage_Facility._id,Manage_Facility.FacilityName,Manage_Facility.IsActive)" title="Assign User"
+                                                                         data-toggle="modal" data-target="#Div1" src="assets/Images/AssignUser.png"
+                                                                               alt="Submit" width="28" height="28">
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                    <div class="panel-footer">
+                                                        <div class="row">
+                                                            <div class="col col-xs-8">
+                                                                <dir-pagination-controls max-size="5"
+                                                             
+                                                                                         direction-links="true"
+                                                                                         boundary-links="true">
+                                                                </dir-pagination-controls>
+                                                            </div>
+                                                            <div class="col col-xs-4">
+                                                                 <div ng-show="!ManageFacilityForm.$visible" style="float:right" title="Items Per Page">
+                                                                    Items Per Page : <select id="ItemsPerPageID1" ng-model="ItemsPerPageCount1"
+                                                                        ng-change="ItemsPerPageChange()">
+                                                                          <option  ng-repeat="ItemsPerPageCount in ItemsPerPageCounts" 
+                                                                          value="{{ItemsPerPageCount.PageID}}" ng-bind="ItemsPerPageCount.PageCount"></option>
+                                                                    </select>
+                                                                  
+                                                                </div>
+                                                                <div class="btn-form" ng-show="ManageFacilityForm.$visible" style="float:right">
+                                                                   <button type="submit" ng-disabled="ManageFacilityForm.$waiting" class="btn btn-primary fa fa-save"  title=" Save Changes"> Save</button>
+                                                                    <input type="button" ng-disabled="ManageFacilityForm.$waiting"  title="Close Edit Form Without Saving Changes"
+                                                                     ng-click="refreshUI();ManageFacilityForm.$cancel()" class="btn btn-danger fa fa-close" value="X Cancel" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                   <div class="container">
+                                        <form editable-form name="AssignFacilityform" oncancel="cancel()" >
+                                            <div class="modal fade" id="Div1" role="dialog" tabindex="-1">
+                                                <div class="modal-dialog" style="width:600px;">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content" style="margin-top: 130px">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" title="Close">&times;</button>
+                                                            <h4 class="modal-title "> {{AssignUserFacilty}} - Assign User </h4>
+                                                        </div>
+                                                        <div class="modal-body ">
+                                                            <table class="table table-striped table-bordered table-list">
+                                                                <thead>
+                                                                    <tr>
+                                                                      
+                                                                        <th style="width: 50%">
+                                                                            <a href="" ng-click="orderByField='UserID'; reverseSort = !reverseSort" title="User Name">User Name</a>
+                                                                        </th>
+                                                                        <th style="width: 50%">
+                                                                            <a href="" title="IsActive?">IsActive?</a>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <!--<td></td>-->
+                                                                        <td>
+                                                                            <input type="text" id="UserNameID" onkeydown = "return (event.keyCode!=13);" ng-model="FacilityRole1.UserID" placeholder="search" class="searchbox" />
+                                                                        </td>
+                                                                        <td align="center">
+                                                                            <!--<input type="checkbox" id="ActivecheckID" ng-model="FacilityRole1.IsActive"
+                                                                            style="margin-top:10px;" />-->
+
+
+                                                                             <select name="DropFilter" ng-model="FacilityRole1.IsActive" class="searchbox">
+                                                                                <option value="">All</option>
+                                                                                 <option value=false>False</option>
+                                                                                  <option value=true>True</option>  
+                                                                    </select>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr dir-paginate="GetUserMapping in GetUserMappings | filter:DropFilter | filter:FacilityRole1 | orderBy:orderByField:reverseSort | itemsPerPage:ItemsPerPageCount"   pagination-id="PopupSCrollBar" ng-class-odd="'odd'">
+                                                                        <!--<td align="center"></td>-->
+                                                                        <td ng-click="AssignFacilityform.$show()">
+                                                                            <span e-ng-change="applyHighlight($data)" ng-attr-title=" {{ GetUserMapping.UserID || 'empty' }}"
+                                                                            e-form="AssignFacilityform" ng-click="AssignFacilityform.$show()" ng-bind=" GetUserMapping.UserID || 'empty'" >
+                                                                              
+                                                                                
+                                                                            </span>
+                                                                        </td>
+                                                                        <td ng-click="AssignFacilityform.$show()" align="center">
+                                                                            <input type="checkbox" ng-model="GetUserMapping.IsActive"  />
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+                                                            <div class="panel-footer">
+                                                                <div class="row">
+                                                                    <div class="col col-xs-6">
+                                                                         <dir-pagination-controls max-size="5"
+                                                                         pagination-id="PopupSCrollBar"
+                                                                                         direction-links="true"
+                                                                                         boundary-links="true">
+                                                                </dir-pagination-controls>
+
+                                                                    </div>
+                                                                    <div class="col col-xs-6">
+                                                                         <div  style="float:right" title="Items Per Page">
+                                                                    Items Per Page : <select id="ItemsPerPageID" ng-model="ItemsPerPageCount"
+                                                                        ng-change="ItemsPerPageChange()">
+                                                                          <option  ng-repeat="ItemsPerPageCount in ItemsPerPageCounts" 
+                                                                          value="{{ItemsPerPageCount.PageID}}" ng-bind="ItemsPerPageCount.PageCount"></option>
+                                                                    </select>
+                                                                  
+                                                                </div><br><br>
+                                                                        <div   ng-show="AssignFacilityform.$visible"class="btn-form"  style="float: right" ng-controller="SlideController">
+                                                                             <div ng-show="FacilityButtonShow">
+                                                                            <button type="submit" ng-disabled="AssignFacilityform.$waiting" class="btn btn-primary fa fa-save" 
+                                                                            title="Save Changes" ng-click="saveAssignFacilityToUser()"  data-dismiss="modal" > Save</button>
+                                                                            <input type="button" ng-disabled="AssignFacilityform.$waiting" ng-click="refreshUI();AssignFacilityform.$cancel()"
+                                                                             data-dismiss="modal" title="Close Edit Form Without Saving Changes"
+                                                                                   class="btn btn-danger fa fa-close" value="X Cancel" />
+                                                                                     </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    </div>
+
+
+
+
+                                    <!-- PAGE CONTENT ENDS -->
+              
+                    

@@ -1,0 +1,12 @@
+{
+  "EmailSubjects": {
+    "RegistrationMailSubject": "New User Registration confirmations for #ProjectName",
+    "ApprovedMailSubject": "new user Approval confirmation for #ProjectName",
+    "RejectedMailSubject": "new user Your  has been Rejected by #ProjectName",
+    "ForgetPasswordSubject": "#ProjectName password recovery",
+    "TestMailSubject": "Test Mail- #projectname",
+    "TeamAllocationMailSubject": "Team Allocation Mail",
+    "ProjectAllocationMailSubject": "#ProjectName Project Allocation Mail",
+    "AdminMailForNewUserSubject": "#ProjectName New User Registered"
+  }
+}

@@ -1,0 +1,135 @@
+{
+    "User_Status": [
+        {
+            "IsApprovedByAdmin": "Approved",
+            "StatusId": "1"
+        },
+        {
+            "IsApprovedByAdmin": "Rejected",
+            "StatusId": "2"
+        }
+    ],
+    "ItemPerPage": [
+        {
+            "PageCount": 50,
+            "PageID": 50
+        },
+        {
+            "PageCount": 100,
+            "PageID": 100
+        },
+        {
+            "PageCount": 125,
+            "PageID": 125
+        },
+        {
+            "PageCount": 150,
+            "PageID": 150
+        }
+    ],
+    "BillingType": [
+        {
+            "BillType": "Fixed Bid",
+            "BillID": 1
+        },
+        {
+            "BillType": "T&M",
+            "BillID": 2
+        }
+    ],
+    "ProjectStatus": [
+        {
+            "ProjectStatus": "In Progress",
+            "ProjectStatusID": 1
+        },
+        {
+            "ProjectStatus": "Completed",
+            "ProjectStatusID": 2
+        }
+    ],
+    "ExpenseType": [
+        {
+            "ExpenseName": "HR Billable",
+            "ExpenseID": "HRB"
+        },
+        {
+            "ExpenseName": "HR Non-Billable",
+            "ExpenseID": "HRNB"
+        },
+        {
+            "ExpenseName": "Non-HR",
+            "ExpenseID": "NHR"
+        }
+    ],
+    "ProjectInfoViewRights": [
+        {
+            "ID": "1",
+            "Value": "Show All Projects Information"
+        },
+        {
+            "ID": "2",
+            "Value": "Show Individual Project Information"
+        },
+        {
+            "ID": "3",
+            "Value": "Show His / Her Projects Information"
+        }
+    ],
+    "HCCartEstimationVersion": [
+        {
+            "VersionNumber": "V 2.0"
+        }
+    ],
+    "ProjectName": [
+        {
+            "ProjectName": "PROJECT MANAGEMENT SYSTEM"
+        }
+    ],
+    "CopyRight": [
+        {
+            "CopyRight": "© 2018"
+        }
+    ],
+    "OrganizationName": [
+        {
+            "OrganizationName": "BESTIR Software Services Pvt. Ltd., "
+        }
+    ],
+    "Mail": {
+        "Domains": [
+            "yahoo.com",
+            "yahoo.in",
+            "stonge.com",
+            "gmail.com",
+            "steadfastglobal.com",
+            "bestirtech.com"
+        ]
+    },
+
+
+
+   
+        "result" : [
+        {
+           "ID": "001",
+           "tables" : ["ABC","AXD"]
+        },
+        {
+            "ID": "002",
+           "tables" : ["ABC","AXD"]
+        },
+        {
+            "ID": "003",
+           "tables" : ["ABC","AXD"]
+        },
+        {
+            "ID": "004",
+           "tables" : ["ABC","AXD"]
+        },
+        {
+            "ID": "005",
+           "tables" : ["ABC","AXD"]
+        }
+        ]
+   
+}

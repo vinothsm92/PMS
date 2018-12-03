@@ -1,0 +1,155 @@
+<style>
+    .scheduler_default_corner div:nth-of-type(4) {
+        display: none !important;
+    }
+
+    .nav-tabs {
+        border-bottom: 0px solid #ddd;
+    }
+    .navigator_default_todaybox {
+        border-width: 1px;
+        border-style: solid;
+
+        border-image: initial;
+    }
+    #bg-text {
+        color: lightgrey;
+        font-size: 120px;
+        transform: rotate(300deg);
+        -webkit-transform: rotate(300deg);
+    }
+   .scrollbar {
+        overflow-y: auto;
+        height: calc(100vh - 270px);
+    }
+    .scrollbartimeSheet {
+        overflow-y: auto;
+        height: calc(100vh - 350px);
+    }
+    .panel-footer {
+    padding: 67 15px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+</style>
+<script>
+      $(function () {
+        $(".sidebar ul li ul li").closest("li").find(".active").removeClass("active");
+        $("#TimeSheetID").addClass("active").parents(".nav li").addClass("active open");
+
+    });
+</script>
+
+<body class="no-skin clearPadding" ng-show="viewaccesspage">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 ng-show="Showmessage" style="color:red;top:50%;position:fixed;left:40%  ;">Please Select the Office Location</h1>
+            <!-- PAGE CONTENT BEGINS -->
+            <div  ng-show="ShowBody">
+                <div >
+                        <div class="panel panel-default panel-table ">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active">
+                                                    <a data-toggle="tab" ng-click="TaskView('Grid2')" href="" title="Task View">Task View
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a data-toggle="tab" ng-click="TimeSheetView('Grid1')" href="" title="Timesheet View">Timesheet View
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col col-xs-2">
+                                            <label style="-webkit-text-fill-color:#438eb9 " title="Time Sheet">
+                                                <b>Time Sheet</b>
+                                            </label>
+                                        </div>
+                
+                                        <div ng-controller="SlideController" class="col-xs-5">
+                                            <div class="col-lg-3">
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <h6 class="col-lg-5" style="text-align:center" title="Project Name">
+                                                    <strong>Project Name</strong>
+                                                    <span class="Mandatory">*</span>
+                                                </h6>
+                                                <select id="ProjectNameID" style="margin-top:5px" title="Please Select the Project Name" class="col-lg-7" ng-model="ProjectName.ProjectID"
+                                                    typeof="text" data-ng-change="getProjectID()" form="profileformAdd" class="form-control"
+                                                    required>
+                                                    <option value="" disabled>Select</option>
+                                                    <option data-ng-repeat="ProjectName in ProjectNames" value="{{ProjectName.ProjectID}}" ng-bind="showProjectName(ProjectName.ProjectID)">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <div style="float:right" ng-show="ShowPublish">
+                                    <strong> Total hours:</strong>
+                                    <strong> {{TotHours/60 ||0}}</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                                    <button type="button" ng-show="ShowPublish" ng-click="Publish()" data-toggle="modal" data-target="#myModal" class="btn btn-sm btn-primary btn-create"
+                                        title="Publish">Publish</button>
+                                </div>
+                                <br>
+                                <br>
+                                <div class="panel-body scrollbar" ng-show="ShowBody">
+                                    <div class="main ">
+                                        <div class="main scrollbartimeSheet">
+                                            <div style="float:left; width: 160px" ng-show="!showtimesheet2">
+                                                <daypilot-navigator id="navi" daypilot-config="navigatorConfig"></daypilot-navigator>
+                                            </div>
+                                            <div style="margin-left: 160px" ng-show="!showtimesheet2">
+                                                <daypilot-calendar id="week" daypilot-config="weekConfig" daypilot-events="events" style="width:50%"></daypilot-calendar>
+                                            </div>
+                
+                                            <div style="margin-left: 160px">
+                                                <div>
+                                                    <div ng-show="true">
+                                                        <h1 ng-show="showtimesheet2" style="color:red;top:45%;position:fixed;left:45% ">Please Select the Project</h1>
+                
+                                                    </div>
+                                                    <daypilot-scheduler ng-show="showtimesheet" id="dp" config="scheduler" Scale="CellDuration"  CellDuration="15" events="events"></daypilot-scheduler>
+                                                </div>
+                
+                                                <!--Assign Roles UI-->
+                
+                                            </div>
+                                        </div>
+                
+                                        <div class="panel-footer">
+                                            <div class="row">
+                                                <div class="col col-xs-8">
+                                                    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" pagination-id="MainGridCrossfsfdllBar2">
+                                                    </dir-pagination-controls>
+                                                </div>
+                
+                                                <div class="col col-xs-4">
+                                                    <div ng-show="!tableform1.$visible" style="float:right">
+                                                    </div>
+                                                    <div class="btn-form" ng-show="tableform1.$visible" style="float:right" ng-controller="SlideController">
+                
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                
+                                    </div>
+                
+                                    <!-- PAGE CONTENT ENDS -->
+                                </div>
+                            </div>
+                </div>
+            </div>
+          
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <!-- /.page-content -->
+    </div>
+
+</body>

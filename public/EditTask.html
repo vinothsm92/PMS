@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="assets/js/jquery-2.1.4.min.js"></script>
+    <script src="assets/js/AngularJS1.3.12.min.js"></script>
+    <script src="assets/js/Angular-Cookies.js"></script>
+    <script src="assets/js/notify.js"></script>
+
+    <script src="assets/js/daypilot-all.min.js"></script>
+
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="assets/css/modal.css" />
+    <!--Healthcare styles-->
+    <link href="assets/css/HealthCareCss.css" rel="stylesheet" />
+
+    <script src="assets/js/angular-datepicker.js"></script>
+    <link rel="stylesheet" href="assets/css/angular-datepicker.css" />
+    <style>
+        .form-control {
+            padding: 4px 12px;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        ._720kb-datepicker-calendar-day:hover,
+        ._720kb-datepicker-calendar-day._720kb-datepicker-active {
+            background: rgba(154, 123, 123, 0.34);
+        }
+    </style>
+    <script>
+        var app = angular.module('app', ['ngCookies', 'ngNotify', "720kb.datepicker"]);
+
+        app.controller('EditCtrl', ['$scope', '$http', '$window', '$filter', '$notify',
+            '$cookieStore', '$timeout',
+            function ($scope, $http, $window, $filter, $notify, $cookieStore, $timeout) {
+                debugger
+
+
+
+                var GetEventID1 = sessionStorage.getItem("gettaskid");
+                var getUserName = sessionStorage.getItem("getUserName");
+                var SelectedDate1 = sessionStorage.getItem("GetCurrentDate");
+                var seldate = SelectedDate1.substring(0, 10);
+                var SelectedDate = seldate.split("-");
+                var Year = SelectedDate[0];
+                var month = SelectedDate[1];
+                var MainDate = SelectedDate[2];
+                var StartDate = MainDate + '-' + month + '-' + Year;
+                $scope.SelectedDate = StartDate;
+
+
+                var EventID = GetEventID1.split(",");
+
+                var GetEventID = EventID[0];
+                var GetTimeSheeetID = EventID[1];
+                var TimeSheetid = sessionStorage.getItem("TimeSheetid");
+                var UserName = sessionStorage.getItem("UserName");
+                var FacilityService = sessionStorage.getItem("FacilityID");
+
+                var Tab = sessionStorage.getItem("Tab");
+
+
+
+
+                $http.get('/GetTaskEvent/' + GetEventID).then(function (response) {
+                    debugger
+
+                    $scope.Items = false;
+                    $scope.Start = true;
+                    $scope.End = true;
+
+
+                    $scope.data = response.data;
+                    var getProjectID = $scope.data[0].ProjectID;
+                    $http.get('/GetTimeSheetforProj/' + UserName + '/' + FacilityService).then(function (response) {
+                        $scope.TimeSheetdata = response.data;
+
+                    });
+                    var IsBillable = $scope.data[0].IsBillable;
+                    if (IsBillable == "Yes") {
+                        $scope.IsBillable = true;
+                    }
+                    else {
+                        $scope.IsBillable = false;
+                    }
+
+
+                });
+
+                $scope.events = [];
+
+                $scope.delete = function () {
+
+                };
+                $scope.OKdisabled = false;
+                $scope.save = function () {
+                    debugger
+                    var Today = document.getElementById("CurrentDate").value;
+                    var PlanStartDate = document.getElementById("PlanStartDate").value;
+
+
+                    if (sessionStorage.getItem("CheckPreviousweek") == "True") {
+                        $notify.warning('Warning', 'Previous Week Timesheet not able to update');
+                        return '';
+                    }
+
+                    var AddTaskDescription = document.getElementById("TaskNameID").value;
+                    var Activity = document.getElementById("name1").value;
+
+                    var splittoday = Today.split('-');
+                    var CurrentDate = splittoday[2] + '-' + splittoday[1] + '-' + splittoday[0];
+                    var splitPlanStartDate = PlanStartDate.split('-');
+                    var splitPlanStartDate1 = splitPlanStartDate[1] + '-' + splitPlanStartDate[0] + '-' + splitPlanStartDate[2];
+                    var CurrentDate1 = splittoday[1] + '-' + splittoday[0] + '-' + splittoday[2];
+
+                    if (new Date(splitPlanStartDate1) > new Date(CurrentDate1)) {
+                        $notify.warning('Warning', 'Timesheet date is less than Task Date');
+                        return '';
+                    }
+                    var Comments = document.getElementById("CommentsID").value;
+                    var TaskType = $scope.data[0].TypeNew;
+                    var Items = document.getElementById("ItemsID").value;
+                    var IsBillable = $scope.IsBillable;
+
+                    var Duration = document.getElementById("Duration").value;
+
+
+                    if (Duration == ".5") {
+                        Duration = "0.5";
+                    }
+                    var TaskTypeID = $scope.data[0].TypeNew;
+                    if (Activity == "" || Items == "" ||  Duration == "" || Comments == "") {
+
+                        $notify.warning('Warning', 'Please fill all Mandatory Fields');
+
+                        return '';
+                    }
+                    if (IsBillable == true) {
+                        if (confirm('Are you sure you want to save IsBillable true?')) {
+                          
+                           
+                        } else {
+                           
+                            return true
+                        }
+                    }
+                    else {
+                        if (confirm('Are you sure you want to save save IsBillable false?')) {
+                            
+                          
+                        } else {
+                           
+                            return true
+                        }
+                    }
+                    var date = CurrentDate.split("-");
+                    var Year = date[0];
+                    var month = date[1];
+                    var MainDate = date[2];
+                    var StartDate = MainDate + '-' + month + '-' + Year;
+                    var Hours = parseInt(Duration.split('.')[0]);
+                    var Minutes = parseInt(Duration.split('.')[1]);
+
+
+                    if (isNaN(Minutes)) {
+                        Minutes = "00";
+                    }
+                    else {
+                        Minutes = 30
+                    }
+                    SelectStream1 = $filter('filter')($scope.TimeSheetdata, { StartDate: StartDate });
+
+                    if (SelectStream1.length == 0) {
+                        var StartTime = CurrentDate + 'T09:00:00';
+                        var EndTime = CurrentDate + 'T' + (9 + parseInt(Hours)) + ':' + Minutes + ':00';
+                    }
+                    else {
+                        for (i = 0; i < SelectStream1.length; i++) {
+                            var Start = SelectStream1[SelectStream1.length - 1].Start;
+                            var StartTime = SelectStream1[SelectStream1.length - 1].End;;
+
+
+                            var getStartHour = StartTime.substring(11, 13);
+                            var getStartMin = StartTime.substring(14, 16);
+
+                            var Hour = parseInt(getStartHour) + parseInt(Hours);
+                            var Minutes = parseInt(getStartMin) + parseInt(Minutes);
+
+                            if (Minutes >= 60) {
+                                MinHour = Math.floor(Minutes / 60);
+                                Minutes = Minutes % 60;
+                                Hour = Hour + MinHour;
+                            }
+
+                            if (Minutes.toString().length == 1) {
+                                Minutes = '0' + Minutes;
+                            }
+                            var getEndDate = Start.substring(0, 11);
+                            var EndTime = getEndDate + Hour + ":" + Minutes + ":00"
+
+
+
+                        }
+                        if (Hour > 21) {
+                            $notify.warning('Warning', 'Duration Should not exceed more than 12 Hours');
+                            return '';
+                        }
+                    }
+                    var Minute = Duration.split('.')[1];
+                    if (Minute == undefined) {
+                        Duration = Hours * 60;
+                    }
+                    else {
+                        Duration = (Hours * 60) + 30;
+                    }
+                    var today = new Date();
+                    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                    var dateTime = date + ' ' + time;
+                    $http.post('/InsertTimeSheet', {
+                        'Text': Activity,
+                        'Comments': Comments,
+                        'TaskType': TaskType,
+                        'Items': Items,
+                        'StartDate': StartDate,
+                        'Start': StartTime,
+                        'End': EndTime,
+                        'EndDate': CurrentDate,
+                        'Hours': Duration,
+                        'phase': $scope.data[0].TaskCategoryName,
+                        'ProjectID': $scope.data[0].ProjectID,
+                        'UserName': UserName,
+                        'Publish': 0,
+                        'FacilityID': FacilityService,
+                        'TaskID': $scope.data[0]._id,
+                        'TaskDescription': AddTaskDescription,
+                        'IsBillable': IsBillable,
+                        'CreatedByID': getUserName,
+                        'UpdatedbyID': getUserName,
+                        'CreatedOn': dateTime,
+                        'UpdatedOn': dateTime
+                    }).then(function (response) {
+                        $http.post('/InsertTimeSheet1', {
+                            'Text': Activity,
+                            'Comments': Comments,
+                            'TaskType': TaskType,
+                            'Items': Items,
+                            'StartDate': StartDate,
+                            'Start': StartTime,
+                            'End': EndTime,
+                            'EndDate': CurrentDate,
+                            'Hours': Duration,
+                            'phase': $scope.data[0].TaskCategoryName,
+                            'ProjectID': $scope.data[0].ProjectID,
+                            'UserName': UserName,
+                            'Publish': 0,
+                            'FacilityID': FacilityService,
+                            'TaskID': $scope.data[0]._id,
+                            'TaskDescription': AddTaskDescription,
+                            'IsBillable': IsBillable,
+			    'TimeSheetID':response.data[0]._id,
+                            'CreatedByID': getUserName,
+                            'UpdatedByID': getUserName,
+                            'CreatedOn': dateTime,
+                            'UpdatedOn': dateTime
+                        }).then(function (response) {
+                            $window.sessionStorage.setItem("TaskUpdateMessage", true);
+                            DayPilot.Modal.close();
+                        })
+                    })
+
+
+                };
+                $scope.cancel = function () {
+
+                    DayPilot.Modal.close();
+                };
+
+                $scope.CalcDuration = function (Duration11) {
+                    debugger
+
+
+                    if (Duration11 > 12) {
+                        $notify.warning('Warning', 'Duration should be less than 12');
+                        $scope.OKdisabled = true;
+                        return true;
+                    }
+                    else if (Duration11 < 0.5) {
+                        $notify.warning('Warning', 'Duration should  be greater than 0.5 - 12');
+                        $scope.OKdisabled = true;
+                        return true;
+                    }
+                    $scope.OKdisabled = false;
+                }
+                $http.get('/PMSConfig/TaskContent.json').success(function (data) {
+                    $scope.Type = data.Type;
+                    $scope.Phase = data.Phase;
+                    $scope.TaskType = data.TaskType;
+                    $scope.Item = data.Item;
+
+                });
+
+
+
+            }]);
+    </script>
+
+</head>
+
+<body ng-controller="EditCtrl">
+    <div style="height:100%;">
+
+        <h2>Edit Task</h2>
+        <div class="col-xs-12">
+            <div class="col-xs-6" style="border:1">
+                <div class="space">
+
+                </div>
+
+                <div class="space">
+                    <label for="name">Task Name</label>
+                    <input id="TaskNameID" disabled type="text" ng-model="data[0].TaskDescription" />
+                </div>
+                <div class="space">
+                    <label for="name">Task Date </label>
+                    <input id="PlanStartDate" disabled type="text" ng-model="data[0].PlanStartDate" />
+                </div>
+                <div class="space">
+                    <label for="name">End</label>
+                    <input id="name" disabled type="text" ng-model="data[0].PlanEndDate" />
+                </div>
+                <div class="space">
+                    <label for="start">Task Type</label>
+                    <select id="TaskType" disabled required typeof="text" form="Taskform" class="form-control" required ng-model="data[0].TypeNew">
+                                    <option value="">Select</option>
+                                    <option ng-repeat="TaskType in Type"
+                                     value="{{TaskType.key}}" ng-bind="TaskType.key">
+                                     </option>
+                                    </select>
+                </div>
+                <div class="space" ng-show="Items">
+                    <label for="end">Items</label>
+                    <select id="Items" disabled required typeof="text" form="Taskform" class="form-control" required ng-model="event[0].Items">
+                                    <option value="">Select</option>
+                                    <option ng-repeat="Items in Item"
+                                     value="{{Items.key}}" ng-bind="Items.key">
+                                     </option>
+                                    </select>
+                </div>
+                <div class="space">
+                    <label for="project">Phase</label>
+                    <input id="name" type="text" disabled ng-model="data[0].TaskCategoryName" />
+
+                </div>
+                <div class="space">
+                    <label for="Comments">Comments</label>
+                    <textarea id="Comments" name="Comments" disabled placeholder="Comments" style="width: 100%; max-height: 400px; max-width: 100%;"
+                        ng-model="data[0].Comments" onkeydown="return (event.keyCode!=13);" maxlength="255"></textarea>
+                </div>
+
+            </div>
+            <div class="col-xs-6" style="border:1">
+                <div class="space">
+
+                </div>
+
+                <div class="space">
+                    <label for="name">Task Name</label><span class="Mandatory">*</span>
+                    <input id="name1" style="margin-top: -2px;" type="text" disabled ng-model="data[0].TaskDescription" />
+                </div>
+                <div class="space">
+                    <label for="name">Date </label>
+                    <!-- <input id="CurrentDate" type="text" ng-model="SelectedDate" /> -->
+                    <div datepicker datepicker-class="test-custom-class" date-format="dd-MM-y" date-disabled-weekdays="[0,6]">
+                        <input type="text" id="CurrentDate" name="CurrentDate" placeholder="Enter Start Date" title="Enter Start Date" ng-model="SelectedDate"
+                            onkeydown="return false" class="form-control angular-datepicker-input" required />
+                    </div>
+                </div>
+
+                <div class="space">
+
+
+
+
+                    <label for="end">Items</label><span class="Mandatory">*</span>
+                    <select id="ItemsID" required typeof="text" form="Taskform" class="form-control" required ng-model="event[0].Items">
+                                            <option value="">Select</option>
+                                            <option ng-repeat="Items in Item"
+                                             value="{{Items.key}}" ng-bind="Items.key">
+                                             </option>
+                                            </select>
+                </div>
+              
+                <div class="space">
+                        <br>
+                        
+                    <label for="project">IsBillable</label>
+                  
+                    <input id="IsBillableID" style="margin-top: 4px;margin-right:35%;float:right" ng-change="CalcDuration(event[0].Hours)" type="checkbox"
+                    ng-model="IsBillable" />
+                </div>
+                
+                <div class="space">
+                    <label for="project">Actual Effort (Hours)</label><span class="Mandatory">*</span>
+                    <input id="Duration" style="margin-top: 5px;width:100%;" ng-change="CalcDuration(event[0].Hours)" type="number" min-value="0"
+                        max-value="24" ng-model="event[0].Hours" />
+
+                </div>
+                <div class="space">
+                    <label for="Comments">Comments</label><span class="Mandatory">*</span>
+                    <textarea id="CommentsID" name="Comments" placeholder="Comments" style="margin-top: -1px;width: 100%; max-height: 400px; max-width: 100%;"
+                        ng-model="Comments" onkeydown="return (event.keyCode!=13);" maxlength="255"></textarea>
+                </div>
+               
+            </div>
+        </div>
+
+
+        <div class="space" style="float:right">
+
+            <button class="btn btn-primary" ng-click="save()" ng-disabled="OKdisabled">OK</button>
+            <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

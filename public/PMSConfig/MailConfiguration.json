@@ -1,0 +1,10 @@
+{
+  "SMTPMailConfiguration": {
+    "SMTPMailServer": "www.servicehunters.com",
+    "SMTPemailId": "admin@yourdomain.com",
+    "SMTPpassword": "welcome@1",
+    "PORT": "26",
+    "SenderName": "Bestir",
+    "EnableSSL": "0"
+  }
+}

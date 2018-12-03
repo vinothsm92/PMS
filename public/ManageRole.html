@@ -1,0 +1,547 @@
+<script type="text/javascript">
+    try { ace.settings.loadState('sidebar') } catch (e) { }
+
+    $(function () {
+        // init plugin (with callback)
+        $('#RoleNameID').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#DescriptionID').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#IsActiveID').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#ViewRightsID').clearSearch({ callback: function () { console.log("cleared"); } });
+
+    });
+
+
+</script>
+
+<style>
+    .nav-tabs {
+        border-color: #C5D0DC;
+        margin-bottom: 0!important;
+        position: relative;
+        top: 1px;
+        border: none;
+    }
+
+    .modal-dialog {
+        width: 450px;
+    }
+
+    .modal-dialogUI {
+        width: 606px;
+    }
+
+    .scrollbar {
+        overflow-y: auto;
+        height: calc(100vh - 320px);
+    }
+
+    input[type=text]::-ms-clear {
+        display: none;
+    }
+
+    #divLoading {
+        display: none;
+    }
+
+    #divLoading.show {
+        display: block;
+        position: fixed;
+        z-index: 100;
+        background-image: url("assets/Images/LoadingPanel.gif");
+        /*background-color:#666;*/
+        background-color: rgba(0, 0, 0, 0.22);
+        opacity: 10.4;
+        background-repeat: no-repeat;
+        background-position: center;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        top: 0;
+    }
+
+    ::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color: #c2c3c0;
+    }
+
+    ::-moz-placeholder {
+        /* Firefox 19+ */
+        color: #c2c3c0;
+    }
+
+    :-ms-input-placeholder {
+        /* IE 10+ */
+        color: #c2c3c0;
+    }
+
+    :-moz-placeholder {
+        /* Firefox 18- */
+        color: #c2c3c0;
+    }
+
+    .bs-example {
+        margin: 20px;
+    }
+</style>
+<script>
+    function convertToUppercase(el) {
+        if (!el || !el.value) return;
+        el.value = el.value.toUpperCase();
+    }
+    $(function () {
+                    $(".sidebar ul li ul li").closest("li").find(".active").removeClass("active");
+                    $("#ManageRoleID").addClass("active").parents(".nav li").addClass("active open");
+
+                });
+</script>
+
+
+
+
+<body class="no-skin clearPadding"  ng-show="viewaccesspage"></body>
+<!-- PAGE CONTENT BEGINS -->
+
+<div class="container">
+
+    <!-- Roles Inserted -->
+    <!-- Modal -->
+    <form name="profileformAdd">
+        <div class="modal fade" id="myModal" role="dialog" tabindex="-1">
+            <div class="modal-dialog" id="myModal">
+
+                <!-- Modal content-->
+                <div class="modal-content" style="margin-top:135px">
+                    <div class="modal-header">
+
+                        <h4 class="modal-title pull-left"> Add New Role</h4>
+                        <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true" title="Close" ng-click="deselect()">
+                            x
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row" style="margin-bottom:1%">
+                            <div class="col-xs-3">
+                                <h6>
+                                    <strong>Role
+                                        <span style="color:green;">*</span>
+                                    </strong>
+                                </h6>
+                            </div>
+                            <div class="col-xs-9">
+                                <input type="text" id="RoleId" name="RoleName" placeholder="Role Name" maxlength="100" capitalize class="form-control" ng-model="Role.RoleName"
+                                    onkeydown="return (event.keyCode!=13);" ng-change="verifyRoleDuplicate()">
+
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-bottom:1%">
+                            <div class="col-xs-3">
+                                <h6>
+                                    <strong> Description</strong>
+                                </h6>
+                            </div>
+                            <div class="col-xs-9">
+                                <textarea name="Description" placeholder="Description" style="width: 100%; max-height: 200px; max-width: 100%;" ng-model="Role.Description"
+                                    onkeydown="return (event.keyCode!=13);" maxlength="255"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-bottom:1%">
+                            <div class="col-xs-3">
+                                <h6>
+                                    <strong>Project Info View Rights
+                                        <span style="color:green;">*</span>
+                                    </strong>
+                                </h6>
+                            </div>
+                            <div class="col-xs-9">
+                                <select id="PInfoViewRightsID" ng-model="ProjectInfoViewRights" typeof="text" form="profileformAdd" class="form-control"
+                                    required>
+                                    <option value="">Select</option>
+                                    <option ng-repeat="PInfoViewRight in PInfoViewRights" value="{{PInfoViewRight.Value}}" ng-bind="PInfoViewRight.Value"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:1%">
+                            <div class="col-xs-3">
+                                <h6>
+                                    <strong>Is Project Assignment Required</strong>
+                                </h6>
+                            </div>
+                            <div class="col-xs-9">
+                                <input type="checkbox" name="IsProjectAssignmentRequired" class="form-control" ng-model="Role.IsProjectAssignmentRequired"
+                                    style="width:20px;" />
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:1%">
+                            <div class="col-xs-3">
+                                <h6>
+                                    <strong>IsActive?</strong>
+                                </h6>
+                            </div>
+                            <div class="col-xs-9">
+                                <input type="checkbox" name="IsActive" class="form-control" ng-model="Role.IsActive" style="width:20px;" />
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+                    <div class="modal-footer" ng-controller="SlideController">
+
+                        <button class="btn btn-primary" ng-click="AddRole()" id="savebutton" ng-disabled="disableds || profileformAdd.$invalid" data-dismiss="modal"
+                            title=" Save Changes">Save
+
+                        </button>&nbsp;&nbsp;
+                        <button class="btn btn-primary" data-dismiss="modal" ng-click="deselect()" title="Close Add Form Without Saving Changes">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container">
+    <div class="modal fade" id="PopupID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel"> Delete Manage Role</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>You are about to Delete record, Do you like to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" ng-disabled="RolePopupForm.$invalid" title="Yes" ng-click="DeleteManageRoleKey()" data-dismiss="modal">Yes</button>&nbsp;&nbsp;
+                    <button class="btn btn-primary" data-dismiss="modal" title="No" ng-click="deselect()">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Assign Roles UI-->
+<div>
+
+    <!-- Modal -->
+    <form editable-form name="profileform" oncancel="cancel()" onaftersave="UIUpdateTable()">
+        <div class="modal fade" id="Div1" role="dialog">
+            <div class="modal-dialog modal-dialogUI ">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <h4 class="modal-title pull-left ">
+                            <strong>Role Name </strong>({{SelectedRoleName}})</h4>
+                        <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true" title="Close">
+                            x
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped table-bordered table-list">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50%" align="center">
+                                        <a href="" ng-click="orderByField='UIList.UIName'; reverseSort = !reverseSort">UI List</a>
+                                    </th>
+                                    <th style="width: 25%">
+                                        <a href="">View</a>
+                                    </th>
+                                    <th style="width: 25%" align="center">
+                                        <a href="">Edit</a>
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr dir-paginate="Manage_Rolesui in Manage_RolesUIshow[0].UIList | orderBy:orderByField:reverseSort| itemsPerPage:ItemsPerPageCount1"
+                                    ng-class-odd="'odd'" pagination-id="paginate1">
+                                    <td ng-click="profileform.$show()">
+                                        <span e-ng-change="applyHighlight($data)" ng-bind="Manage_Rolesui.UiName || 'empty'">
+
+                                        </span>
+                                    </td>
+                                    <td ng-click="profileform.$show()" align="center">
+                                        <div>
+                                            <span ng-model="Manage_Rolesui.View" editable-checkbox="Manage_Rolesui.View" e-form="rowform" ng-click="profileform.$show();">
+                                                <input type="checkbox" ng-model="Manage_Rolesui.View" width="20" id="chkbxView" />
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td ng-click="profileform.$show()" align="center">
+                                        <span ng-model="Manage_Rolesui.Edit" e-ng-change="chkbxEditChanged($index)" id="{{Manage_Rolesui.UiName}}" editable-checkbox="Manage_Rolesui.Edit"
+                                            e-form="rowform" ng-click="profileform.$show();chkbxEditChanged($index)">
+                                            <input type="checkbox" ng-model="Manage_Rolesui.Edit" width="20" />
+                                        </span>
+                                    </td>
+
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col col-xs-8">
+
+                                <dir-pagination-controls max-size="10" pagination-id="paginate1" direction-links="true" boundary-links="true">
+                                </dir-pagination-controls>
+                            </div>
+                            <div class="col col-xs-4" title="Items Per Page">
+                                Items Per Page :
+                                <select id="ItemsPerPageID1" ng-model="ItemsPerPageCount1" ng-change="ItemsPerPageChange1()">
+                                    <option ng-repeat="ItemsPerPageCount in ItemsPerPageCounts1" value="{{ItemsPerPageCount.PageID}}" ng-bind="ItemsPerPageCount.PageCount"></option>
+                                </select>
+                                <div ng-show="profileform.$visible" style="float:right">
+
+
+                                </div>
+                                <br>
+                                <br>
+                                <div class="btn-form" ng-show="profileform.$visible" style="float: right" ng-controller="SlideController">
+
+                                    <button ng-show="RoleButtonShow" type="submit" ng-disabled="profileform.$waiting" class="btn btn-primary fa fa-save" title="Save Changes">
+                                        Update
+                                    </button>
+                                    <input ng-show="RoleButtonShow" type="button" data-dismiss="modal" title=" Close Edit Form Without Saving Changes" ng-disabled="profileform.$waiting"
+                                        ng-click="profileform.$cancel()" class="btn btn-danger fa fa-close" value="X Cancel"
+                                    />
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </form>
+    </div>
+
+    <!-- Show Roles Data's -->
+
+    <div id="divLoading">
+    </div>
+    <!--<div>
+                                    <span data-ng-show="loading">
+                                    <img  src="assets/Images/3.gif"/>
+                                    </span>
+                                    </div>-->
+
+
+    <form editable-form name="tableform1" oncancel="cancel()" onaftersave="saveTable(Manage_Role.Description)">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-default panel-table">
+
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="" data-toggle="tab" ng-click="ManageRoleGridRebindBasedTab('AllResource')" title="All Roles">All Roles </a>
+                                    </li>
+                                    <li>
+                                        <a href="" data-toggle="tab" ng-click="ManageRoleGridRebindBasedTab('AResourceType')" title="Active Roles">Active Roles
+                                            <div id="pacman"></div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="" data-toggle="tab" ng-click="ManageRoleGridRebindBasedTab('IAResourceType')" title="InActive Roles">InActive Roles
+                                            <div id="pacman1"></div>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="col col-xs-4">
+                                <label style="-webkit-text-fill-color:#438eb9" title="Manage Role">
+                                    <b>Manage Role </b>
+                                </label>
+                            </div>
+                            <div class="col col-xs-3 text-right" ng-controller="SlideController">
+                                <div ng-show="RoleButtonShow">
+                                    <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-sm btn-primary btn-create" title="Add New Role">Add New Role</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body scrollbar">
+
+                        <table class="table table-striped table-bordered table-list">
+                            <thead>
+                                <tr>
+                                    <th style="width: 17%" align="center">
+                                        <a href="" ng-click="orderByField='RoleName'; reverseSort = !reverseSort" title="Name">Name</a>
+                                    </th>
+                                    <th style="width: 17%">
+                                        <a href="" ng-click="orderByField='Description'; reverseSort = !reverseSort" title="Description">Description</a>
+                                    </th>
+
+                                    <th style="width: 15% " align="center">
+                                        <a href="" ng-click="orderByField='ProjectInfoViewRights'; reverseSort = !reverseSort" title="Project Info View Rights">Project Info View Rights</a>
+                                    </th>
+
+                                    <th style="width: 15%" align="center">
+                                        <a href="" ng-click="orderByField='IsProjectAssignmentRequired'; reverseSort = !reverseSort" title="Is Project Assignment Required">Is Project Assignment Required</a>
+                                    </th>
+
+                                    <th style="width: 15% " align="center">
+                                        <a href="" ng-click="orderByField='IsActive'; reverseSort = !reverseSort" title="IsActive?">IsActive?</a>
+                                    </th>
+                                    <th style="width: 16% " align="center">
+                                        <a href="" ng-click="orderByField='IsActive';
+                                                                 reverseSort = !reverseSort" title="Assign UI List">Assign UI List</a>
+                                    </th>
+
+
+
+
+                                </tr>
+                            </thead>
+                            <!--<div>-->
+                            <tbody>
+
+                                <tr>
+                                    <td>
+                                        <input type="text" id="RoleNameID" ng-model="Manage_Role1.RoleName" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input type="text" id="DescriptionID" ng-model="Manage_Role1.Description" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                        />
+                                    </td>
+
+
+                                    <td>
+                                        <input type="text" id="ViewRightsID" ng-model="ProjectInfoViewRights1" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                            ng-change="ViewRightsFilter(ProjectInfoViewRights1)" />
+                                    </td>
+
+                                    <td>
+                                        <select name="DropFilter" ng-model="Manage_Role1.IsProjectAssignmentRequired" class="searchbox">
+                                            <option value="">All</option>
+                                            <option value=false>False</option>
+                                            <option value=true>True</option>
+                                        </select>
+
+                                    </td>
+                                    <td>
+                                        <select name="DropFilter" ng-model="Manage_Role1.IsActive" class="searchbox" ng-show="showAllRolesFilter">
+                                            <option value="">All</option>
+                                            <option value=false>False</option>
+                                            <option value=true>True</option>
+                                        </select>
+                                    </td>
+
+                                    <!--<td></td>-->
+
+                                </tr>
+
+                                <tr dir-paginate="Manage_Role in Manage_Roleser|filter:Manage_Role1|filter:DropFilter|
+                                filter:customViewRightsFilter|orderBy:orderByField:reverseSort|itemsPerPage:ItemsPerPageCount"
+                                    pagination-id="PopupSCrollBar" current-page="pagination.current" ng-class-odd="'odd'">
+                                    <td ng-click="tableform1.$show()">
+                                        <span e-ng-change="applyHighlight($data,$index,pagination.current,Manage_Role._id)" editable-text="Manage_Role.RoleName"
+                                            e-maxlength=100 ng-attr-title="{{Manage_Role.RoleName}}" e-required="true" e-style="text-transform:uppercase"
+                                            e-form="rowform" ng-click="rowform.$show()" ng-bind="Manage_Role.RoleName | uppercase">
+
+                                        </span>
+                                    </td>
+                                    <td ng-click="tableform1.$show()">
+                                        <div>
+                                            <span e-ng-change="applyHighlight($data,$index,pagination.current,Manage_Role._id)" editable-text="Manage_Role.Description"
+                                                e-form="rowform" ng-attr-title="{{Manage_Role.Description}}" e-maxlength=500
+                                                ng-click="rowform.$show()" ng-bind=" Manage_Role.Description || 'empty'">
+
+                                            </span>
+                                        </div>
+                                    </td>
+
+
+                                    <td ng-click="tableform1.$show()">
+
+                                        <span e-ng-change="applyHighlight($data,$index,pagination.current,Manage_Role._id)" e-form="rowform" editable-select="Manage_Role.ProjectViewInfoRights"
+                                            e-ng-options="s.Value as s.Value for s in PInfoViewRights |  orderBy:'ProjectViewInfoRights'"
+                                            ng-attr-title="{{showProjectViewInfoRights(Manage_Role)}}" ng-bind="showProjectViewInfoRights(Manage_Role)">
+                                        </span>
+
+
+
+                                    </td>
+
+                                    <td ng-click="tableform1.$show()" align="center">
+
+                                        <span e-ng-change="applyHighlight($data,$index,pagination.current,Manage_Role._id)" ng-checked="Manage_Role.IsProjectAssignmentRequired"
+                                            editable-checkbox="Manage_Role.IsProjectAssignmentRequired" e-form="rowform" ng-click="applyHighlight($data,$index,pagination.current,Manage_Role._id);tableform.$show()">
+                                            <input type="checkbox" ng-model="Manage_Role.IsProjectAssignmentRequired" width="20" ng-attr-title="{{Manage_Role.IsProjectAssignmentRequired}}"
+                                                ng-click="applyHighlight($data,$index);tableform.$show()" />
+                                        </span>
+
+
+                                    </td>
+                                    <td ng-click="tableform1.$show()" align="center">
+                                        <span e-ng-change="applyHighlight($data,$index,pagination.current,Manage_Role._id)" ng-checked="Manage_Role.IsActive" editable-checkbox="Manage_Role.IsActive"
+                                            e-form="rowform" ng-click="applyHighlight($data,$index,pagination.current,Manage_Role._id);tableform.$show()">
+                                            <input type="checkbox" id="IsActive" ng-model="Manage_Role.IsActive" width="20" ng-attr-title="{{Manage_Role.IsActive}}"
+                                                ng-click="applyHighlight($data,$index,pagination.current,Manage_Role._id);tableform.$show()"
+                                            />
+                                        </span>
+                                        <td align="center">
+                                            <input type="image" data-toggle="modal" ng-click="Rolepopupclick(Manage_Role._id,Manage_Role.RoleName)" title="Assign UI"
+                                                data-target="#Div1" src="assets/Images/AssignUser.png" alt="Submit" width="28"
+                                                height="28" />
+                                        </td>
+                                </tr>
+                            </tbody>
+
+
+                        </table>
+                    </div>
+
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col col-xs-8">
+                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true">
+                                </dir-pagination-controls>
+                            </div>
+
+                            <div class="col col-xs-4">
+                                <div ng-show="!tableform1.$visible" style="float:right" title="Items Per Page">
+                                    Items Per Page :
+                                    <select id="ItemsPerPageID" ng-model="ItemsPerPageCount" ng-change="ItemsPerPageChange()">
+
+                                        <option ng-repeat="ItemsPerPageCount in ItemsPerPageCounts" value="{{ItemsPerPageCount.PageID}}" ng-bind="ItemsPerPageCount.PageCount"></option>
+                                    </select>
+
+                                </div>
+                                <div class="btn-form" ng-show="tableform1.$visible" style="float:right" ng-controller="SlideController">
+                                    <div ng-show="RoleButtonShow">
+                                        <button type="submit" ng-disabled="disableds || tableform1.$waiting" title=" Save Changes" class="btn btn-primary fa fa-save"
+                                            ng-click="NotifyClick()"> Update</button>
+                                        <input type="button" ng-disabled="tableform1.$waiting" title=" Close Edit Form Without Saving Changes" ng-click="refreshUI();tableform1.$cancel()"
+                                            class="btn btn-danger fa fa-close" value="X Cancel" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </form>
+</div>
+</div>
+<!-- PAGE CONTENT ENDS -->
+</body>

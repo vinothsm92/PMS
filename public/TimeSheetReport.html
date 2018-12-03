@@ -1,0 +1,935 @@
+<script type="text/javascript">
+    try { ace.settings.loadState('sidebar') } catch (e) { }
+
+</script>
+
+<style>
+    #divLoading {
+        display: none;
+    }
+
+    #divLoading.show {
+        display: block;
+        position: fixed;
+        z-index: 100;
+        background-image: url("assets/Images/LoadingPanel.gif");
+        /*background-color:#666;*/
+        background-color: rgba(0, 0, 0, 0.22);
+
+        opacity: 10.4;
+        background-repeat: no-repeat;
+        background-position: center;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        top: 0;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+
+    .modal-dialog {
+        width: 762px;
+    }
+
+    .scrollbar {
+        overflow-y: auto;
+        height: calc(100vh - 300px);
+    }
+
+    input[type=text]::-ms-clear {
+        display: none;
+    }
+
+    #divLoading {
+        display: none;
+    }
+
+    #divLoading.show {
+        display: block;
+        position: fixed;
+        z-index: 100;
+        background-image: url("assets/Images/LoadingPanel.gif");
+        /*background-color:#666;*/
+        background-color: rgba(0, 0, 0, 0.22);
+        opacity: 10.4;
+        background-repeat: no-repeat;
+        background-position: center;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        top: 0;
+    }
+
+    ::-moz-placeholder {
+        /* Firefox 19+ */
+        text-align: left;
+    }
+
+    .Deletemodal-dialog {
+        width: 445px;
+        margin: 30px auto;
+        padding-top: 5%;
+    }
+
+    .nav-tabs {
+        border-bottom: 0px solid #ddd;
+    }
+
+    ._720kb-datepicker-calendar-day:hover,
+    ._720kb-datepicker-calendar-day._720kb-datepicker-active {
+        background: rgba(154, 123, 123, 0.34);
+    }
+
+    /* To Highlight the Current date in calender Start */
+
+    ._720kb-datepicker-calendar-day._720kb-datepicker-today {
+        background: rgb(17, 155, 230);
+        color: white;
+    }
+
+    /* To Highlight the Current date in calender  End */
+
+    multiselect {
+        display: block;
+    }
+
+    multiselect .btn {
+        width: 100%;
+        background-color: #FFF;
+    }
+
+    multiselect .btn.error {
+        border: 1px solid #da4f49 !important;
+    }
+
+    multiselect .dropdown-menu {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+
+    multiselect .dropdown-menu {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 2px;
+    }
+
+    multiselect .dropdown-menu>li>a {
+        padding: 3px 10px;
+        cursor: pointer;
+    }
+</style>
+<script>
+    function convertToUppercase(el) {
+        if (!el || !el.value) return;
+        el.value = el.value.toUpperCase();
+    } function handleFile(e) {
+
+    }
+    $(function () {
+        $(".sidebar ul li ul li").closest("li").find(".active").removeClass("active");
+        $("#TimesheetReportID").addClass("active").parents(".nav li").addClass("active open");
+
+    });
+</script>
+
+<script type="text/javascript">
+    if (document.images) {
+        img1 = new Image();
+
+
+        img1.src = "assets/Images/LoadingPanel.gif";
+
+    }
+    $(function () {
+        // init plugin (with callback)       
+        $('#PhaseID1').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#NameID1').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#ResourceID1').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#DurationID1').clearSearch({ callback: function () { console.log("cleared"); } });
+
+        $('#PhaseID2').clearSearch({ callback: function () { console.log("cleared"); } });
+
+
+
+
+        $('#ResourceNameID').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#HoursID').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#CostID').clearSearch({ callback: function () { console.log("cleared"); } });
+
+
+
+
+    });
+</script>
+
+
+
+</head>
+
+<body class="no-skin clearPadding" ng-show="viewaccesspage">
+
+
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h1 ng-show="Showmessage" style="color:red;top:50%;position:fixed;left:40% ;">Please Select the Office Location</h1>
+            <div ng-show="ShowBody">
+                <form editable-form name="tableform1" oncancel="cancel()" onaftersave="saveTable(Manage_Role.Description)">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="panel panel-default panel-table">
+
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+
+                                            <div class="col-lg-7">
+                                                <div class="col-lg-4">
+                                                    <h6 class="col-lg-4" title="Project Name">
+                                                        <strong>Project
+                                                            <br> Name
+
+                                                        </strong>
+                                                    </h6>
+
+                                                    <div class="col-lg-8" ng-dropdown-multiselect="" options="Projectdata" selected-model="Projectmodel" title="{{AllProjectName}}"
+                                                        extra-settings="Projectsettings" data-ng-click="getProject(Projectmodel)">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+
+
+                                                    <h6 class="col-lg-4" title="Resource Name">
+                                                        <strong>Resource
+                                                            <br> Name
+
+                                                    </h6>
+
+                                                    <!-- data-ng-click="getuserProject(Resourcemodel)" -->
+                                                    <div class="col-lg-8" ng-dropdown-multiselect="" options="Resourcedata" selected-model="Resourcemodel" extra-settings="Resourcesettings"
+                                                        title="{{AllResourceName}}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <p style="margin: 12px 0px 14px;">
+                                                        <b> Report Type</b>
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-2">
+
+                                                    <select id="Report" style="margin: 8px 0px 14px;" title="Please Select the Report Type" required typeof="text" name="ReportName"
+                                                        class="form-control" ng-model="PTeamLeaderID">
+                                                        <option value="">Select</option>
+                                                        <option value="TimeSheet">TimeSheet</option>
+                                                        <option value="TeamLead TimeSheet" ng-disabled="Role">TeamLead TimeSheet</option>
+                                                    </select>
+                                                </div>
+                                                <!-- <div ng-dropdown-multiselect="" options="Resourcedata" selected-model="Resourcemodel" checkboxes="true" extra-settings="Resourcesettings"></div>
+                                                            
+                                                <script>
+                                                $(function () {
+                                                    $('select[multiple].active.3col').multiselect({
+                                                        columns: 3,
+                                                        placeholder: 'Select States',
+                                                        search: true,
+                                                        searchOptions: {
+                                                            'default': 'Search States'
+                                                        },
+                                                        selectAll: true
+                                                    });
+                                            
+                                                });
+                                            </script> -->
+                                            </div>
+
+
+                                            <div class="col-lg-5" style="margin-top:8px">
+                                                <div class="col-lg-5">
+                                                    <div class="col-lg-4">
+                                                        <strong style="float:left;margin: 6px 0px 14px;" title="From"> From
+                                                        </strong>
+                                                    </div>
+                                                    <div class="csol-lg-8" style="width:61%;" datepicker datepicker-class="test-custom-class" date-format="dd-MM-y" date-disabled-weekdays="[0,6]">
+                                                        <input type="text" id="AddStartDate" style="width:95%" name="AddStartDateName" ng-change="FromDate()" placeholder="From Date"
+                                                            title="From Date" ng-model="From.Date" onkeydown="return false" class="form-control angular-datepicker-input"
+                                                            required />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <strong class="col-lg-3" style="float:left;margin: 6px 0px 14px;" title="To">To</strong>
+                                                    <div class="col-lg-9" style="width:61%;" datepicker datepicker-class="test-custom-class" date-format="dd-MM-y" date-disabled-weekdays="[0,6]">
+                                                        <input type="text" id="AddEndDate" style="width:95%" name="AddEndDateName" placeholder="To Date" title="To Date" ng-model="To.Date"
+                                                            onkeydown="return false" class="form-control angular-datepicker-input"
+                                                            ng-change="ToDate()" required />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <button style="margin-left:5%" type="button" data-toggle="modal" class="btn btn-sm btn-primary btn-create" ng-click="GO(From.Date,To.Date)"
+                                                        title="Go">Go</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="panel-body scrollbar">
+
+                                    <div class="col-md-12">
+
+                                        <div id="Exportable" class="scrollbar" ng-show="ShowGrid" style="overflow: auto; max-height: calc(100vh - 350px);">
+
+                                            <table border="1" class="table table-striped table-bordered table-list">
+                                                <thead fix-head>
+                                                    <tr>
+
+
+                                                        <th style="width: 15%" align="center">
+                                                            <a href="" ng-click="orderByField='ProjectName'; reverseSort = !reverseSort" title="Project Name">
+                                                                Project Name</a>
+                                                        </th>
+                                                        <th style="width: 5%" align="center">
+                                                            <a href="" ng-click="orderByField='UserName'; reverseSort = !reverseSort" title="Resource Name">
+                                                                Resource Name</a>
+                                                        </th>
+                                                        <th style="width: 5%" align="center">
+                                                            <a href="" ng-click="orderByField='Phase'; reverseSort = !reverseSort" title="Phases">
+                                                                Phases</a>
+                                                        </th>
+                                                        <th style="width: 5% " align="center">
+                                                            <a href="" ng-click="orderByField='Task'; reverseSort = !reverseSort" title="Actual Task">
+                                                                Actual Task</a>
+                                                        </th>
+                                                        <th style="width: 19% " align="center">
+                                                            <a href="" ng-click="orderByField='Comments';
+                                                                            reverseSort = !reverseSort" title="Comments">Comments</a>
+                                                        </th>
+                                                        <!-- <th style="width: 5%" align="center">
+                                                            <a href="" ng-click="orderByField='TaskCategory'; reverseSort = !reverseSort" title="Task Category">
+                                                                Task Category</a>
+                                                        </th> -->
+                                                        <th style="width: 5% " align="center">
+                                                            <a href="" ng-click="orderByField='TaskType'; reverseSort = !reverseSort" title="Task Type">
+                                                                Task Type</a>
+                                                        </th>
+
+                                                        <th style="width: 5% " align="center">
+                                                            <a href="" ng-click="orderByField='Month';
+                                                                            reverseSort = !reverseSort" title="Month">Month</a>
+                                                        </th>
+                                                        <th style="width: 5% " align="center">
+                                                            <a href="" ng-click="orderByField='IsBillable';
+                                                                            reverseSort = !reverseSort" title="Billable">Billable</a>
+                                                        </th>
+                                                        <th style="width: 1%" align="center">
+                                                            <a href="" ng-click="orderByField='1'; reverseSort = !reverseSort" title="1">
+                                                                1</a>
+                                                        </th>
+                                                        <th style="width: 1%" align="center">
+                                                            <a href="" ng-click="orderByField='2'; reverseSort = !reverseSort" title="2">
+                                                                2</a>
+                                                        </th>
+                                                        <th style="width: 1%" align="center">
+                                                            <a href="" ng-click="orderByField='3'; reverseSort = !reverseSort" title="3">
+                                                                3</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='4'; reverseSort = !reverseSort" title="4">
+                                                                4</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='5';
+                                                                            reverseSort = !reverseSort" title="5">5</a>
+                                                        </th>
+                                                        <th style="width: 1%" align="center">
+                                                            <a href="" ng-click="orderByField='6'; reverseSort = !reverseSort" title="6">
+                                                                6</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='7'; reverseSort = !reverseSort" title="7">
+                                                                7</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='8';
+                                                                            reverseSort = !8" title="8">8</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='9';
+                                                                            reverseSort = !reverseSort" title="9">9</a>
+                                                        </th>
+                                                        <th style="width: 1%" align="center">
+                                                            <a href="" ng-click="orderByField='10'; reverseSort = !reverseSort" title="10">
+                                                                10</a>
+                                                        </th>
+                                                        <th style="width: 1%" align="center">
+                                                            <a href="" ng-click="orderByField='11'; reverseSort = !reverseSort" title="11">
+                                                                11</a>
+                                                        </th>
+                                                        <th style="width: 1%" align="center">
+                                                            <a href="" ng-click="orderByField='12'; reverseSort = !reverseSort" title="12">
+                                                                12</a>
+                                                        </th>
+                                                        <th style="width: 1%" align="center">
+                                                            <a href="" ng-click="orderByField='13'; reverseSort = !reverseSort" title="13">
+                                                                13</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='14'; reverseSort = !reverseSort" title="14">
+                                                                14</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='15';
+                                                                            reverseSort = !reverseSort" title="15">15</a>
+                                                        </th>
+                                                        <th style="width: 1%" align="center">
+                                                            <a href="" ng-click="orderByField='16'; reverseSort = !reverseSort" title="16">
+                                                                16</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='17'; reverseSort = !reverseSort" title="17">
+                                                                17</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='18';
+                                                                            reverseSort = !reverseSort" title="18">18</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='19';
+                                                                            reverseSort = !reverseSort" title="19">19</a>
+                                                        </th>
+                                                        <th style="width: 1%" align="center">
+                                                            <a href="" ng-click="orderByField='20'; reverseSort = !reverseSort" title="20">
+                                                                20</a>
+                                                        </th>
+                                                        <th style="width: 1%" align="center">
+                                                            <a href="" ng-click="orderByField='21'; reverseSort = !reverseSort" title="21">
+                                                                21</a>
+                                                        </th>
+                                                        <th style="width: 1%" align="center">
+                                                            <a href="" ng-click="orderByField='22'; reverseSort = !reverseSort" title="22">
+                                                                22</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='23'; reverseSort = !reverseSort" title="23">
+                                                                23</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='24';
+                                                                            reverseSort = !reverseSort" title="24">24</a>
+                                                        </th>
+                                                        <th style="width: 1%" align="center">
+                                                            <a href="" ng-click="orderByField='25'; reverseSort = !reverseSort" title="25">
+                                                                25</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='26'; reverseSort = !reverseSort" title="26">
+                                                                26</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='27';
+                                                                            reverseSort = !reverseSort" title="27">27</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='28';
+                                                                            reverseSort = !reverseSort" title="28">28</a>
+                                                        </th>
+                                                        <th style="width: 1%" align="center">
+                                                            <a href="" ng-click="orderByField='29'; reverseSort = !reverseSort" title="29">
+                                                                29</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='30'; reverseSort = !reverseSort" title="30">
+                                                                30</a>
+                                                        </th>
+                                                        <th style="width: 1% " align="center">
+                                                            <a href="" ng-click="orderByField='31';
+                                                                            reverseSort = !reverseSort" title="31">31</a>
+                                                        </th>
+
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                    <tr>
+
+
+                                                        <td>
+                                                            <input type="text" id="ProjectID" ng-model="ProjectID" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                                ng-change="ProjectNameFilter(ProjectID)" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" id="ResourceID" ng-model="TimeSheetFilter.UserName" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" id="PhaseID" ng-model="TimeSheetFilter.Phase" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" id="TaskID" ng-model="TimeSheetFilter.Task" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" id="CommentsID" ng-model="TimeSheetFilter.Comments" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                            />
+                                                        </td>
+                                                        <!-- <td>
+                                                            <input type="text" id="CategoriesID" ng-model="TimeSheetFilter.Categories" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                            />
+                                                        </td> -->
+                                                        <td>
+                                                            <input type="text" id="TaskTypeID" ng-model="TimeSheetFilter.TaskType" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                            />
+                                                        </td>
+
+                                                        <td>
+                                                            <input type="text" id="MonthID" ng-model="TimeSheetFilter.Month" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                            />
+                                                        </td>
+
+                                                        <td>
+                                                            <!-- <input type="text" id="ItemsID" ng-model="TimeSheetFilter.Items" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                            /> -->
+                                                            <select name="DropFilter" ng-model="TimeSheetFilter.IsBillable" class="searchbox">
+                                                                <option value="">All</option>
+                                                                <option value=false>No</option>
+                                                                <option value=true>Yes</option>
+                                                            </select>
+                                                        </td>
+
+
+                                                    </tr>
+
+                                                    <tr dir-paginate="TimeSheetReports in TimeSheetReport|orderBy:'_id':'Desc' | filter:TimeSheetFilter|filter:customProjectNameFilter |filter:customProjectNameFilter|orderBy:orderByField:reverseSort|itemsPerPage:ItemsPerPageCount"
+                                                        pagination-id="MainGridCrollBar" ng-class-odd="'odd'">
+
+
+
+                                                        <td>
+                                                            <span ng-attr-title="{{showProjectNames(TimeSheetReports)}}" >{{showProjectNames(TimeSheetReports).substr(0,15)}}...
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span ng-attr-title="{{TimeSheetReports.UserName}}" ng-bind="TimeSheetReports.UserName.substr(0,15)">
+                                                            </span>
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Phase}}" ng-bind="TimeSheetReports.Phase.substr(0,15)">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Task}}" ng-bind="TimeSheetReports.Task.substr(0,15)">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Comments}}" >{{TimeSheetReports.Comments.substr(0,15)}}...
+                                                        </td>
+                                                        <!-- <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Items}}" ng-bind="TimeSheetReports.Items.substr(0,15)">
+                                                        </td> -->
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.TaskType}}" ng-bind="TimeSheetReports.TaskType.substr(0,15)">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Month}}" ng-bind="TimeSheetReports.Month">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.IsBillable == true ? 'Yes' : 'No'}}" ng-bind="TimeSheetReports.IsBillable == true ? 'Yes' : 'No'">
+
+                                                        </td>
+
+                                                        <!-- <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Zero}}" ng-bind="TimeSheetReports.Zero">
+                                                        </td> -->
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.One}}" ng-bind="TimeSheetReports.One">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Two}}" ng-bind="TimeSheetReports.Two">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Three}}" ng-bind="TimeSheetReports.Three">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Four}}" ng-bind="TimeSheetReports.Four">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Five}}" ng-bind="TimeSheetReports.Five">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Six}}" ng-bind="TimeSheetReports.Six">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Seven}}" ng-bind="TimeSheetReports.Seven">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Eight}}" ng-bind="TimeSheetReports.Eight">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Nine}}" ng-bind="TimeSheetReports.Nine">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Ten}}" ng-bind="TimeSheetReports.Ten">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Eleven}}" ng-bind="TimeSheetReports.Eleven">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Tweleve}}" ng-bind="TimeSheetReports.Tweleve">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Thirteen}}" ng-bind="TimeSheetReports.Thirteen">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Fourteen}}" ng-bind="TimeSheetReports.Fourteen">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Fifteen}}" ng-bind="TimeSheetReports.Fifteen">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Sixteen}}" ng-bind="TimeSheetReports.Sixteen">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Seventeen}}" ng-bind="TimeSheetReports.Seventeen">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Eighteen}}" ng-bind="TimeSheetReports.Eighteen">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Nineteen}}" ng-bind="TimeSheetReports.Nineteen">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Twenty}}" ng-bind="TimeSheetReports.Twenty">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.TwentyOne}}" ng-bind="TimeSheetReports.TwentyOne">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.TwentyTwo}}" ng-bind="TimeSheetReports.TwentyTwo">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.TwentyThree}}" ng-bind="TimeSheetReports.TwentyThree">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.TwentyFour}}" ng-bind="TimeSheetReports.TwentyFour">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.TwentyFive}}" ng-bind="TimeSheetReports.TwentyFive">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.TwentySix}}" ng-bind="TimeSheetReports.TwentySix">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.TwentySeven}}" ng-bind="TimeSheetReports.TwentySeven">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.TwentyEight}}" ng-bind="TimeSheetReports.TwentyEight">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.TwentyNine}}" ng-bind="TimeSheetReports.TwentyNine">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.Thirty}}" ng-bind="TimeSheetReports.Thirty">
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{TimeSheetReports.ThirtyOne}}" ng-bind="TimeSheetReports.ThirtyOne">
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+
+
+                                            </table>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col col-xs-8">
+
+
+                                        </div>
+
+                                        <div class="col col-xs-4">
+                                            <div ng-show="!tableform1.$visible" style="float:right" ng-controller="SlideController">
+                                                <button type="submit" class="btn btn-primary" title="Export" ng-click="Export('Exportable')">
+                                                    Export</button>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <form name="UpdateProjectDetailsform1">
+                            <div class="modal fade" id="UpdateModal" role="dialog">
+                                <div class="modal-dialog ">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+
+                                            <h4 class="modal-title pull-left ">
+                                                <strong>Update Task </strong>
+                                            </h4>
+                                            <button type="button" class="close pull-right" title="Close" data-dismiss="modal" aria-hidden="true">
+                                                x
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row" style="margin-bottom:1%">
+                                                <div class="col-xs-2">
+                                                    <h6>
+                                                        <strong>Phase</strong>
+                                                        <span class="Mandatory">*</span>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <select id="PhaseID" ng-required="true" typeof="text" form="UpdateProjectDetailsform1" class="form-control" ng-model="GetTeamLeadTimeSheetEdit[0].phase">
+                                                        <option value="">Select</option>
+                                                        <option ng-repeat="Items in Phase" value="{{Items.key}}" ng-bind="Items.key">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <h6>
+                                                        <strong>Task Type</strong>
+                                                        <span class="Mandatory">*</span>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <select id="TaskTypeID" ng-required="true" typeof="text" form="UpdateProjectDetailsform1" class="form-control" ng-model="GetTeamLeadTimeSheetEdit[0].TaskType">
+                                                        <option value="">Select</option>
+                                                        <option ng-repeat="Task in Type" value="{{Task.key}}" ng-bind="Task.key">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom:1%">
+                                                <div class="col-xs-2">
+                                                    <h6>
+                                                        <strong>Items</strong>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <select id="ItemsID" ng-required="true" typeof="text" form="UpdateProjectDetailsform1" class="form-control" ng-model="GetTeamLeadTimeSheetEdit[0].Items">
+                                                        <option value="">Select</option>
+                                                        <option ng-repeat="Items in Item" value="{{Items.key}}" ng-bind="Items.key">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <h6>
+                                                        <strong>Comments</strong>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-xs-4">
+
+
+                                                    <textarea name="ProjectDetails" style="width: 100%; max-height: 200px; max-width: 100%;" ng-model="GetTeamLeadTimeSheetEdit[0].Comments"
+                                                        onkeydown="return (event.keyCode!=13);" placeholder="Enter the Comments"
+                                                        title="Enter the comments" maxlength="255"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom:1%">
+                                                <div class="col-xs-2">
+                                                    <h6>
+                                                        <strong>Hours</strong>
+                                                        <span class="Mandatory">*</span>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <!-- <input type="number" id="HoursID" form="UpdateProjectDetailsform" name="EffortsinDays123" class="form-control" ng-model="TotalHours"
+                                                                        ng-required="true"> -->
+
+                                                    <input id="HoursID" type="number" min="0" max="12" form="UpdateProjectDetailsform1" name="EffortsinDays123" class="form-control"
+                                                        ng-model="TotalHours" ng-change="CalcDuration(TotalHours)" onKeyPress="if(this.value.length==2) return false;"
+                                                    />
+
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <h6>
+                                                        <strong>Minutes</strong>
+                                                        <span class="Mandatory">*</span>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <!-- <input type="number" id="MinutesID" form="UpdateProjectDetailsform" name="EffortsinDays" class="form-control" ng-model="TotalMints"
+                                                                        ng-required="true"> -->
+
+
+                                                    <input id="MinutesID" type="number" min="0" max="59" ng-model="TotalMints" form="UpdateProjectDetailsform1" name="EffortsinDays"
+                                                        class="form-control" ng-change="CalcDuration1(TotalMints)" onKeyPress="if(this.value.length==2) return false;"
+                                                    />
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <div>
+                                                <!-- <button class="btn btn-primary" ng-click="UpdateTeamLeadTimeSheet(GetTeamLeadTimeSheetEdit[0]._id)" ng-disabled="UpdateProjectDetailsform.$invalid"
+                                                            data-dismiss="modal"  title="Save Changes">Update</button>&nbsp;&nbsp; -->
+
+                                                <button class="btn btn-primary" ng-click="updateTeamLeadTimeSheet(GetTeamLeadTimeSheetEdit[0]._id,'Update')" ng-disabled="disabled || UpdateProjectDetailsform1.$invalid"
+                                                    title=" Save Changes" data-dismiss="modal">
+
+                                                    Update
+                                                </button>&nbsp;&nbsp;
+                                                <button class="btn btn-primary" data-dismiss="modal" ng-click="deselect()" type="reset" title="Close Edit Form Without Saving Changes">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+            </div>
+        </div>
+        <div id="divLoading">
+        </div>
+        <div class="container">
+            <form name="Updateprofileform">
+                <div class="modal fade" id="AddModal" role="dialog" tabindex="-1">
+                    <div class="modal-dialog ">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+
+                                <h4 class="modal-title pull-left ">
+                                    <strong>Add TimeSheet </strong>
+                                </h4>
+                                <button type="button" class="close pull-right" title="Close" data-dismiss="modal" aria-hidden="true">
+                                    x
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="margin-bottom:1%">
+                                    <div class="col-xs-2">
+                                        <h6>
+                                            <strong>Phase</strong>
+                                            <span class="Mandatory">*</span>
+                                        </h6>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <select id="AddPhaseID" ng-required="true" typeof="text" form="UpdateProjectDetailsform" class="form-control" ng-model="Addphase">
+                                            <option value="">Select</option>
+                                            <option ng-repeat="Items in Phase" value="{{Items.key}}" ng-bind="Items.key">
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <h6>
+                                            <strong>Task Type</strong>
+                                            <span class="Mandatory">*</span>
+                                        </h6>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <select id="AddTaskTypeID" ng-required="true" typeof="text" form="UpdateProjectDetailsform" class="form-control" ng-model="AddTaskType">
+                                            <option value="">Select</option>
+                                            <option ng-repeat="Task in TaskType" value="{{Task.key}}" ng-bind="Task.key">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:1%">
+                                    <div class="col-xs-2">
+                                        <h6>
+                                            <strong>Items</strong>
+                                        </h6>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <select id="AddItemsID" ng-required="true" typeof="text" form="UpdateProjectDetailsform" class="form-control" ng-model="AddItems">
+                                            <option value="">Select</option>
+                                            <option ng-repeat="Items in Item" value="{{Items.key}}" ng-bind="Items.key">
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <h6>
+                                            <strong>Comments</strong>
+                                        </h6>
+                                    </div>
+                                    <div class="col-xs-4">
+
+
+                                        <textarea name="ProjectDetails" id="AddCommentsID" style="width: 100%; max-height: 200px; max-width: 100%;" ng-model="AddComments"
+                                            onkeydown="return (event.keyCode!=13);" placeholder="Enter the Comments" title="Enter the comments"
+                                            maxlength="255"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:1%">
+                                    <div class="col-xs-2">
+                                        <h6>
+                                            <strong>Hours</strong>
+                                            <span class="Mandatory">*</span>
+                                        </h6>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <input type="number" id="AddHoursID" form="UpdateProjectDetailsform" name="EffortsinDays123" class="form-control" ng-model="AddTotalHours"
+                                            ng-required="true" ng-change="AddCalcDuration1()">
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <h6>
+                                            <strong>Minutes</strong>
+                                            <span class="Mandatory">*</span>
+                                        </h6>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <input type="number" id="AddMinutesID" ng-change="AddMinutesID()" form="UpdateProjectDetailsform" name="EffortsinDays" class="form-control"
+                                            ng-model="AddTotalMints" ng-required="true">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <div>
+                                    <!-- <button class="btn btn-primary" ng-click="UpdateTeamLeadTimeSheet(GetTeamLeadTimeSheetEdit[0]._id)" ng-disabled="UpdateProjectDetailsform.$invalid"
+                                                                data-dismiss="modal"  title="Save Changes">Update</button>&nbsp;&nbsp; -->
+
+                                    <button class="btn btn-primary" ng-click="updateTeamLeadTimeSheet(ViewManageTask._id,'Add')" ng-disabled="Updateprofileform.$invalid || disabled"
+                                        title=" Save Changes" data-dismiss="modal">
+
+                                        Update
+                                    </button>&nbsp;&nbsp;
+                                    <button class="btn btn-primary" data-dismiss="modal" ng-click="deselect()" type="reset" title="Close Edit Form Without Saving Changes">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+
+            </form>
+            </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    <!-- /.page-content -->
+
+
+
+</body>

@@ -1,0 +1,401 @@
+<style>
+    .scheduler_default_corner div:nth-of-type(4) {
+        display: none !important;
+    }
+
+    .nav-tabs {
+        border-bottom: 0px solid #ddd;
+    }
+
+    .navigator_default_todaybox {
+        border-width: 1px;
+        border-style: solid;
+
+        border-image: initial;
+    }
+    .modal-dialog {
+        width: 100%;
+    }
+    #bg-text {
+        color: lightgrey;
+        font-size: 120px;
+        transform: rotate(300deg);
+        -webkit-transform: rotate(300deg);
+    }
+
+    .scrollbar {
+        overflow-y: auto;
+        height: calc(100vh - 320px);
+    }
+
+    .scrollbartimeSheet {
+        overflow-y: auto;
+        height: calc(100vh - 230px);
+    }
+
+    .panel-footer {
+        padding: 67 15px;
+        background-color: #f5f5f5;
+        border-top: 1px solid #ddd;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    }
+</style>
+<script>
+    $(function () {
+        $(".sidebar ul li ul li").closest("li").find(".active").removeClass("active");
+        $("#UtilisationReport").addClass("active").parents(".nav li").addClass("active open");
+
+    });
+</script>
+
+<body class="no-skin clearPadding" ng-show="viewaccesspage">
+    <div class="row">
+
+        <div>
+
+            <!-- Modal -->
+            <form editable-form name="profileform" oncancel="cancel()" onaftersave="UIUpdateTable()">
+                <div class="modal fade" id="Div1" role="dialog">
+                    <div class="modal-dialog modal-dialogUI ">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+
+                                <h4 class="modal-title pull-left ">
+                                    <strong>User Name </strong>({{SelectedUserName}})</h4> <button style="margin-left:5%" type="button" data-toggle="modal" class="btn btn-sm btn-primary btn-create" ng-click="Export()"
+                                    title="Export">Export</button>
+                                <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true" title="Close">
+                                    x
+                                </button>
+                            </div>
+                            <div class="modal-body scrollbar" >
+                                <table class="table table-striped table-bordered table-list">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 25%" align="center">
+                                                <a href="" ng-click="orderByField='ProjectName'; reverseSort = !reverseSort">Project Name</a>
+                                            </th>
+                                            <th style="width: 15%" align="center">
+                                                <a href="" ng-click="orderByField='Task'; reverseSort = !reverseSort">Task</a>
+                                            </th>
+                                            <th style="width: 20%" align="center">
+                                                <a href="" ng-click="orderByField='Date'; reverseSort = !reverseSort">Date</a>
+                                            </th>
+                                            <th style="width: 30%" align="center">
+                                                <a href="" ng-click="orderByField='Comments'; reverseSort = !reverseSort">Comments</a>
+                                            </th>
+                                            <th style="width: 10%" align="center">
+                                                <a href="" ng-click="orderByField='Hours'; reverseSort = !reverseSort">Hours</a>
+                                            </th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+
+
+                                            <td>
+                                                <input type="text" id="ProjectNameID" ng-model="Details.ProjectName" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                />
+                                            </td>
+                                            <td>
+                                                <input type="text" id="TaskID" ng-model="Details.Task" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                />
+                                            </td>
+                                            <td>
+                                                <input type="text" id="DateID" ng-model="Details.Date" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                />
+                                            </td>
+                                            <td>
+                                                <input type="text" id="CommentsID" ng-model="Details.Comments" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                />
+                                            </td>
+                                            <td>
+                                                <input type="text" id="HoursID" ng-model="Details.Hours" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                />
+                                            </td>
+
+                                        </tr>
+                                        <tr dir-paginate="BillableDetail in BillableDetails |  filter:Details| orderBy:orderByField:reverseSort| itemsPerPage:ItemsPerPageCount1"
+                                            ng-class-odd="'odd'" pagination-id="paginate1">
+                                            <td ng-click="profileform.$show()">
+                                                <span e-ng-change="applyHighlight($data)" ng-bind="BillableDetail.ProjectName || 'empty'">
+
+                                                </span>
+                                            </td>
+                                            <td ng-click="profileform.$show()" align="center">
+                                                <div>
+                                                    <span e-ng-change="applyHighlight($data)" ng-bind="BillableDetail.Task || '0'">
+
+                                                    </span>
+
+                                                </div>
+                                            </td>
+                                            <td ng-click="profileform.$show()" align="center">
+                                                <div>
+                                                    <span e-ng-change="applyHighlight($data)" ng-bind="BillableDetail.Date || '0'">
+
+                                                    </span>
+
+                                                </div>
+                                            </td>
+                                            <td ng-click="profileform.$show()" align="center">
+                                                <div>
+                                                    <span e-ng-change="applyHighlight($data)" ng-bind="BillableDetail.Comments || '0'">
+
+                                                    </span>
+
+                                                </div>
+                                            </td>
+                                            <td ng-click="profileform.$show()" align="center">
+                                                <div>
+                                                    <span e-ng-change="applyHighlight($data)" ng-bind="BillableDetail.Hours || '0'">
+
+                                                    </span>
+
+                                                </div>
+                                            </td>
+
+
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col col-xs-10">
+
+                                        <dir-pagination-controls max-size="10" pagination-id="paginate1" direction-links="true" boundary-links="true">
+                                        </dir-pagination-controls>
+                                    </div>
+                                    <div class="col col-xs-2" title="Items Per Page">
+                                        Items Per Page :
+                                        <select id="ItemsPerPageID1" ng-model="ItemsPerPageCount1" ng-change="ItemsPerPageChange1()">
+                                            <option ng-repeat="ItemsPerPageCount in ItemsPerPageCounts1" value="{{ItemsPerPageCount.PageID}}" ng-bind="ItemsPerPageCount.PageCount"></option>
+                                        </select>
+                                        <div ng-show="true" style="float:right">
+                                            
+                                            
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="btn-form" ng-show="profileform.$visible" style="float: right" ng-controller="SlideController">
+
+                                            <!-- <button ng-show="RoleButtonShow" type="submit" ng-disabled="profileform.$waiting" class="btn btn-primary fa fa-save" title="Save Changes">
+                                                Update
+                                            </button>
+                                            <input ng-show="RoleButtonShow" type="button" data-dismiss="modal" title=" Close Edit Form Without Saving Changes" ng-disabled="profileform.$waiting"
+                                                ng-click="profileform.$cancel()" class="btn btn-danger fa fa-close" value="X Cancel"
+                                            /> -->
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </form>
+            </div>
+            <div class="col-xs-12">
+                <h1 ng-show="Showmessage" style="color:red;top:50%;position:fixed;left:40%  ;">Please Select the Office Location</h1>
+                <!-- PAGE CONTENT BEGINS -->
+                <div ng-show="ShowBody">
+                    <div>
+                        <div class="panel panel-default panel-table ">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-1" style="margin: 8px 0px 3px;">
+
+                                        <strong title="Report Type"> Report Type</strong>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select id="Report" style="margin: 8px 0px 3px;" title="Please Select the Report Type" required typeof="text" name="ReportName"
+                                            class="form-control" ng-model="PTeamLeaderID" ng-change="ClearGrid()">
+                                            <option value="">Select</option>
+                                            <option value="TimeSheet">TimeSheet</option>
+                                            <option value="TeamLead TimeSheet">TeamLead TimeSheet</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-7" style="margin-top:8px">
+                                        <strong style="float:left" title="From"> From
+                                            <span class="Mandatory">*</span> : &nbsp&nbsp&nbsp&nbsp </strong>
+                                        <div style="width:30%;" datepicker datepicker-class="test-custom-class" date-format="dd-MM-y" date-disabled-weekdays="[0,6]">
+                                            <input type="text" id="AddStartDate" style="width:95%" name="AddStartDateName" placeholder="From Date" ng-change="ClearToDate()"
+                                                title="From Date" ng-model="From.Date" onkeydown="return false" class="form-control angular-datepicker-input"
+                                                required />
+                                        </div>
+                                        <strong style="float:left" title="To">To
+                                            <span class="Mandatory">*</span> : &nbsp&nbsp&nbsp&nbsp </strong>
+                                        <div style="width:30%;" datepicker datepicker-class="test-custom-class" date-format="dd-MM-y" date-disabled-weekdays="[0,6]">
+                                            <input type="text" id="AddEndDate" style="width:95%" name="AddEndDateName" placeholder="To Date" title="To Date" ng-model="To.Date"
+                                                ng-disabled="TodateDisabled" onkeydown="return false" class="form-control angular-datepicker-input"
+                                                ng-change="ToDate()" required />
+                                        </div>
+
+                                        <button style="margin-left:5%" type="button" data-toggle="modal" class="btn btn-sm btn-primary btn-create" ng-click="Go()"
+                                            title="Go">Go</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="float:right" ng-show="true">
+
+                            </div>
+
+
+                            <div class="panel-body" ng-show="ShowBody">
+                                <div class="main ">
+                                    <div class="main scrollbartimeSheet">
+
+                                        <div>
+
+                                            <div class="col-md-12" style="padding-left: 2%;">
+                                                <div>
+                                                    <form editable-form name="tableform1" oncancel="cancel()" onaftersave="saveTable(Manage_Role.Description)">
+                                                        <div class="row">
+                                                            <div class="col-xs-12">
+                                                                <div class="panel panel-default panel-table">
+
+
+                                                                    <div class="panel-body scrollbar" style="overflow: auto; max-height: calc(100vh - 350px);">
+
+                                                                        <table class="table table-striped table-bordered table-list" ng-controller="SlideController">
+                                                                            <thead>
+                                                                                <tr>
+
+                                                                                    <th style="width: 40%" align="center">
+                                                                                        <a href="" ng-click="orderByField='UserName'; reverseSort = !reverseSort" title="Resource Name">Resource Name</a>
+                                                                                    </th>
+                                                                                    <th style="width: 30%">
+                                                                                        <a href="" ng-click="orderByField='BillableHours'; reverseSort = !reverseSort" title="Billable Hours">Billable Hours</a>
+                                                                                    </th>
+                                                                                    <th style="width: 30%">
+                                                                                        <a href="" ng-click="orderByField='NonBillableHours'; reverseSort = !reverseSort" title="Non - Billable Hours">Non - Billable Hours</a>
+                                                                                    </th>
+
+                                                                                </tr>
+                                                                            </thead>
+
+                                                                            <tbody>
+
+                                                                                <tr>
+
+
+                                                                                    <td>
+                                                                                        <input type="text" id="ResourceNameID" ng-model="Report.UserName" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                                                        />
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input type="text" id="BillableHoursID" ng-model="Report.BillableHours" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                                                        />
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <input type="text" id="NonBillableHoursID" ng-model="Report.NonBillableHours" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                                                        />
+                                                                                    </td>
+
+
+                                                                                </tr>
+
+                                                                                <tr dir-paginate="Report in UserReports|orderBy:'_id':'Desc' | filter:Report|orderBy:orderByField:reverseSort|itemsPerPage:ItemsPerPageCount"
+                                                                                    ng-class-odd="'odd'">
+
+                                                                                    <td>
+                                                                                        <span ng-attr-title="{{Report.UserName}}" ng-bind="Report.UserName | uppercase">
+                                                                                        </span>
+                                                                                    </td>
+                                                                                    <td align="right">
+                                                                                        <span ng-attr-title="{{Report.BillableHours}}" data-toggle="modal" data-target="#Div1" ng-click="GetClickUserName(Report.UserName,true)"
+                                                                                            ng-bind="Report.BillableHours">
+                                                                                        </span>
+                                                                                    </td>
+                                                                                    <td align="right">
+                                                                                        <span ng-attr-title="{{Report.NonBillableHours}}" data-toggle="modal" data-target="#Div1" ng-click="GetClickUserName(Report.UserName,false)"
+                                                                                            ng-bind="Report.NonBillableHours">
+                                                                                        </span>
+                                                                                    </td>
+
+                                                                                </tr>
+                                                                            </tbody>
+
+
+                                                                        </table>
+                                                                    </div>
+
+                                                                    <div class="panel-footer">
+                                                                        <div class="row">
+                                                                            <div class="col col-xs-8">
+                                                                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true">
+                                                                                </dir-pagination-controls>
+                                                                                <button  type="button" data-toggle="modal" class="btn btn-sm btn-primary btn-create" ng-click="ExportBillable()"
+                                                                                title="Export">Export</button>
+                                                                            </div>
+
+                                                                            <div class="col col-xs-4">
+                                                                                <div style="float:right" title="Items Per Page">
+                                                                                    Items Per Page :
+                                                                                    <select id="ItemsPerPageID" ng-model="ItemsPerPageCount" ng-change="ItemsPerPageChange()">
+                                                                                        <option ng-repeat="ItemsPerPageCount in ItemsPerPageCounts" value="{{ItemsPerPageCount.PageID}}" ng-bind="ItemsPerPageCount.PageCount"></option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="btn-form" ng-show="tableform1.$visible" style="float:right" ng-controller="SlideController">
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div style="float:left; width: 160px" ng-show="!showtimesheet2">
+                                                <daypilot-navigator id="navi" daypilot-config="navigatorConfig"></daypilot-navigator>
+                                            </div>
+                                            <div style="margin-left: 160px" ng-show="!showtimesheet2">
+                                                <daypilot-calendar id="week" daypilot-config="weekConfig" daypilot-events="events" style="width:50%"></daypilot-calendar>
+                                            </div>
+                
+                                            <div style="margin-left: 160px">
+                                                <div>
+                                                    <div ng-show="true">
+                                                        <h1 ng-show="showtimesheet2" style="color:red;top:45%;position:fixed;left:45% ">Please Select the Project</h1>
+                
+                                                    </div>
+                                                    <daypilot-scheduler ng-show="showtimesheet" id="dp" config="scheduler" Scale="CellDuration"  CellDuration="15" events="events"></daypilot-scheduler>
+                                                </div>
+                
+                                              
+
+                                </div> -->
+                                    </div>
+
+
+
+                                </div>
+
+                                <!-- PAGE CONTENT ENDS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <!-- /.page-content -->
+        </div>
+
+</body>

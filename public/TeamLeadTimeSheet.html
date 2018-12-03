@@ -1,0 +1,675 @@
+<script type="text/javascript">
+    try { ace.settings.loadState('sidebar') } catch (e) { }
+
+</script>
+
+<style>
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+
+    .modal-dialog {
+        width: 762px;
+    }
+
+    .scrollbar {
+        overflow-y: auto;
+        height: calc(100vh - 300px);
+    }
+
+    input[type=text]::-ms-clear {
+        display: none;
+    }
+
+    #divLoading {
+        display: none;
+    }
+
+    #divLoading.show {
+        display: block;
+        position: fixed;
+        z-index: 100;
+        background-image: url("assets/Images/LoadingPanel.gif");
+        /*background-color:#666;*/
+        background-color: rgba(0, 0, 0, 0.22);
+        opacity: 10.4;
+        background-repeat: no-repeat;
+        background-position: center;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        top: 0;
+    }
+
+    ::-moz-placeholder {
+        /* Firefox 19+ */
+        text-align: left;
+    }
+
+    .Deletemodal-dialog {
+        width: 445px;
+        margin: 30px auto;
+        padding-top: 5%;
+    }
+
+    .nav-tabs {
+        border-bottom: 0px solid #ddd;
+    }
+
+    ._720kb-datepicker-calendar-day:hover,
+    ._720kb-datepicker-calendar-day._720kb-datepicker-active {
+        background: rgba(154, 123, 123, 0.34);
+    }
+
+    /* To Highlight the Current date in calender Start */
+
+    ._720kb-datepicker-calendar-day._720kb-datepicker-today {
+        background: rgb(17, 155, 230);
+        color: white;
+    }
+
+    /* To Highlight the Current date in calender  End */
+</style>
+<script>
+    function convertToUppercase(el) {
+        if (!el || !el.value) return;
+        el.value = el.value.toUpperCase();
+    } function handleFile(e) {
+
+    }
+    $(function () {
+        $(".sidebar ul li ul li").closest("li").find(".active").removeClass("active");
+        $("#TeamLeadTimeSheetID").addClass("active").parents(".nav li").addClass("active open");
+
+    });
+</script>
+
+<script type="text/javascript">
+
+    $(function () {
+        // init plugin (with callback)       
+        $('#PhaseID1').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#NameID1').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#ResourceID1').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#DurationID1').clearSearch({ callback: function () { console.log("cleared"); } });
+
+        $('#PhaseID2').clearSearch({ callback: function () { console.log("cleared"); } });
+
+
+
+
+        $('#ResourceNameID').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#HoursID').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#CostID').clearSearch({ callback: function () { console.log("cleared"); } });
+
+
+
+
+    });
+</script>
+
+
+
+</head>
+
+<body class="no-skin clearPadding" ng-show="viewaccesspage">
+
+    <div class="row">
+        <div class="col-xs-12">
+
+            <h1 ng-show="Showmessage" style="color:red;top:50%;position:fixed;left:40% ;">Please Select the Office Location</h1>
+            <div ng-show="ShowBody">
+                <form editable-form name="tableform1" oncancel="cancel()" onaftersave="saveTable(Manage_Role.Description)">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="panel panel-default panel-table">
+
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <div class="col-lg-3">
+                                                <h6 class="col-lg-5" style="text-align:center" title="Project Name">
+                                                    <strong>Project
+                                                        <br> Name
+                                                        <span class="Mandatory">*</span>
+                                                    </strong>
+                                                </h6>
+
+                                                <select id="ProjectNameID" title="Please Select the Project Name" style="margin-top:5px;" class="col-lg-7" ng-model="ProjectName.ProjectID"
+                                                    typeof="text" data-ng-change="getProjectID()" form="tableform1" class="form-control"
+                                                    required>
+                                                    <option value="" disabled>Select</option>
+                                                    <option data-ng-repeat="ProjectName in ProjectNames" value="{{ProjectName._id}}" ng-bind="ProjectName.ProjectName">
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <h6 class="col-lg-5" style="text-align:center" title="Resource Name">
+                                                    <strong>Resource
+                                                        <br> Name
+                                                        <span class="Mandatory">*</span>
+                                                </h6>
+                                                <!-- ng-change="getuserProject()" -->
+                                                <select id="UserNameID" title="Please Select the Resource Name" style="margin-top:5px" class="col-lg-7" 
+                                                    required typeof="text" form="tableform1" class="form-control" ng-model="GetUserName.UserName">
+                                                    <option value="" disabled>Select</option>
+                                                    
+                                                    <option ng-repeat="GetUserName in GetUserNames" value="{{GetUserName.TeamMemberUserID}}" ng-bind="GetUserName.TeamMemberUserID"></option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-lg-6" style="margin-top:8px">
+                                                <strong style="float:left" title="From"> From
+                                                    <span class="Mandatory">*</span> : &nbsp&nbsp&nbsp&nbsp </strong>
+                                                <div style="width:30%;" datepicker datepicker-class="test-custom-class" date-format="dd-MM-y" date-disabled-weekdays="[0,6]">
+                                                    <input type="text" id="AddStartDate" style="width:95%" name="AddStartDateName" ng-change="FromDate()" placeholder="From Date"
+                                                        title="From Date" ng-model="From.Date" onkeydown="return false" class="form-control angular-datepicker-input"
+                                                        required />
+                                                </div>
+                                                <strong style="float:left" title="To">To : &nbsp&nbsp&nbsp&nbsp </strong>
+                                                <div style="width:30%;" datepicker datepicker-class="test-custom-class" date-format="dd-MM-y" date-disabled-weekdays="[0,6]">
+                                                    <input type="text" id="AddEndDate" style="width:95%" name="AddEndDateName" placeholder="To Date" title="To Date" ng-model="To.Date"
+                                                        ng-disabled="TodateDisabled" onkeydown="return false" class="form-control angular-datepicker-input"
+                                                        required />
+                                                </div>
+
+                                                <button style="margin-left:5%" type="button" data-toggle="modal" class="btn btn-sm btn-primary btn-create" ng-click="ToDate(From.Date,To.Date)"
+                                                    title="Go">Go</button>
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="panel-body scrollbar">
+                                    <div class="col-md-1">
+                                        <span ng-repeat="WeekAllDay in getAllWeekDays" ng-show="ShowButton">
+                                            <button type="submit" title=" {{WeekAllDay}}" class="btn btn-primary" ng-click="getTimeSheetData(WeekAllDay)"> {{WeekAllDay}}</button>
+                                            <br>
+                                            <br>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-11">
+
+                                        <div class="scrollbar" ng-show="ShowGrid">
+
+                                            <table align="right" class="table table-striped table-bordered table-list" style="border-collapse: collapse;width:97%">
+                                                <thead>
+                                                    <tr>
+
+                                                        <th style="width: 5%;">
+                                                            <strong>
+                                                                <a href="" title="Action">Action</a>
+                                                            </strong>
+                                                        </th>
+                                                        <th style="width: 95%; text-align: center">
+                                                            <a href="" ng-click="orderByField='Building_Name'; reverseSort = !reverseSort" title="Building Name">
+                                                                Task ({{GetSelectedDate}})</a>
+                                                            </br>
+                                                        </th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td></td>
+
+                                                        <td>
+                                                            <input type="text" id="MBNameID" class="HeightAlign searchwidth" style="width: 100%;" ng-model="ViewManageBuilding.Building_Name"
+                                                                placeholder="Search" />
+                                                        </td>
+
+                                                    </tr>
+
+                                                    <tr dir-paginate-start="ViewManageTask in ViewManageTasks | orderBy:'_id':'Desc'| orderBy:orderByField:reverseSort | filter:ViewManageBuilding | itemsPerPage:ItemsPerPageCount"
+                                                        pagination-id="BPageNation" ng-class-odd="'odd'">
+                                                        <td>
+
+                                                            <a ng-if="ViewManageTask.expands" ng-click="ViewManageTask.expands = false;" class="editpadding btn btn-warning">
+                                                                <b>-</b>
+                                                            </a>
+                                                            <a ng-if="!ViewManageTask.expands" ng-click="showTLTSDetails();showtaskDetails(ViewManageTask._id);ViewManageTask.expands = true;"
+                                                                class="editpadding btn btn-info deleteBtn" title="Expand">
+                                                                <b>+</b>
+                                                            </a>
+
+                                                        </td>
+
+                                                        <td>
+                                                            <span ng-bind="ViewManageTask.TaskDescription ||'no data to show'">
+
+                                                            </span>
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                    <tr style="width: 100%" ng-if="ViewManageTask.expands" dir-paginate-end="">
+                                                        <td class="table table-striped table-bordered table-list" colspan="2">
+                                                            <div class="col-lg-5">
+                                                                <button type="submit" data-toggle="modal" title="Add" class="btn btn-primary" ng-click="AddTask(ViewManageTask._id,ViewManageTask.TaskDescription)">
+                                                                    Add</button>
+                                                            </div>
+                                                            <label style="-webkit-text-fill-color:#438eb9" class="col-lg-7">
+                                                                <b>Timesheet</b>
+                                                            </label>
+                                                            <table class="table table-striped table-bordered table-list" style="border-collapse: collapse;">
+                                                                <thead>
+
+                                                                    <tr>
+                                                                        <th style="width:2.5%">
+                                                                            <strong>
+                                                                                <a href="" title="Edit">Edit</a>
+                                                                            </strong>
+                                                                        </th>
+                                                                        <th style="width: 20%; text-align: center">
+                                                                            <a href="" ng-click="orderByField='phase'; reverseSort = !reverseSort" title="Phases">Phases</a>
+                                                                        </th>
+
+                                                                        <th style="width: 20%; text-align: center">
+                                                                            <a href="" ng-click="orderByField='TaskType'; reverseSort = !reverseSort" title="Task Type">Task Type</a>
+                                                                        </th>
+
+                                                                        <th style="width: 10%; text-align: center">
+                                                                            <a href="" ng-click="orderByField='Items'; reverseSort = !reverseSort" title="Items">Items</a>
+                                                                        </th>
+                                                                        <th style="width: 30%; text-align: center">
+                                                                            <a href="" ng-click="orderByField='Comments'; reverseSort = !reverseSort" title="Floor Type">Comments</a>
+                                                                        </th>
+
+                                                                        <th style="width: 10%; text-align: center">
+                                                                            <a href="" ng-click="orderByField='Hours'; reverseSort = !reverseSort" title="Task Hours">Task Hours</a>
+                                                                        </th>
+                                                                        <th style="width: 10%; text-align: center">
+                                                                            <a href="" ng-click="orderByField='StartDate'; reverseSort = !reverseSort" title="Actual Date">Actual Date</a>
+                                                                        </th>
+                                                                    </tr>
+
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr dir-paginate="GetTeamLeadTimeSheets in GetTeamLeadTimeSheet | orderBy:'_id':'Desc' |
+                                                                                     orderBy:orderByField:reverseSort  | itemsPerPage:5"
+                                                                        ng-class-odd="'odd'">
+                                                                        <td align="center">
+                                                                            <a class="editpadding btn btn-default deleteBtn" data-toggle="modal" ng-click="EditTimeSheetClickClick(GetTeamLeadTimeSheets._id)">
+                                                                                <em class="fa fa-pencil" title="Edit"></em>
+                                                                            </a>
+                                                                        </td>
+                                                                        <td>
+                                                                            <span ng-bind="GetTeamLeadTimeSheets.phase">
+                                                                            </span>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <span ng-bind="GetTeamLeadTimeSheets.TaskType">
+                                                                            </span>
+
+                                                                        </td>
+                                                                        <td align="center">
+                                                                            <span ng-bind="GetTeamLeadTimeSheets.Items">
+                                                                            </span>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <span ng-bind="GetTeamLeadTimeSheets.Comments">
+                                                                            </span>
+
+                                                                        </td>
+                                                                        <td align="right">
+                                                                            <span ng-bind="GetTeamLeadTimeSheets.Hours">
+                                                                            </span>
+
+                                                                        </td>
+                                                                        <td align="center">
+                                                                            <span ng-bind="GetTeamLeadTimeSheets.StartDate">
+                                                                            </span>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+                                                            <div class="panel-footer">
+                                                                <div class="row">
+                                                                    <div class="col col-xs-12">
+
+                                                                        <dir-pagination-controls max-size="5" class="pull-right" direction-links="true" boundary-links="true">
+
+                                                                        </dir-pagination-controls>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col col-xs-8">
+                                            <strong title="Total Hours"> Total Hours : {{TotHours ||0 }}</strong>
+
+                                        </div>
+
+                                        <div class="col col-xs-4">
+                                            <div ng-show="!tableform1.$visible" style="float:right" ng-controller="SlideController">
+                                                <button type="submit" title="Publish" class="btn btn-primary fa fa-save" ng-click="Publish()">
+                                                    Publish</button>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container">
+                        <form name="UpdateProjectDetailsform1">
+                            <div class="modal fade" id="UpdateModal" role="dialog">
+                                <div class="modal-dialog ">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+
+                                            <h4 class="modal-title pull-left ">
+                                                <strong>Update Task </strong>
+                                            </h4>
+                                            <button type="button" class="close pull-right" title="Close" data-dismiss="modal" aria-hidden="true">
+                                                x
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row" style="margin-bottom:1%">
+                                                <div class="col-xs-2">
+                                                    <h6>
+                                                        <strong>Phase</strong>
+                                                        <span class="Mandatory">*</span>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <select id="PhaseID" ng-required="true" typeof="text" form="UpdateProjectDetailsform1" class="form-control" ng-model="GetTeamLeadTimeSheetEdit[0].phase">
+                                                        <option value="">Select</option>
+                                                        <option ng-repeat="Items in Phase" value="{{Items.key}}" ng-bind="Items.key">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <h6>
+                                                        <strong>Task Type</strong>
+                                                        <span class="Mandatory">*</span>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <select id="TaskTypeID" ng-required="true" typeof="text" form="UpdateProjectDetailsform1" class="form-control" ng-model="GetTeamLeadTimeSheetEdit[0].TaskType">
+                                                        <option value="">Select</option>
+                                                        <option ng-repeat="Task in Type" value="{{Task.key}}" ng-bind="Task.key">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom:1%">
+                                                <div class="col-xs-2">
+                                                    <h6>
+                                                        <strong>Items</strong>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <select id="ItemsID" ng-required="true" typeof="text" form="UpdateProjectDetailsform1" class="form-control" ng-model="GetTeamLeadTimeSheetEdit[0].Items">
+                                                        <option value="">Select</option>
+                                                        <option ng-repeat="Items in Item" value="{{Items.key}}" ng-bind="Items.key">
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <h6>
+                                                        <strong>Comments</strong>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-xs-4">
+
+
+                                                    <textarea name="ProjectDetails" id="CommentsID" style="width: 100%; max-height: 200px; max-width: 100%;" ng-model="GetTeamLeadTimeSheetEdit[0].Comments"
+                                                        onkeydown="return (event.keyCode!=13);" placeholder="Enter the Comments"
+                                                        title="Enter the comments" maxlength="255"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom:1%">
+                                                <div class="col-xs-2">
+
+                                                </div>
+                                                <div class="col-xs-4">
+
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <h6>
+                                                        <strong>Is Active</strong>
+                                                    </h6>
+
+                                                </div>
+                                                <div class="col-xs-4" style="position: center">
+                                                    <input id="IsBillableID" type="checkbox" ng-model="IsBillable" />
+
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-bottom:1%">
+                                                <div class="col-xs-2">
+                                                    <h6>
+                                                        <strong>Hours</strong>
+                                                        <span class="Mandatory">*</span>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <!-- <input type="number" id="HoursID" form="UpdateProjectDetailsform" name="EffortsinDays123" class="form-control" ng-model="TotalHours"
+                                                                        ng-required="true"> -->
+
+                                                    <input id="HoursID" type="number" min="0" max="12" form="UpdateProjectDetailsform1" name="EffortsinDays123" class="form-control"
+                                                        ng-model="TotalHours" ng-change="CalcDuration(TotalHours)" onKeyPress="if(this.value.length==2) return false;"
+                                                    />
+
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <h6>
+                                                        <strong>Minutes</strong>
+                                                        <span class="Mandatory">*</span>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-xs-4">
+                                                    <!-- <input type="number" id="MinutesID" form="UpdateProjectDetailsform" name="EffortsinDays" class="form-control" ng-model="TotalMints"
+                                                                        ng-required="true"> -->
+
+
+                                                    <input id="MinutesID" type="number" min="0" max="59" ng-model="TotalMints" form="UpdateProjectDetailsform1" name="EffortsinDays"
+                                                        class="form-control" ng-change="CalcDuration1(TotalMints)" onKeyPress="if(this.value.length==2) return false;"
+                                                    />
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <div>
+                                                <!-- <button class="btn btn-primary" ng-click="UpdateTeamLeadTimeSheet(GetTeamLeadTimeSheetEdit[0]._id)" ng-disabled="UpdateProjectDetailsform.$invalid"
+                                                            data-dismiss="modal"  title="Save Changes">Update</button>&nbsp;&nbsp; -->
+
+                                                <button class="btn btn-primary" ng-click="updateTeamLeadTimeSheet(GetTeamLeadTimeSheetEdit[0]._id,'Update')" ng-disabled="disabled || UpdateProjectDetailsform1.$invalid"
+                                                    title=" Save Changes" data-dismiss="modal">
+
+                                                    Update
+                                                </button>&nbsp;&nbsp;
+                                                <button class="btn btn-primary" data-dismiss="modal" ng-click="deselect()" type="reset" title="Close Edit Form Without Saving Changes">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+            </div>
+        </div>
+
+        <div class="container">
+            <form name="Updateprofileform">
+                <div class="modal fade" id="AddModal" role="dialog" tabindex="-1">
+                    <div class="modal-dialog ">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+
+                                <h4 class="modal-title pull-left ">
+                                    <strong>Add TimeSheet </strong>
+                                </h4>
+                                <button type="button" class="close pull-right" title="Close" data-dismiss="modal" aria-hidden="true">
+                                    x
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="margin-bottom:1%">
+                                    <div class="col-xs-2">
+                                        <h6>
+                                            <strong>Phase</strong>
+                                            <span class="Mandatory">*</span>
+                                        </h6>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <select id="AddPhaseID" ng-required="true" typeof="text" form="UpdateProjectDetailsform" class="form-control" ng-model="Addphase">
+                                            <option value="">Select</option>
+                                            <option ng-repeat="Items in Phase" value="{{Items.key}}" ng-bind="Items.key">
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <h6>
+                                            <strong>Task Type</strong>
+                                            <span class="Mandatory">*</span>
+                                        </h6>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <select id="AddTaskTypeID" ng-required="true" typeof="text" form="UpdateProjectDetailsform" class="form-control" ng-model="AddTaskType">
+                                            <option value="">Select</option>
+                                            <option ng-repeat="Task in Type" value="{{Task.key}}" ng-bind="Task.key">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:1%">
+                                    <div class="col-xs-2">
+                                        <h6>
+                                            <strong>Items</strong>
+                                        </h6>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <select id="AddItemsID" ng-required="true" typeof="text" form="UpdateProjectDetailsform" class="form-control" ng-model="AddItems">
+                                            <option value="">Select</option>
+                                            <option ng-repeat="Items in Item" value="{{Items.key}}" ng-bind="Items.key">
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <h6>
+                                            <strong>Comments</strong>
+                                        </h6>
+
+                                    </div>
+                                    <div class="col-xs-4">
+
+
+                                        <textarea name="ProjectDetails" id="AddCommentsID" style="width: 100%; max-height: 200px; max-width: 100%;" ng-model="AddComments"
+                                            onkeydown="return (event.keyCode!=13);" placeholder="Enter the Comments" title="Enter the comments"
+                                            maxlength="255"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:1%">
+                                    <div class="col-xs-2">
+
+                                    </div>
+                                    <div class="col-xs-4">
+
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <h6>
+                                            <strong>IsBillable</strong>
+                                        </h6>
+
+                                    </div>
+                                    <div class="col-xs-4" style="position: center">
+
+                                        <input id="AddIsBillableID" type="checkbox" ng-model="IsBillable" />
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-bottom:1%">
+                                    <div class="col-xs-2">
+                                        <h6>
+                                            <strong>Hours</strong>
+                                            <span class="Mandatory">*</span>
+                                        </h6>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <input type="number" id="AddHoursID" form="UpdateProjectDetailsform" name="EffortsinDays123" class="form-control" ng-model="AddTotalHours"
+                                            ng-required="true" ng-change="AddCalcDuration1()">
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <h6>
+                                            <strong>Minutes</strong>
+                                            <span class="Mandatory">*</span>
+                                        </h6>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <input type="number" id="AddMinutesID" ng-change="AddMinutesID()" form="UpdateProjectDetailsform" name="EffortsinDays" class="form-control"
+                                            ng-model="AddTotalMints" ng-required="true">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <div>
+                                    <!-- <button class="btn btn-primary" ng-click="UpdateTeamLeadTimeSheet(GetTeamLeadTimeSheetEdit[0]._id)" ng-disabled="UpdateProjectDetailsform.$invalid"
+                                                                data-dismiss="modal"  title="Save Changes">Update</button>&nbsp;&nbsp; -->
+
+                                    <button class="btn btn-primary" ng-click="updateTeamLeadTimeSheet(ViewManageTask._id,'Add')" ng-disabled="Updateprofileform.$invalid || disabled"
+                                        title=" Save Changes" data-dismiss="modal">
+
+                                        Update
+                                    </button>&nbsp;&nbsp;
+                                    <button class="btn btn-primary" data-dismiss="modal" ng-click="deselect()" type="reset" title="Close Edit Form Without Saving Changes">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+
+            </form>
+            </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
+    <!-- /.page-content -->
+
+
+
+</body>

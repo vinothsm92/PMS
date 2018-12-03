@@ -1,0 +1,475 @@
+    <style>
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .modal-dialog {
+            width: 762px;
+        }
+
+        .scrollbar {
+            overflow-y: auto;
+            height: calc(100vh - 280px);
+        }
+
+        .Billingscrollbar {
+            overflow-y: auto;
+            height: calc(85vh - 320px);
+        }
+
+        input[type=text]::-ms-clear {
+            display: none;
+        }
+
+        #divLoading {
+            display: none;
+        }
+
+        #divLoading.show {
+            display: block;
+            position: fixed;
+            z-index: 100;
+            background-image: url("assets/Images/LoadingPanel.gif");
+            /*background-color:#666;*/
+            background-color: rgba(0, 0, 0, 0.22);
+            opacity: 10.4;
+            background-repeat: no-repeat;
+            background-position: center;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            top: 0;
+        }
+
+         ::-moz-placeholder {
+            /* Firefox 19+ */
+            text-align: left;
+        }
+
+        .Deletemodal-dialog {
+            width: 445px;
+            margin: 30px auto;
+            padding-top: 5%;
+        }
+
+        .Billmodal-dialog {
+            width: 600px;
+            margin: 30px auto;
+            padding-top: 5%;
+        }
+
+        .current-page {
+            pointer-events: none;
+            color: grey;
+        }
+
+        .list-group-item {
+            padding: 5px 15px;
+        }
+    </style>
+
+    <script>
+        function convertToUppercase(el) {
+            if (!el || !el.value) return;
+            el.value = el.value.toUpperCase();
+        }
+    </script>
+
+    <script>
+        $(function () {
+            // init plugin (with callback)       
+            $('#ProjectID').clearSearch({ callback: function () { console.log("cleared"); } });
+            $('#TeamLeaderUserID').clearSearch({ callback: function () { console.log("cleared"); } });
+
+        });
+        $(function () {
+        $(".sidebar ul li ul li").closest("li").find(".active").removeClass("active");
+        $("#ManageTeamsID").addClass("active").parents(".nav li").addClass("active open");
+
+    });
+    </script>
+
+
+<body class="no-skin clearPadding"  ng-show="viewaccesspage">
+    
+                            <!-- PAGE CONTENT BEGINS -->
+                            <h1 ng-show="Showmessage" style="color:red;top:50%;position:fixed;left:40% ">Please Select the Office Location</h1>
+                            <div ng-show="ShowBody">
+                                <div class="container">
+                                    <!-- Modal -->
+                                    <form name="Teamform">
+                                        <div class="modal fade" id="myModal" role="dialog" tabindex="-1" data-backdrop="static">
+                                            <div class="modal-dialog ">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+
+                                                        <h4 title="Team Details" class="modal-title pull-left "><strong>Team Details</strong></h4>
+                                                        <button type="button" class="close pull-right" title="Close" ng-click="cancelclick()" data-dismiss="modal" aria-hidden="true">
+                                                            x
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        <div class="row" style="margin-bottom:1%">
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Project Name</strong><span class="Mandatory">*</span></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <select id="ProjectIDDrop" title="Please Select the Project Name" typeof="text" form="Teamform" class="form-control" required ng-model="GetProjectDetail._id" ng-change="ProjectNameChange(GetProjectDetail._id)">
+                                                                       <option value="">Select</option>
+                                                                        <option ng-repeat="GetProjectDetail in GetNewProjectDetails" 
+                                                                        value={{GetProjectDetail._id}} ng-bind="GetProjectDetail.ProjectName"/>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Team Leader</strong><span class="Mandatory">*</span></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <input type="text" id="TeamLead" class="form-control" ng-disabled="true" ng-model="GetteamleaderDetails[0].TeamLeaderUserID"
+                                                                    placeholder="Team Leader" title="Team Leader" ng-required="true">
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row" style="margin-bottom:1%" ng-show="Addresourceshow">
+
+                                                            <div class="col-xs-6">
+                                                                <div class="list-group scrollbar">
+                                                                    <a class="list-group-item active">Available Resources</a>
+                                                                    <a href="" ng-repeat="GetUserName in GetUserNames" class="list-group-item" ng-bind="GetUserName.UserName" ng-click="AddResourceClick($index,GetUserName.UserName)"> </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <div class="list-group scrollbar">
+                                                                    <a class="list-group-item active">Team Resources
+                                                                    </a>
+                                                                    <a href="" ng-repeat="Getresourceview in Getresourceviews" class="list-group-item "
+                                                                     ng-bind="Getresourceview.TeamMemberUserID"
+                                                                        ng-click="TeamResourceClick($index,Getresourceview.TeamMemberUserID)">  
+                                                                </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="modal-footer" ng-controller="SlideController">
+                                                        <button ng-show="AddTeamButtonShow" class="btn btn-primary" ng-click="AddTeamDetails()" ng-disabled="disableds || Teamform.$invalid"
+                                                            data-dismiss="modal" title=" Save Changes">Save</button>&nbsp;&nbsp;
+                                                        <button ng-show="AddTeamButtonShow" class="btn btn-primary" data-dismiss="modal" ng-click="cancelclick();Teamform.$setPristine()"
+                                                            type="reset" title="Close Add Form Without Saving Changes">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!--Delete Client UI Popup-->
+                                <div class="container">
+                                    <div class="modal fade" id="DeletePopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="Deletemodal-dialog">
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title" id="myModalLabel"> Delete Project</h4>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <p>You are about to Delete record, Do you like to proceed?</p>
+                                                    <p class="debug-url"></p>
+                                                </div>
+                                                <div class="modal-footer" ng-controller="SlideController">
+                                                    <div ng-show="AddTeamButtonShow">
+                                                        <button class="btn btn-danger" title="Yes" ng-click="DeleteTeamKey()" data-dismiss="modal">Yes</button>&nbsp;&nbsp;
+                                                        <button class="btn btn-primary" data-dismiss="modal" title="No">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Resource Edit Popup -->
+                                <div class="container">
+                                    <!-- Modal -->
+                                    <form name="ResouceTeamform">
+                                        <div class="modal fade" id="ResouceTeam" role="dialog" tabindex="-1">
+                                            <div class="modal-dialog ">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+
+                                                        <h4 class="modal-title pull-left " title="Team Detail"><strong>Team Detail</strong></h4>
+                                                        <button type="button" class="close pull-right" title="Close" data-dismiss="modal" aria-hidden="true">
+                                                            x
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        <div class="row" style="margin-bottom:1%">
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Project Name</strong><span class="Mandatory">*</span></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <input type="text" id="AddProjectName" class="form-control" ng-disabled="true" ng-model="EditProjectName" placeholder="Project Name"
+                                                                    title="Project Name" ng-required="true">
+                                                            </div>
+                                                            <div class="col-xs-2">
+                                                                <h6><strong>Team Leader</strong><span class="Mandatory">*</span></h6>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <input type="text" id="AddTeamLead" class="form-control" ng-disabled="true" ng-model="EditTeamLead" placeholder="Team Leader"
+                                                                    title="Team Leader" ng-required="true">
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row" style="margin-bottom:1%">
+
+                                                            <div class="col-xs-6">
+                                                                <div class="list-group scrollbar">
+                                                                    <a class="list-group-item active">Available Resources</a>
+                                                                    <a href="" ng-repeat="GetUserName in GetUserNames" class="list-group-item" ng-bind="GetUserName.UserName" ng-click="EditResourceClick(GetUserName.UserName)"> </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <div class="list-group scrollbar">
+                                                                    <a class="list-group-item active">Team Resources
+                                                                    </a>
+                                                                    <a href="" ng-repeat="GetResourcesBasedProject in GetResourcesBasedProjects" class="list-group-item " ng-bind="GetResourcesBasedProject.TeamMemberUserID"
+                                                                        ng-click="EditTeamResourceClick($index,GetResourcesBasedProject.TeamMemberUserID)">  
+                                                                </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="modal-footer" ng-controller="SlideController">
+                                                        <button class="btn btn-primary" ng-show="AddTeamButtonShow" ng-click="SaveEditedTeamResources()" data-dismiss="modal" title="Save Changes">Update</button>&nbsp;&nbsp;
+                                                        <button class="btn btn-primary" ng-show="AddTeamButtonShow" data-dismiss="modal" ng-click="cancelclick();Teamform.$setPristine()"
+                                                            type="reset" title="Close Add Form Without Saving Changes">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- Billing Rate Popup -->
+                                <div class="container">
+                                    <div class="modal fade bs-example-modal-sm" id="BillingRate" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                                        <div class="Billmodal-dialog">
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title" id="myModalLabel">Billing Rate Details</h4>
+                                                </div>
+
+                                                <div class="panel-body Billingscrollbar">
+                                                    <table class="table table-striped table-bordered table-list">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width=40% align="center">
+                                                                    <a href="" ng-click="orderByField='ClientName'; reverseSort = !reverseSort" title="Project Name">
+                                                                       Project Name</a>
+                                                                </th>
+                                                                <th width=30%>
+                                                                    <a href="" ng-click="orderByField='ContactPerson'; reverseSort = !reverseSort" title="Name">
+                                                                     Name</a>
+                                                                </th>
+                                                                <th width=30% align="center">
+                                                                    <a href="" ng-click="orderByField='EmailID'; reverseSort = !reverseSort" title="Billing Rate in $">
+                                                                        Billing Rate in $</a>
+                                                                </th>
+
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+                                                            <tr dir-paginate="GetProjectBilling in GetProjectBillings|orderBy:'_id':'Desc' | filter:ClientDetailF|orderBy:orderByField:reverseSort|itemsPerPage:50"
+                                                                ng-class-odd="'odd'">
+                                                                <td>
+                                                                    <span ng-attr-title="{{showProjectNameEdit(GetProjectBilling.ProjectID)}}" ng-bind="showProjectNameEdit(GetProjectBilling.ProjectID)">
+                                                                         </span>
+                                                                </td>
+                                                                <td>
+                                                                    <span ng-attr-title="{{GetProjectBilling.TeamMemberUserID}}" ng-bind="GetProjectBilling.TeamMemberUserID">
+                                                                         </span>
+                                                                </td>
+                                                                <td style="text-align:center">
+
+                                                                    <input type="number" ng-model="GetProjectBilling.BillingRateInDoller" onKeyPress="if(this.value.length==10) return false;"
+                                                                        min="0">
+                                                                </td>
+
+
+                                                            </tr>
+                                                        </tbody>
+
+
+                                                    </table>
+
+                                                </div>
+                                                <div class="modal-footer" ng-controller="SlideController">
+
+                                                    <button ng-show="AddTeamButtonShow" class="btn btn-primary" title="Save" ng-click="SaveBillingDate()" data-dismiss="modal">Save</button>&nbsp;&nbsp;
+                                                    <button ng-show="AddTeamButtonShow" class="btn btn-danger" title="Cancel" data-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <!--Grid Code-->
+                                <div>
+                                    <form editable-form name="tableform1" oncancel="cancel()" onaftersave="saveTable(Manage_Role.Description)">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="panel panel-default panel-table">
+
+                                                    <div class="panel-heading">
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+
+                                                            </div>
+                                                            <div class="col col-xs-4">
+                                                                <label style="-webkit-text-fill-color:#438eb9" title="Team Details"> <b>Team Details </b> </label>
+                                                            </div>
+                                                            <div class="col col-xs-3 text-right" ng-controller="SlideController">
+                                                                <div ng-show="AddTeamButtonShow">
+                                                                    <button type="button" data-toggle="modal" data-target="#myModal" ng-click="AddNewClick()" class="btn btn-sm btn-primary btn-create"
+                                                                        title="Add New Team">Add New Team </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel-body scrollbar">
+
+                                                        <table class="table table-striped table-bordered table-list" ng-controller="SlideController">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th ng-show="AddTeamButtonShow" style="width:2.5%"><strong><a href="" title="Delete">Delete</a></strong></th>
+                                                                    <th style="width: 15%" align="center">
+                                                                        <a href="" ng-click="orderByField='ProjectName'; reverseSort = !reverseSort" title="Project Name">
+                                                                       Project Name</a>
+                                                                    </th>
+                                                                    <th style="width: 15%">
+                                                                        <a href="" ng-click="orderByField='TeamLeader'; reverseSort = !reverseSort" title="Team Leader">
+                                                                      Team Leader</a>
+                                                                    </th>
+                                                                    <th style="width: 15% " align="center">
+                                                                        <a href="" ng-click="orderByField='EmailID'; reverseSort = !reverseSort" title="Select Resource">
+                                                                        Select Resource</a>
+                                                                    </th>
+                                                                    <th style="width: 15% " align="center"><a href="" ng-click="orderByField='ClientLocation';
+                                                                        reverseSort = !reverseSort" title="Billing Rate">Billing Rate</a>
+                                                                    </th>
+
+
+
+                                                                </tr>
+                                                            </thead>
+
+                                                            <tbody>
+
+                                                                <tr>
+
+                                                                    <td ng-show="AddTeamButtonShow"></td>
+                                                                    <td>
+                                                                        <input type="text" id="ProjectID" ng-model="FProjectName" placeholder="search" class="searchbox" ng-change="ProjectNameFilter(FProjectName)"
+                                                                            onkeydown="return (event.keyCode!=13);" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="TeamLeaderUserID" ng-model="ClientDetailF.TeamLeader" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                                        />
+                                                                    </td>
+                                                                    <td></td>
+                                                                    <td></td>
+
+                                                                </tr>
+
+                                                                <tr dir-paginate="Getteamdetail in Getteamdetails|orderBy:'_id':'Desc' | filter:customProjectNameFilter | filter:ClientDetailF|orderBy:orderByField:reverseSort|itemsPerPage:ItemsPerPageCount"
+                                                                    pagination-id="MainGridCrollBar" ng-class-odd="'odd'">
+
+
+                                                                    <td align="center" ng-show="AddTeamButtonShow">
+                                                                        <a class="btn btn-danger deleteBtn" data-toggle="modal" title="Delete" ng-click="DeleteTeamDetails(Getteamdetail._id,Getteamdetail.ProjectName)"
+                                                                            data-target="#DeletePopup">
+                                                                        <em class="fa fa-trash"></em></a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span ng-attr-title="{{showProjectName(Getteamdetail.ProjectName)}}" ng-bind="showProjectName(Getteamdetail.ProjectName)">
+                                                                         </span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <span ng-attr-title="{{Getteamdetail.TeamLeader}}" ng-bind="Getteamdetail.TeamLeader">
+                                                                         </span>
+                                                                    </td>
+                                                                    <td style="text-align:center">
+                                                                        <input type="image" data-toggle="modal" ng-click="Projectteamclick(Getteamdetail.ProjectName,Getteamdetail.TeamLeader)" title="Select Resource "
+                                                                            data-target="#ResouceTeam" src="assets/Images/user-group-icon.png"
+                                                                            alt="Submit" width="28" height="28" />
+                                                                    </td>
+                                                                    <td style="text-align:center">
+                                                                        <input type="image" data-toggle="modal" ng-click="ProjectBillingclick(Getteamdetail.ProjectName)" title="Billing Rate" data-target="#BillingRate"
+                                                                            src="assets/Images/add_resources.png" alt="Submit"
+                                                                            width="28" height="28" />
+                                                                    </td>
+
+                                                                </tr>
+                                                            </tbody>
+
+
+                                                        </table>
+                                                    </div>
+
+                                                    <div class="panel-footer">
+                                                        <div class="row">
+                                                            <div class="col col-xs-8">
+                                                                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" pagination-id="MainGridCrollBar">
+                                                                </dir-pagination-controls>
+                                                            </div>
+
+                                                            <div class="col col-xs-4">
+                                                                <div ng-show="!tableform1.$visible" style="float:right" title="Items Per Page">
+                                                                    Items Per Page : <select id="ItemsPerPageID" ng-model="ItemsPerPageCount"
+                                                                        ng-change="ItemsPerPageChange()">
+                                                                     <option  ng-repeat="ItemsPerPageCount in ItemsPerPageCounts" 
+                                                                     value="{{ItemsPerPageCount.PageID}}" ng-bind="ItemsPerPageCount.PageCount"></option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="btn-form" ng-show="tableform1.$visible" style="float:right" ng-controller="SlideController">
+                                                                    <div ng-show="RoleButtonShow">
+                                                                        <button type="submit" ng-disabled="tableform1.$waiting" title=" Save Changes" class="btn btn-primary fa fa-save" ng-click="NotifyClick()"> Save</button>
+                                                                        <input type="button" ng-disabled="tableform1.$waiting" title=" Close Edit Form Without Saving Changes" ng-click="refreshUI();tableform1.$cancel()"
+                                                                            class="btn btn-danger fa fa-close" value="X Cancel"
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- PAGE CONTENT ENDS -->
+ 
+
+</body>

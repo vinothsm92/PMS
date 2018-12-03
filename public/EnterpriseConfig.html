@@ -1,0 +1,564 @@
+ 
+    <style>
+        .listwidth {
+            width: 17%;
+        }
+
+        .EditDeletePosition {
+            float: right;
+        }
+
+        .well {
+            margin-bottom: 0px;
+            padding: 10px;
+        }
+
+        .page-content {
+            padding: 8px 20px 0px;
+        }
+
+        .panel {
+            margin-bottom: 0px;
+        }
+
+        .list-group {
+            margin-bottom: 10px;
+        }
+
+        #double li {
+            width: 50%;
+        }
+
+        #double {
+            columns: 2;
+            -webkit-columns: 2;
+            -moz-columns: 2;
+            list-style-type: none;
+        }
+
+        .panel-primary>.panel-heading {
+            color: #fff;
+            background-color: #438EB9;
+            border-color: #438EB9;
+        }
+
+        .sel {
+            color: active;
+        }
+
+
+
+        /* .ScrollBarShow {
+            overflow-y: auto;
+            height: calc(100vh - 310px);
+        } */
+    </style>
+  
+    <style>
+        .scrollbar {
+            overflow-y: auto;
+            height: calc(100vh - 310px);
+        }
+
+        .emailsubjecttbody {
+            height: 200px;
+            display: inline-block;
+            width: 100%;
+            overflow: auto;
+        }
+    </style>
+
+    <script>
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode != 46 && charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+        $(function () {
+                    $(".sidebar ul li ul li").closest("li").find(".active").removeClass("active");
+                    $("#enterpriseconfigID").addClass("active").parents(".nav li").addClass("active open");
+
+                });
+    </script>
+</head>
+
+<body class="no-skin clearPadding"  ng-show="viewaccesspage">
+ 
+                            <!-- PAGE CONTENT BEGINS -->
+
+
+                            <div class="bs-example" >
+                                <div class="row">
+                                    <div class="col-md-12" ng-controller="TabController as tab">
+                                        <ul class="nav nav-tabs" id="tabs">
+
+                                            <li ng-class="{active:tab.isSet(1)}"><a href="" ng-click="tab.setTab(1)" title="Enterprise Information">Enterprise Information</a></li>
+                                            <li ng-class="{active:tab.isSet(2)}"><a href="" ng-click="tab.setTab(2)" title="Email Settings">Email Settings </a></li>
+
+                                        </ul>
+
+
+
+                                        <div class="tab-content">
+
+                                            <!--Enterprise info model-->
+                                            <div id="EnterpriseInfoPopup" ng-show="tab.isSet(1)">
+                                                <form name="EnterPriseInfoForm">
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="panel panel-primary">
+
+                                                                <div class="panel-heading">
+
+                                                                    <div class="row">
+                                                                        <div class="col-md-5">
+
+                                                                        </div>
+                                                                        <div class="col col-xs-4">
+                                                                            <label title="Enterprise Information"> <b>Enterprise Information </b> </label>
+                                                                        </div>
+                                                                        <div class="col col-xs-3">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="panel-body scrollbar">
+                                                                    <div class="col-md-6">
+
+                                                                        <div class="row" style="margin-top: 4%">
+                                                                            <div class="col-md-3">
+                                                                                <h6><strong>Enterprise Name</strong><span class="Mandatory">*</span></h6>
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                <input type="text" name="txtEnterpriseName" required min="0" class="form-control" maxlength="100" ng-model="EnterpriseconfigValues.EnterpriseName"
+                                                                                    id="enterpriseid">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row" style="margin-top: 4%">
+                                                                            <div class="col-md-3">
+                                                                                <h6><strong>Legal Name</strong><span class="Mandatory">*</span></h6>
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                <input type="text" name="txtLegalName" required min="0" class="form-control" ng-model="EnterpriseconfigValues.LegalName"
+                                                                                    id="legalnameid" maxlength="100">
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row" style="margin-top: 4%">
+                                                                            <div class="col-md-3">
+                                                                                <h6><strong>Address</strong><span class="Mandatory">*</span></h6>
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                <textarea name="txtAddress" style="width: 100%; max-height: 300px; max-width: 100%;" maxlength="500" ng-model="EnterpriseconfigValues.Address"
+                                                                                    id="addressid"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row" style="margin-top: 4%">
+                                                                            <div class="col-md-3">
+                                                                                <h6><strong>Country</strong><span class="Mandatory">*</span></h6>
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                <select id="Countryid" typeof="text" name="BuildingName" form="profileform" class="form-control" ng-change="InsertCountryChange(ViewCountryDetail._id)"
+                                                                                    ng-model="ViewCountryDetail._id">
+                                                                        <option value="">Select</option>  
+                                                                     <option  ng-repeat="ViewCountryDetail in ViewCountryDetails"
+                                                                      value="{{ViewCountryDetail._id}}"  > {{ViewCountryDetail.CountryName}}
+                                                                        </option>
+                                                                </select>
+                                                                            </div>
+                                                                        </div>
+
+
+
+
+                                                                        <div class="row" style="margin-top: 4%">
+                                                                            <div class="col-md-3">
+                                                                                <h6><strong>State</strong><span class="Mandatory">*</span></h6>
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                <select id="Stateid" name="StateIDName" class="form-control" ng-model="ViewStateDetail.StateName">
+                                                                                  <option  ng-repeat="ViewStateDetail in ViewInsertStateDetails" 
+                                                                        value="{{ViewStateDetail._id}}"  >{{ViewStateDetail.StateName}}
+                                                                         </option>
+                                                                </select>
+                                                                            </div>
+                                                                        </div>
+
+
+
+
+
+                                                                        <div class="row" style="margin-top: 4%">
+                                                                            <div class="col-md-3">
+                                                                                <h6><strong>City</strong><span class="Mandatory">*</span></h6>
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                <input type="text" name="Country2" required class="form-control" ng-model="EnterpriseconfigValues.County" id="countyid">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row" style="margin-top: 4%">
+                                                                            <div class="col-md-3">
+                                                                                <h6><strong>Website</strong><span class="Mandatory">*</span></h6>
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                <input type="text" name="txtWebsite" required maxlength="200" class="form-control" ng-model="EnterpriseconfigValues.Website" id="websiteid">
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <div class="row" style="margin-top: 4%">
+                                                                            <div class="col-md-3">
+                                                                                <h6><strong>Email</strong><span class="Mandatory">*</span></h6>
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                <input type="text" name="Email" required min="0" class="form-control" ng-model="EnterpriseconfigValues.Email" id="emailid" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/">
+                                                                                <i ng-show="EnterPriseInfoForm.Email.$error.pattern" style="color: red;"> Enter a valid Email address </i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row" style="margin-top: 4%">
+                                                                            <div class="col-md-3">
+                                                                                <h6><strong>Phone</strong><span class="Mandatory">*</span></h6>
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                <input type="text" name="txtPhone" required maxlength="10" class="form-control" ng-model="EnterpriseconfigValues.Phone" id="phoneid" ng-pattern="/^[0-9]*$/"
+                                                                                    onkeypress="return isNumberKey(event)">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row" style="margin-top: 4%">
+                                                                            <div class="col-md-3">
+                                                                                <h6><strong>Fax</strong></h6>
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                <input type="text" name="txtFax" class="form-control" maxlength="20" 
+                                                                                id="faxid" ng-model="EnterpriseconfigValues.Fax" ng-pattern="/^[0-9]*$/" onkeypress="return isNumberKey(event)">
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row" style="margin-top: 4%">
+                                                                            <div class="col-md-3">
+                                                                                <h6><strong>Title</strong><span class="Mandatory">*</span></h6>
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                <input type="text" name="txtTitle" required min="0" class="form-control" maxlength="100" id="titleid" 
+                                                                                ng-model="EnterpriseconfigValues.ApplicationTitle">
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="row" style="margin-top: 4%">
+                                                                            <div class="col-md-3">
+                                                                                <h6><strong>Enterprise Logo</strong></h6>
+                                                                            </div>
+                                                                            <div class="col-xs-9">
+                                                                                <input id="fileMobile" type="file" ngf-select ng-model="file" name="file"
+                                                                                 ng-click="thumbnailshow()" ngf-pattern="'image/*'" 
+                                                                                    ngf-max-size="3MB" />
+
+                                                                                <i ng-show="EnterPriseInfoForm.file.$error.pattern" style="color: red;"> File format allows only JPG, JPEG, PNG </i>
+                                                                                <i ng-show="EnterPriseInfoForm.file.$error.maxSize" style="color: red;">File too large max-size:4MB </i>
+                                                                                </br>
+                                                                                <img  id="imageId" width="275" height="95" src="file" ngf-thumbnail="file" ng-show="file"  />
+
+                                                                            <!-- If I use ng-show="!file" it is not displaying an image rather than i can pass it an image using src="file" -->
+                                                                                <!-- <img id="imageId" src="data:image/jpeg;base64,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" 
+                                                                                width="275" height="95" /> -->
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                        <div class="row" style="margin-top: 4%">
+                                                                            <div class="col-md-3">
+
+                                                                            </div>
+                                                                            <div class="col-md-9">
+                                                                                <label>Resize Image</label>
+                                                                                <input type="range" id="rangeId" min=0 max="100" value="0">
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="panel-footer">
+                                                                    <div class="row">
+                                                                        <div class="col col-xs-8">
+
+                                                                        </div>
+
+                                                                        <div class="col col-xs-4" ng-controller="SlideController">
+                                                                            <div class="btn-form" style="float:right" ng-show="UpdateEnterpriseConfigButtonShow"  >
+
+                                                                                <button type="submit" title=" Save Changes" class="btn btn-primary fa fa-save" ng-disabled="EnterPriseInfoForm.$invalid"
+                                                                                    ng-click="uploadFile(file)"> Update</button>
+                                                                                <input type="button" title=" Close Edit Form Without Saving Changes" ng-click="CancelClick()" class="btn btn-danger fa fa-close"
+                                                                                    value="X Cancel" />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                            <!--Enterprise info model-->
+
+
+                                            <!--Email Settings model-->
+                                            <div id="EmailSettings" ng-show="tab.isSet(2)">
+                                                <form name="EmailSettingsForm" novalidate>
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="panel panel-primary">
+                                                                <div class="panel-heading">
+                                                                    <div class="row">
+                                                                        <div class="col-md-5">
+                                                                        </div>
+                                                                        <div class="col col-xs-4">
+                                                                            <label> <b>Email Settings </b> </label>
+                                                                        </div>
+                                                                        <div class="col col-xs-3">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="panel-body scrollbar" style="padding:5px">
+                                                                    <div class="col-md-6">
+                                                                        <div style="text-align: center;" class="panel panel-primary">
+                                                                            <div class="panel-heading">
+                                                                                <h3 class="panel-title">SMTP Mail Server Settings</h3>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="panel panel-body">
+                                                                            <div class="row" style="margin-top: 4%">
+                                                                                <div class="col-md-4">
+                                                                                    <h6><strong>SMTP Mail Server</strong>
+                                                                                        <span class="Mandatory">*</span>
+                                                                                    </h6>
+                                                                                </div>
+                                                                                <div class="col-md-8">
+                                                                                    <input type="text" name="Distance" required min="0" class="form-control" ng-model="mailconfigServer.SMTPMailServer" id="smtpserverid">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row" style="margin-top: 4%">
+                                                                                <div class="col-md-4">
+                                                                                    <h6><strong>SMTP Email ID</strong><span class="Mandatory">*</span></h6>
+                                                                                </div>
+                                                                                <div class="col-md-8">
+                                                                                    <input type="text" name="txtSMTPEmailId" required class="form-control" ng-model="mailconfigServer.SMTPemailId" id="smtpEmailid" maxlength="100"
+                                                                                        ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/">
+                                                                                    <i ng-show="EmailSettingsForm.txtSMTPEmailId.$error.pattern" style="color: red;"> Enter a valid Email address </i>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row" style="margin-top: 4%">
+                                                                                <div class="col-md-4">
+                                                                                    <h6><strong>SMTP Password</strong><span class="Mandatory">*</span></h6>
+                                                                                </div>
+                                                                                <div class="col-md-8">
+                                                                                    <input type="Password" name="txtSMTPPassword" required min="0" id="smtppasswordid" 
+                                                                                    class="form-control" maxlength="25" ng-model="mailconfigServer.SMTPpassword">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row" style="margin-top: 4%">
+                                                                                <div class="col-md-4">
+                                                                                    <h6><strong>Port</strong><span class="Mandatory">*</span></h6>
+                                                                                </div>
+                                                                                <div class="col-md-8">
+                                                                                    <input type="text" name="txtPort" required min="0" class="form-control" 
+                                                                                    ng-model="mailconfigServer.PORT" id="portid" ng-pattern="/^[0-9]*$/" onkeypress="return isNumberKey(event)">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row" style="margin-top: 4%">
+                                                                                <div class="col-md-4">
+                                                                                    <h6><strong>Sender Name</strong><span class="Mandatory">*</span></h6>
+                                                                                </div>
+                                                                                <div class="col-md-8">
+                                                                                    <input type="text" name="txtSenderName" required min="0" class="form-control"
+                                                                                     ng-model="mailconfigServer.SenderName" id="senderid">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row" style="margin-top: 4%">
+                                                                                <div class="col-md-4">
+                                                                                    <h6><strong>Enable SSL</strong></h6>
+                                                                                </div>
+                                                                                <div class="col-md-8">
+
+                                                                                    <input type="checkbox" style="width:20px;height:15px;" ng-model="mailconfigServer.EnableSSL" id="sslid" 
+                                                                                    name="Checkbox" />
+
+                                                                                    <!-- <input type="text" id="lblTestmailId" placeholder="Enter email address" ng-show="lblshow" 
+                                                                                    name="txtTestmail" required ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/">
+                                                                                    <i ng-show="EmailSettingsForm.txtTestmail.$error.pattern" style="color: red;"> Enter a valid Email address </i> -->
+                                                                                        <input type="text" id="lblTestmailId" placeholder="Enter email address" ng-show="toggle"
+                                                                                     ng-model="ToMailID" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" name="lbltouserName"
+                                                                                      ng-change="ChangeMail(ToMailID)"/>
+                                                                                   <div>
+                                                                                      <i ng-show="EmailSettingsForm.lbltouserName.$error.pattern" style="color: red;"> Enter a valid Email address </i>
+                                                                                   </div>
+
+                                                                                    <label class="{{ErrorClass}}" style="text-align: center;font-family: Tahoma, Geneva, Sans-Serif;">
+                                                                                <span ng-bind="ErrorMessageShown"></span>
+                                                     
+                                                                                 </label>
+
+
+
+                                                                                    <!-- <i ng-show="EmailSettingsForm.lblTestmailId.$error.pattern" style="color: red;"> Enter a valid Email address </i> -->
+
+                                                                                </div>
+                                                                            </div>
+
+
+                                                                            <div class="row" style="margin-top: 4%">
+                                                                                <div class="col-md-4">
+
+                                                                                </div>
+                                                                                <!-- <div class="col-md-8">
+                                                                                    <button class="btn btn-primary" ng-click="TestMail()" title="Test Mail">Test Mail
+                                                                                        
+                                                                            </button>
+
+                                                                                </div> -->
+                                                                                <div class="col-md-8" ng-controller="SlideController">
+                                                                                    <!-- <button class="btn btn-primary" ng-click="lblshow = !lblshow;" title="Test Mail">{{toggleText}} -->
+
+                                                                                    <button ng-show="UpdateEnterpriseConfigButtonShow" ng-disabled="EmailSettingsForm.$invalid" class="btn btn-primary" Name="Mailbutton" ng-click="toggle = !toggle;TestMail()" > {{toggle ? 'Send EMail' : 'Test EMail'}} </button>
+                                                                                <!--<input type="button"  ng-show="UpdateEnterpriseConfigButtonShow"  ng-click="toggle = !toggle;TestMail()" class="btn btn-danger fa fa-close" ng-disabled="disabled"
+                                                                                    value=" {{toggle ? 'Send EMail' : 'Test EMail'}}" title=" {{toggle ? 'Send EMail' : 'Test EMail'}}"/>-->
+
+                                                                                    </button>
+
+                                                                                </div>
+
+                                                                            </div>
+                     
+
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div style="text-align: center;" class="panel">
+                                                                        </div>
+
+                                                                        <!-- panel body -->
+                                                                        <div class="panel panel-body">
+                                                                            <div class="row" style="margin-top: 4%">
+                                                                                <div class="col-md-3">
+
+                                                                                    <h6><strong>Email Message</strong><span class="Mandatory">*</span></h6>
+
+
+                                                                                </div>
+                                                                                <div class="col-md-9">
+                                                                                    <select id="EmailMessageid" tabindex="8" typeof="text" name="EmailMessage" form="EmailSettingsFormid" class="form-control"
+                                                                                        ng-change="EmailMessageChange()" ng-model="emailMessage.value">
+                                                                                  <option value="">Select</option>
+                                                                                <option ng-repeat="emailMessage in emailMessages"  ng-selected="emailMessage.value==1"
+                                                                            value="{{emailMessage.value}}" ng-bind="emailMessage.key">
+                                                                       
+                                                                    </option>
+                                                                               
+                                                                            </select>
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row" style="margin-top: 4%">
+                                                                                <div class="col-md-3">
+
+                                                                                    <h6><strong>Email Subject</strong><span class="Mandatory">*</span></h6>
+
+
+                                                                                </div>
+                                                                                <div class="col-md-9">
+
+                                                                                    <!-- <input type="text" name="EmailSubject" class="form-control" required ng-model="Subjects" id="EmailSubjectId"> -->
+
+                                                                                    <label  ng-bind="MainSubjects"  contenteditable="true"  id="EmailSubjectId" name="EmailSubject" 
+                                                                                    class="form-control" style="border:1px solid #D5D5D5;width:400px;" 
+                                                                                    required  ></label>
+                                                                                    <!-- <label ng-model="Subjects" 
+                                                                                     style="border:1px solid #D5D5D5;width:400px;height:28px" id="EmailSubjectId"></label> -->
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row" style="margin-top: 4%">
+
+                                                                                <div class="col-md-3">
+                                                                                    <h6><strong>Email Content</strong><span class="Mandatory">*</span></h6>
+
+
+                                                                                </div>
+                                                                                <div class="col-md-9">
+
+                                                                                    <div>
+                                                                                        <label ng-bind-html="EmailContent" contenteditable="true" style="border:1px solid #D5D5D5;width:380px;" id="EmailcontentId"></label>
+
+                                                                                        
+
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+
+
+
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- panel body -->
+                                                                </div>
+                                                                <div class="panel-footer"  ng-controller="SlideController" >
+                                                                    <div class="row" >
+                                                                        <div class="col col-xs-8">
+
+                                                                        </div>
+
+                                                                        <div class="col col-xs-4">
+                                                                            <div class="btn-form" style="float:right" ng-show="UpdateEnterpriseConfigButtonShow">
+
+                                                                                <button type="submit" title=" Save Changes" class="btn btn-primary fa fa-save" ng-click="UpdateEmailSettings()" ng-disabled="EmailSettingsForm.$invalid"
+                                                                                    data-dismiss="modal"> Update</button>
+                                                                                <input type="button" title=" Close Edit Form Without Saving Changes" ng-click="ClearAllEmailinputs ()" class="btn btn-danger fa fa-close"
+                                                                                    value="X Cancel" />
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                            <!--Email Settings model-->
+
+                                        </div>
+                                    </div>
+
+                                    <!-- PAGE CONTENT ENDS -->
+
+                                    <!-- /.col -->
+                                </div>
+                                <!-- /.row -->
+
+
+                            </div>
+                         
+ 
+</body>
+
+ 

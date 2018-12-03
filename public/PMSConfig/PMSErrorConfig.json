@@ -1,0 +1,57 @@
+{
+  "Login": {
+    "HCL001": "Email Verification not yet completed",
+    "HCL002": "Your account is waiting for Admin approval",
+    "HCL003": "Your account has been Rejected by the Administrator",
+    "HCL004": "Your account has been Deactivated, Please contact Admin",
+    "HCL005": "Invalid Username or Password"
+  },
+  "Register": {
+    "HCR001": "Email and Display Name already exist",
+    "HCR002": "Display Name already exist",
+    "HCR003": "This email address is already registered",
+    "HCR004": "Domain Name not registered",
+    "HCR006":  "Enter a valid Email id",
+    "HCR005": "Thank you for registering. An Email has been sent to you. Go to registered email inbox to complete the registration process.",
+    "HCR007": "Phone number already exists"
+  },
+  "ForgotPassword": {
+    "HCFP001": "Email Verification not yet completed",
+    "HCFP002": "Please wait for Admin approval",
+    "HCFP003": "Your account has been Rejected",
+    "HCFP004": "Your account has been Deactivated, please contact Admin",
+    "HCFP005": "Invalid Email",
+    "HCFP006": "Check your Registered Email id to Reset your password",
+    "HCFP007":"Account with that email address does not exist"
+
+  },
+  "ResetPassword": {
+    "HCRP001": "You have successfully changed your password",
+    "HCRP002": "Password reset token is invalid or has expired."
+
+  }
+  ,
+  
+
+  "User": {
+    "HCRejectEmail001": "Your account has been rejected by admin"
+  },
+
+  
+
+  "ManageRoleErrorMessages": {
+
+    "HCMR001": "Your account has been rejected by admin",
+    "HCMR002": "Your account has been rejected by admin",
+    "HCMR003": "Your account has been rejected by admin",
+    "HCMR004": "Your account has been rejected by admin",
+    "HCMR005": "Your account has been rejected by admin",
+    "HCMR006": "Your account has been rejected by admin",
+    "HCMR007": "Your account has been rejected by admin"
+
+
+  }
+
+
+
+}

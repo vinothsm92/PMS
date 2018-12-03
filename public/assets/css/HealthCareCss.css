@@ -1,0 +1,121 @@
+﻿th {
+    text-align: center; /* Or right or left */
+}
+
+.highlighted {
+    background: #cde0bb;
+    font-weight: bold;
+}
+
+.Mandatory {
+    color: green;
+    font-size: 16px;
+}
+
+.HeaderWrap {
+    word-wrap: break-word;
+}
+ .editable-text {
+            white-space: nowrap;
+            width: 100%;
+        }
+  .editable-select {
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .editable-number {
+            white-space: nowrap;
+            width: 100%;
+        }
+/* Delete Icon Size  start */
+.deleteBtn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 1px 7px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.panel-table .panel-body .table-bordered > tbody > tr > td {
+    line-height: 28px !important;
+}
+
+.form-control {
+    height: 28px !important;
+}
+
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+    padding: 5px !important;
+}
+
+.checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] {
+    position: inherit;
+    margin-left: 0px;
+}
+  .searchbox {
+            height: 28px;
+            margin-top: 5px;
+            width: 100%;
+        }
+
+ .error {
+            color: red;
+        }
+
+
+ .editable-empty {
+   
+    color: #dbd8d9;
+   
+}
+
+
+/*Loading Panel Css Start */
+#divLoading
+{
+display : none;
+}
+#divLoading.show
+{
+display : block;
+position : fixed;
+z-index: 100;
+background-image : url("App_Themes/Images/LoadingPanel.gif");
+/*background-color:#666;*/
+background-color:rgba(0, 0, 0, 0.22);
+
+opacity : 10.4;
+background-repeat : no-repeat;
+background-position : center;
+left : 0;
+bottom : 0;
+right : 0;
+top : 0;
+}
+
+/*Loading Panel Css End*/
+
+
+/* Page content Grid start */
+
+  .clearPadding {
+            padding-right: 0px !important;
+        }
+/* Page content end */

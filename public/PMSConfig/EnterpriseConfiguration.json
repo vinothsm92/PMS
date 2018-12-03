@@ -1,0 +1,18 @@
+{
+  "EnterpriseConfiguration": {
+    "EnterpriseName": "BESTiR",
+    "LegalName": "BESTIR Software Services Pvt. Ltd.,",
+    "Address": "mylapore. chennai",
+    "Website": "http://www.bestirtech.com/",
+    "Country": "India",
+    "State": "Tamil Nadu",
+    "County": "chennai.",
+    "Email": "admin@yourdomain.com",
+    "Phone": "9846589328",
+    "Fax": "001231567895065",
+    "ApplicationTitle": "Project Management System",
+    "EnterpriseLogo": "./LogoUploads/BESTiR-logo.png",
+    "logowidth": 130,
+    "logoheight": 38
+  }
+}

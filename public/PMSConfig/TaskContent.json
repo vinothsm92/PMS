@@ -1,0 +1,335 @@
+{
+    "Phase": [
+        {
+            "key": "Analysis",
+            "value": "1"
+        },
+        {
+            "key": "Design",
+            "value": "2"
+        },
+        {
+            "key": "Coding",
+            "value": "3"
+        },
+        {
+            "key": "Unit Testing",
+            "value": "4"
+        },
+        {
+            "key": "System Test",
+            "value": "5"
+        },
+        {
+            "key": "UAT Support",
+            "value": "6"
+        },
+        {
+            "key": "Project Management",
+            "value": "7"
+        },
+        {
+            "key": "Research",
+            "value": "8"
+        },
+        {
+            "key": "Self Learning",
+            "value": "9"
+        },
+        {
+            "key": "Class Room",
+            "value": "10"
+        },
+        {
+            "key": "Evaluation",
+            "value": "11"
+        },
+        {
+            "key": "Environment Setup",
+            "value": "12"
+        },
+        {
+            "key": "Meeting",
+            "value": "13"
+        },
+  {
+            "key": "Proposal",
+            "value": "14"
+        },
+  {
+            "key": "Inventory",
+            "value": "15"
+        },
+  {
+            "key": "Requirement Analysis",
+            "value": "16"
+        },
+  {
+            "key": "Organizational Meeting",
+            "value": "17"
+        },
+  {
+            "key": "Requirement Spec Documentation",
+            "value": "18"
+        },
+ {
+            "key": "Blog",
+            "value": "19"
+        },
+ {
+            "key": "Forum ",
+            "value": "20"
+        },
+ {
+            "key": "Client Meeting",
+            "value": "21"
+        },
+ {
+            "key": "Others",
+            "value": "22"
+        },
+ {
+            "key": "Session",
+            "value": "23"
+        },
+		{
+            "key": "Training",
+            "value": "24"
+        },
+		{
+            "key": "Admin",
+            "value": "25"
+        },
+		{
+            "key": "Marketing",
+            "value": "26"
+        },
+			{
+            "key": "Handover- Takeover",
+            "value": "27"
+        },
+			{
+            "key": "Idle Time",
+            "value": "28"
+        },	{
+            "key": "Travel",
+            "value": "29"
+        },	{
+            "key": "Organizational Meeting",
+            "value": "30"
+        },
+			{
+            "key": "Accounts",
+            "value": "31"
+        },
+			{
+            "key": "Process Improvement",
+            "value": "31"
+        },
+
+
+			{
+            "key": "Recruitment",
+            "value": "32"
+        },
+
+			{
+            "key": "Events",
+            "value": "33"
+        },
+			{
+            "key": "Leave",
+            "value": "34"
+        }
+
+
+    ],
+    "Type": [
+        {
+            "key": "DELIVERY",
+            "value": "1"
+        },
+        {
+            "key": "REVIEW",
+            "value": "2"
+        },
+        {
+            "key": "REWORK",
+            "value": "3"
+        },
+        {
+            "key": "Leave",
+            "value": "4"
+        },
+        {
+            "key": "Others",
+            "value": "5"
+        }
+    ],
+    "IsBIllable": [
+        {
+            "key": "Yes",
+            "value": "1"
+        },
+        {
+            "key": "No",
+            "value": "2"
+        }
+    ],
+    "IsCR": [
+        {
+            "key": "Yes",
+            "value": "1"
+        },
+        {
+            "key": "No",
+            "value": "2"
+        }
+    ],
+    "ProjectNameInfo": [
+        {
+            "key": "- Tasks should be addes only to exisiting projects",
+            "value": "1"
+        }
+    ],
+    "UniqueIDInfo": [
+        {
+            "key": "- Unique ID should be unique for each task",
+            "value": "1"
+        },
+         {
+            "key": "- To update an exisiting task which have already imported through excel,change other fields in the row except UniqueID",
+            "value": "2"
+        }
+    ],
+      "NameInfo": [
+        {
+            "key": "- Name of the task given to the resource (E.g. Prepare UI Design)",
+            "value": "1"
+        },
+         {
+            "key": "- Name should be clearly understandable",
+            "value": "2"
+        }
+    ] ,
+      "ResourceNamesInfo": [
+        {
+            "key": "- Name of the resource to whom task is assigned",
+            "value": "1"
+        },
+         {
+            "key": "- For each row one resource name should be specified",
+            "value": "2"
+        }
+    ] ,
+      "DurationInfo": [
+        {
+            "key": "- Duration of the task should be given in float value(E.g.For 2 Hours and 30 minutes-specify 2.3)",
+            "value": "1"
+        }
+    ] 
+    ,
+      "StartInfo": [
+        {
+            "key": "- Start date of the task",
+            "value": "1"
+        },
+         {
+            "key": "- Task start date should be greater than or equal to Project start date",
+            "value": "2"
+        },
+         {
+            "key": "- Date format->MM-DD-YY ex:(1-20-2017)",
+            "value": "3"
+        }
+    ]  ,
+      "FinishInfo": [
+        {
+            "key": "- End date of the task",
+            "value": "1"
+        },
+         {
+            "key": "- Task end date should be less than or equal to Project end date",
+            "value": "2"
+        },
+         {
+            "key": "- Date format->MM-DD-YY ex:(1-20-2017)",
+            "value": "3"
+        }
+    ]  ,
+      "PredecessorsInfo": [
+        {
+            "key": "- Task predecessors should be specified",
+            "value": "1"
+        } 
+    ]  ,
+      "PhaseInfo": [
+        {
+            "key": "- Phase name of which the given task is categorized",
+            "value": "1"
+        } 
+    ] ,
+    "TaskType": [
+        {
+            "key": "Bill",
+            "value": "1"
+        },
+        {
+            "key": "Non-Bill",
+            "value": "2"
+        }
+    ],
+    "Item": [
+        {
+            "key": "C-Off",
+            "value": "1"
+        },
+        {
+            "key": "CRI",
+            "value": "2"
+        },
+        {
+            "key": "Others",
+            "value": "3"
+        },
+        {
+            "key": "Prjltm",
+            "value": "4"
+        },
+        {
+            "key": "PrjSup",
+            "value": "5"
+        },
+        {
+            "key": "Proposal",
+            "value": "6"
+        },
+			{
+            "key": "Leave",
+            "value": "7"
+        }
+    ],
+    
+    "DividedBY":
+    {
+        "divideBY":"160"
+    },
+    "ConfigureItemsIDInfo": [
+        {
+            "key": "- ID should be unique",
+            "value": "1"
+        }
+    ],
+    "ConfigureItemsNameInfo": [
+        {
+            "key": "- Name of the item to configure ",
+            "value": "1"
+        }
+    ],
+    "ConfigureItemsDescriptionInfo": [
+        {
+            "key": "- Description of the item ",
+            "value": "1"
+        }
+    ]
+}

@@ -1,0 +1,7 @@
+﻿body, td, p { font-size: 10pt; font-family: Tahoma, Arial, Sans-serif; }
+body { padding: 10px; }
+.space { margin: 10px 0px 10px 0px; }
+
+input[type="text"], select {
+    width: 100%;
+}

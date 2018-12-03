@@ -1,0 +1,10 @@
+{
+  "Reminder1": {
+    "Hello": "Hello All",
+    "Contenttype": "#Contenttypename will be expired in #Validityleftindays day(s). Validity end date is #Validityenddate. Please review the content, if required update the content as required.",
+    "Warm Regards": "30",
+    "System Administrator": "m.nithya@steadfastglobal.com,nithyamari31.yahoo.in,nitikishu25@gmail.com",
+    "ValidityReminderCCEmail": "admin@yourdomain.com",
+    "ValidityReminderBCCEmail": "m.nithya@steadfastglobal.com"
+  }
+}

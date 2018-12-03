@@ -1,0 +1,54 @@
+{
+    "EmailMessages": [
+        {
+            "key": "New User Registration",
+            "value": "1"
+           
+        },
+        {
+            "key": "Approved User",
+            "value": "2"
+           
+        },
+        {
+            "key": "Rejected User",
+            "value": "3"
+            
+        },
+        {
+            "key": "Forget Password",
+            "value": "4"
+         
+        },
+         {
+            "key": "Test Mail ",
+            "value": "5"
+           
+        },
+         {
+            "key": "Team Allocation",
+            "value": "6"
+            
+        },
+         {
+            "key": "Project Allocation",
+            "value": "7"
+           
+        },
+        {
+            
+            "key": "Admin Mail",
+            "value": "8"
+          
+        }
+       
+    ]
+
+
+  
+
+
+
+
+}
+

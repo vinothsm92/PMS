@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html ng-app="main">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="assets/js/jquery-2.1.4.min.js"></script>
+    <script src="assets/js/AngularJS1.3.12.min.js"></script>
+    <script src="assets/js/route.js"></script>
+
+    <script src="assets/js/Angular-Cookies.js"></script>
+    <script src="assets/js/daypilot-all.min.js"></script>
+    <script src="assets/js/notify.js"></script>
+    <link type="text/css" rel="stylesheet" href="assets/css/modal.css" />
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <!--Healthcare styles-->
+    <link href="assets/css/HealthCareCss.css" rel="stylesheet" />
+    <style>
+        .form-control {
+            padding: 4px 12px;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+    <script>
+        var TSApp = angular.module('main', ['ngCookies', 'ngRoute', 'ngNotify']);
+
+
+        TSApp.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
+            $httpProvider.defaults.cache = false;
+            if (!$httpProvider.defaults.headers.get) {
+                $httpProvider.defaults.headers.get = {};
+            }
+            $httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
+        }]);
+
+        TSApp.controller('EditCtrl', ['$scope', '$http', '$window', '$filter', '$notify',
+            '$cookieStore', '$timeout',
+            function ($scope, $http, $window, $filter, $notify, $cookieStore, $timeout) {
+
+
+             debugger
+
+                var GetEventID1 = sessionStorage.getItem("gettaskid");
+                var getUserName = sessionStorage.getItem("getUserName");
+
+
+                var EventID = GetEventID1.split(",");
+
+                var GetEventID = EventID[0];
+                var GetTimeSheeetID = EventID[1];
+                var TimeSheetid = sessionStorage.getItem("TimeSheetid");
+
+
+                var Tab = sessionStorage.getItem("Tab");
+
+              
+                $http.get('/PMSConfig/TaskContent.json').success(function (data) {
+                    $scope.Type = data.Type;
+                    $scope.Phase = data.Phase;
+                    $scope.TaskType = data.TaskType;
+                    $scope.Item = data.Item;
+
+                });
+
+                $http.get('/GetEvent/' + GetEventID).then(function (response) {
+                    $scope.Comments = true;
+                    $scope.Items = false;
+                    $scope.Start = true;
+                    $scope.End = true;
+                    $scope.event = [];
+
+                    var data = response.data;
+                    $scope.data = response.data;
+                    // var Tasktype = data[0].TaskType;
+                    // if (Tasktype == "Bill") {
+                    //     Tasktype = $scope.TaskType[0].key;
+                    // }
+                    // else {
+                    //     Tasktype = $scope.TaskType[1].key;
+                    // }
+                   
+                    $scope.event.push({
+                        id: data[0]._id,
+                        Text: data[0].Text,
+                        Start: data[0].StartDate,
+                        End: data[0].EndDate,
+                        phase: data[0].phase,
+                        Comments: data[0].Comments,
+                        Items: data[0].Items,
+                        Hours: Math.floor(data[0].Hours / 60),
+                        Minutes: Math.floor(data[0].Hours % 60),
+                        TaskType: data[0].TaskType
+                    });
+
+                    $http.get('/GetEvent1/' + data[0].Text + '/' + data[0].StartDate+ '/' + getUserName+ '/' + GetEventID ).then(function (response) {
+
+                        $scope.EventID = response.data;
+
+                    });
+
+
+                });
+
+                $scope.events = [];
+
+                $scope.delete = function () {
+                  
+                };
+                $scope.save = function () {
+                    debugger
+                    var Activity = document.getElementById("name").value;
+                    var Comments = document.getElementById("Comments").value;
+                    var TaskType = document.getElementById("TaskTypeID").value;
+                    var Items = document.getElementById("ItemsID").value;
+                    var Hours = document.getElementById("Hours").value;
+                    var Minutes = document.getElementById("Minutes").value;
+                    var Totalminutes = parseInt(Hours * 60);
+                    var Totalminutes = Totalminutes + parseInt(Minutes);
+
+                    a = sessionStorage.getItem("CheckPreviousweek")
+                    // if (sessionStorage.getItem("CheckPreviousweek") == "True") {
+                    //     $notify.warning('Warning', 'Previous Week Timesheet not able to update');
+                    //     return '';
+                    // }
+
+                    if (Hours == "" || TaskType == "" || Items == "" || Minutes == "" || Comments == "") {
+                       
+                        $notify.warning('Warning', 'Please fill all Mandatory Fields');
+                        return '';
+                    }
+
+                    if (Hours == 0) {
+                        
+                    }
+
+                    if (Hours.length == 1) {
+                        Hours = '0' + Hours
+                    }
+                    if (Minutes.length == 1) {
+                        Minutes = '0' + Minutes
+                    }
+                    var End = $scope.data[0].End;
+                    var Start = $scope.data[0].Start;
+
+                    var getStartHour = Start.substring(11, 13);
+                    var getStartMin = Start.substring(14, 16);
+
+                    var Hour = parseInt(getStartHour) + parseInt(Hours);
+                    var Minutes = parseInt(getStartMin) + parseInt(Minutes);
+
+
+                    if (Hour.toString().length == 1) {
+                        Hour = '0' + Hour;
+                    }
+
+                    if (Minutes.toString().length == 1) {
+                        Minutes = '0' + Minutes;
+                    }
+                    var getEndDate = End.substring(0, 11);
+                    var EndTime = getEndDate + Hour + ":" + Minutes + ":00"
+
+                    if (Hour > 24) {
+                        $notify.warning('Warning', 'Duration Should not exceed than current date');
+                        return '';
+                    }
+                    
+                    var today = new Date();
+                    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                    var dateTime = date + ' ' + time;
+                    $http.put('/UpdataEvent', {
+                        'id': GetEventID,
+                        'Text': Activity,
+                        'Comments': Comments,
+                        'TaskType': TaskType,
+                        'Items': Items,
+                        'Duration': (Totalminutes),
+                        'End': EndTime,
+                        'UpdatedByID':getUserName,
+                        'UpdatedOn':dateTime
+                    }).then(function (response) {
+                        $http.put('/UpdataEvent1', {
+                            'id': $scope.EventID[0]._id,
+                            'Text': Activity,
+                            'Comments': Comments,
+                            'TaskType': TaskType,
+                            'Items': Items,
+                            'Duration': (Totalminutes),
+                            'End': EndTime,
+							'TimeSheetid':GetEventID,
+                            'UpdatedByID':getUserName,
+                            'UpdatedOn':dateTime
+                        }).then(function (response) {
+                            $window.sessionStorage.setItem("TimesheetUpdateMessage", true);
+                            DayPilot.Modal.close();
+
+
+
+
+                        });
+
+
+
+                    });
+                };
+                $scope.cancel = function () {
+
+                    DayPilot.Modal.close();
+                };
+
+                $scope.CalcDuration = function (Duration11) {
+                    debugger
+                    var Duration11 = document.getElementById('Hours').value;
+                    if (Duration11 > 12) {
+                        $scope.OKdisabled = true;
+                        $notify.warning('Warning', 'Duration should be less than 12');
+                        return true;
+                    }
+                    else if (Duration11 < 0.5) {
+                        $scope.OKdisabled = true;
+                        $notify.warning('Warning', 'Duration should  be greater than 0.5 - 12');
+                        return true;
+                    }
+                    else if (Duration11=="") {
+                        $scope.OKdisabled = true;
+                        $notify.warning('Warning', 'Duration should  be greater than 0 - 12');
+                        return true;
+                    }
+                    $scope.OKdisabled = false;
+                }
+
+                $scope.CalcDuration1 = function (Duration11) {
+                    debugger
+                    var Duration11 = document.getElementById('Minutes').value;
+                    if (Duration11 > 59) {
+                        $scope.OKdisabled = true;
+                        $notify.warning('Warning', 'Duration should be less than 59');
+                        return true;
+                    }
+                    else if (Duration11 < 0) {
+                        $scope.OKdisabled = true;
+                        $notify.warning('Warning', 'Duration should  be greater than 1 - 59');
+
+                        return true;
+                    }
+
+                    else if (Duration11=="") {
+                        $scope.OKdisabled = true;
+                        $notify.warning('Warning', 'Duration should  be greater than 0 - 59');
+                        return true;
+                    }
+                    $scope.OKdisabled = false;
+                }
+
+               
+            }]);
+    </script>
+
+
+</head>
+
+<body>
+    <div ng-controller="EditCtrl" style="height:490px;">
+
+        <h2>Edit Timesheet</h2>
+
+        <div class="space">
+        <!-- delete button -->
+        </div>
+
+        <div class="space">
+            <label for="name">Task Name</label>
+            <input id="name" disabled type="text" ng-model="event[0].Text" />
+        </div>
+        <div class="space" ng-show="Start">
+            <label for="name">Task Date </label>
+            <input id="name" disabled type="text" ng-model="event[0].Start" />
+        </div>
+
+        <div class="space">
+            <label for="start">Task Type</label>
+            <select id="TaskTypeID" required typeof="text" form="Taskform" disabled class="form-control" required ng-model="event[0].TaskType">
+                    <option value="">Select</option>
+                    <option ng-repeat="Task in Type"
+                     value="{{Task.key}}" ng-bind="Task.key">
+                     </option>
+                    </select>
+        </div>
+        <div class="space">
+            <label for="end">Items</label><span class="Mandatory">*</span>
+            <select id="ItemsID" required typeof="text" form="Taskform" class="form-control" required ng-model="event[0].Items">
+                    <option value="">Select</option>
+                    <option ng-repeat="Items in Item"
+                     value="{{Items.key}}" ng-bind="Items.key">
+                     </option>
+                    </select>
+        </div>
+        <div class="space">
+            <label for="project">Phase</label>
+            <input id="Phase" type="text" disabled ng-model="event[0].phase" />
+
+        </div>
+        <div class="space">
+            <label for="Comments">Comments</label><span class="Mandatory">*</span>
+            <textarea id="Comments" name="Comments" placeholder="Comments" style="width: 100%; max-height: 200px; max-width: 100%;" ng-model="event[0].Comments"
+                onkeydown="return (event.keyCode!=13);" maxlength="255"></textarea>
+        </div>
+        <div class="space">
+            <label for="project">Hours</label><span class="Mandatory">*</span>&nbsp;&nbsp;&nbsp;
+            <input id="Hours" type="number" min="0" max="12" ng-model="event[0].Hours" ng-change="CalcDuration(event[0].Hours)"
+            />
+
+        </div>
+
+
+        <div class="space">
+            <label for="project">Minutes</label><span class="Mandatory">*</span>
+            <input id="Minutes" type="number" min="0" max="59" ng-model="event[0].Minutes" ng-change="CalcDuration1(event[0].Minutes)"
+ />
+
+        </div>
+
+        <div class="space" style="float:right">
+            <button class="btn btn-primary" ng-click="save()" ng-disabled="OKdisabled">OK</button>
+            <button class="btn btn-primary" ng-click="cancel()">Cancel</button>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

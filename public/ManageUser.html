@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+ 
+
+<head>
+    
+   
+
+    <script type="text/javascript">
+        try { ace.settings.loadState('sidebar') } catch (e) { }
+
+        $(function () {
+            // init plugin (with callback)
+            $('#ResourceID').clearSearch({ callback: function () { } });
+            $('#DNameID').clearSearch({ callback: function () { } });
+            $('#EmailID').clearSearch({ callback: function () { } });
+            $('#FNameID').clearSearch({ callback: function () { } });
+            $('#LNameID').clearSearch({ callback: function () { } });
+            $('#MobileID').clearSearch({ callback: function () { } });
+            $('#RoleID').clearSearch({ callback: function () { } });
+            $('#EVerifiedID').clearSearch({ callback: function () { } });
+            $('#StatusID').clearSearch({ callback: function () { } });
+            $('#IsActiveID').clearSearch({ callback: function () { } });
+        });
+
+        $(function () {
+                    $(".sidebar ul li ul li").closest("li").find(".active").removeClass("active");
+                    $("#ManageUserID").addClass("active").parents(".nav li").addClass("active open");
+
+                });
+      
+    </script>
+    <script>
+      
+    </script>
+    <style>
+        .modal-dialog {
+            width: 600px;
+        }
+        
+        .scrollbar {
+            overflow-y: auto;
+            height: calc(100vh - 320px);
+        }
+        
+        input[type=text]::-ms-clear {
+            display: none;
+        }
+    </style>
+    <!--   End  09/03/17 -->
+</head>
+<body class="no-skin clearPadding"  ng-show="viewaccesspage">
+ 
+                            <!-- PAGE CONTENT BEGINS -->
+                            <div >
+                                <div class="container">
+
+                                    <!-- Modal -->
+                                    <form name="profileform">
+                                        <div class="modal fade" id="myModal" role="dialog" tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!--popup form-->
+                                <div class="container">
+                                    <form name="PopupForm">
+                                        <div class="modal fade" id="PopupID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content" style="margin-top: 200px; padding-left: 0; margin-right: 110px; margin-left: 50px;">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                        <h4 class="modal-title" id="myModalLabel">Delete User</h4>
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        
+                                                        <p>You are about to Delete record, Do you like to proceed?</p>
+                                                        <p class="debug-url"></p>
+                                                    </div>
+                                                    <div class="modal-footer" ng-controller="SlideController">
+                                                        <button class="btn btn-danger" ng-show="UserButtonShow" ng-disabled="PopupForm.$invalid" ng-click="DeleteManageUserKey()" title="Yes" data-dismiss="modal">Yes</button>&nbsp;&nbsp;
+                                                        <button class="btn btn-primary" ng-show="UserButtonShow" data-dismiss="modal" ng-click="deselect()" title="No">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- Show User Data's -->
+                                <div>
+                                    <form editable-form name="ManageUserForm" oncancel="cancel()" onaftersave="saveManageUserTable()">
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="panel panel-default panel-table">
+                                                    <div class="panel-heading">
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+
+                                                            </div>
+                                                            <div class="col col-xs-4">
+                                                                <label style="-webkit-text-fill-color:#438eb9" title="Manage User"> <b>Manage User </b> </label>
+                                                            </div>
+                                                            <div class="col col-xs-2">
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel-body scrollbar">
+                                                        <table class="table table-striped table-bordered table-list" ng-controller="SlideController">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th ng-show="UserButtonShow" style="width: 5%"><strong><a href="" title="Delete">Delete</a></strong></th>
+                                                                    <th  style="width: 10%">
+                                                                        <a href="" ng-click="orderByField='ResourceID'; reverseSort = !reverseSort" title="Display Name">Resource ID</a>
+                                                                    </th>
+                                                                    <th style="width: 10%">
+                                                                        <a href="" ng-click="orderByField='UserName'; reverseSort = !reverseSort" title="Display Name">Display Name</a>
+                                                                    </th>
+                                                                    <th style="width: 15%">
+                                                                        <a href="" ng-click="orderByField='Email'; reverseSort = !reverseSort" title="Email">Email</a>
+                                                                    </th>
+                                                                    <th style="width: 10%">
+                                                                        <a href="" ng-click="orderByField='FirstName'; reverseSort = !reverseSort" title="First Name">First Name</a>
+                                                                    </th>
+                                                                    <th style="width: 10%">
+                                                                        <a href="" ng-click="orderByField='LastName'; reverseSort = !reverseSort" title="Last Name">Last Name</a>
+                                                                    </th>
+                                                                    <th style="width: 10%">
+                                                                        <a href="" ng-click="orderByField='PhoneNumber'; reverseSort = !reverseSort" title="Mobile">Mobile</a>
+                                                                    </th>
+                                                                    <th style="width: 10%">
+                                                                        <a href="" ng-click="orderByField='Role'; reverseSort = !reverseSort" title="Role">Role</a>
+                                                                    </th>
+                                                                    <th style="width: 5%" align="center">
+                                                                        <a href="" ng-click="orderByField='EmailVerified'; reverseSort = !reverseSort" title="Email Verified">Email Verified</a>
+                                                                    </th>
+                                                                    <th style="width: 10%">
+                                                                        <a href="" ng-click="orderByField='Status'; reverseSort = !reverseSort" title="Status">Status</a>
+                                                                    </th>
+                                                                    <th style="width: 5%" align="center">
+                                                                        <a href="" ng-click="orderByField='IsActive'; reverseSort = !reverseSort" title="IsActive?">IsActive?</a>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td ng-show="UserButtonShow"></td>
+                                                                    <td>
+                                                                        <input type="text" id="ResourceID" ng-model="Manage_User1.ResourceID" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                                        />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="DNameID" ng-model="Manage_User1.UserName" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                                        />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="EmailID" ng-model="Manage_User1.Email" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                                        />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="FNameID" ng-model="Manage_User1.FirstName" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                                        />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="LNameID" ng-model="Manage_User1.LastName" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                                        />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="MobileID" ng-model="Manage_User1.PhoneNumber" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                                        />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="RoleID" ng-model="Role" placeholder="search" ng-change="RoleNameFilter(Role)" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                                        />
+                                                                    </td>
+                                                                    <td>
+                                                                        <!--<input type="text" id="EVerifiedID" ng-model="Manage_User1.EmailVerified" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);" />-->
+                                                                        <select name="DropFilterEmailVerify" ng-model="Manage_User1.EmailVerifiedbyUser" class="searchbox">
+                                                                                <option value="">All</option>
+                                                                                 <option value=false>False</option>
+                                                                                  <option value=true>True</option>  
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="StatusID" ng-model="Status" 
+                                                                        placeholder="search" ng-change="StatusFilter(Status)"
+                                                                        class="searchbox" onkeydown="return (event.keyCode!=13);" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <!--<input type="text" id="IsActiveID" ng-model="Manage_User1.IsActive" placeholder="search" 
+                                                                        class="searchbox"  onkeydown="return (event.keyCode!=13);"/>-->
+
+
+                                                                         <select name="DropFilter" ng-model="Manage_User1.IsActive" class="searchbox">
+                                                                                <option value="">All</option>
+                                                                                 <option value=false>False</option>
+                                                                                  <option value=true>True</option>  
+                                                                    </select>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr dir-paginate="Manage_User in Manage_Users |  filter:DropFilterEmailVerify |filter:DropFilter|filter:customStatusFilter |filter:customRoleNameFilter|  filter:Manage_User1 | orderBy:orderByField:reverseSort | itemsPerPage:ItemsPerPageCount "
+                                                                    ng-class-odd="'odd'" current-page="pagination.current">
+
+                                                                    <td align="center" ng-show="UserButtonShow">
+                                                                        <a class="btn btn-danger deleteBtn" data-toggle="modal" ng-click="DeleteManageUser(Manage_User._id,Manage_User.EmailVerifiedbyUser)"
+                                                                            data-target="#PopupID" title="Delete"><em class="fa fa-trash"></em></a>
+                                                                    </td>
+
+
+                                                                    <td ng-click="ManageUserForm.$show()">
+                                                                        <span e-ng-change="applyHighlightResourceID($data,$index,pagination.current,Manage_User._id)" editable-text="Manage_User.ResourceID" ng-attr-title="{{Manage_User.ResourceID}}" ng-bind="Manage_User.ResourceID | uppercase"
+                                                                            e-form="rowform" ng-click="ManageUserForm.$show()" ng-bind="Manage_User.ResourceID || 'empty'" >
+                                                                            
+                                                                           
+                                                                        </span>
+
+                                                                    </td>
+                                                                    <td ng-click="ManageUserForm.$show()">
+                                                                        <span e-ng-change="applyHighlight($data)" ng-attr-title="{{Manage_User.UserName}}" ng-bind="Manage_User.UserName | uppercase"
+                                                                            e-form="rowform" ng-click="ManageUserForm.$show()">
+                                                                            <!--{{ Manage_User.UserName || 'empty' }}-->
+                                                                           
+                                                                        </span>
+                                                                    </td>
+                                                                    <td ng-click="ManageUserForm.$show()">
+                                                                        <span e-ng-change="applyHighlight($data)" e-form="rowform" ng-attr-title="{{Manage_User.Email}}" ng-bind="Manage_User.Email || 'empty'"
+                                                                            ng-click="ManageUserForm.$show()">
+                                                                          
+                                                                        </span>
+                                                                    </td>
+                                                                    <td ng-click="ManageUserForm.$show()">
+                                                                        <span e-ng-change="applyHighlight($data)" ng-attr-title="{{Manage_User.FirstName}}" ng-bind=" Manage_User.FirstName || 'empty' "
+                                                                            e-form="rowform" ng-click="ManageUserForm.$show()">
+                                                                           
+                                                                        </span>
+
+                                                                    </td>
+                                                                    <td ng-click="ManageUserForm.$show()">
+                                                                        <span e-ng-change="applyHighlight($data)" e-form="rowform" ng-attr-title="{{Manage_User.LastName}}" ng-bind="Manage_User.LastName || 'empty'"
+                                                                            ng-click="ManageUserForm.$show()">
+                                                                           
+                                                                        </span>
+
+                                                                    </td>
+                                                                    <td ng-click="ManageUserForm.$show()">
+                                                                        <span e-ng-change="applyHighlight($data)" e-form="rowform" e-maxlength=10 ng-attr-title="{{Manage_User.PhoneNumber}}" ng-bind=" Manage_User.PhoneNumber || 'empty'"
+                                                                            ng-click="ManageUserForm.$show()">
+                                                                           
+                                                                        </span>
+                                                                    </td>
+                                                                    <td ng-click="ManageUserForm.$show()">
+                                                                        <!--<span e-ng-change="applyHighlight($data)" editable-select="Manage_User.Role" e-form="rowform"
+                                                                              e-ng-options="s.value as s.text for s in Roles">
+                                                                            {{ showRole(Manage_User) }}
+                                                                        </span>-->
+
+
+                                                                        <span e-ng-change="applyHighlightRoleIDCheck($data,$index,pagination.current,Manage_User._id)" editable-select="Manage_User.Role" e-form="rowform"
+                                                                            e-ng-options="s._id as s.RoleName for s in RoleNameValues |  orderBy:'RoleName'"
+                                                                            ng-attr-title="{{showRoleName(Manage_User)}}" ng-bind="showRoleName(Manage_User)">
+                                                                          
+                                                                        </span>
+
+
+                                                                    </td>
+                                                                    <td ng-click="ManageUserForm.$show()" align="center">
+                                                                        <!--<span e-ng-change="applyHighlight($data,$index)" ng-checked="Manage_User.EmailVerifiedbyUser"
+                                                                         ng-attr-title="{{Manage_User.EmailVerifiedbyUser}}"
+                                                                              e-form="rowform" editable-checkbox="Manage_User.EmailVerifiedbyUser">
+                                                                            <input type="checkbox" ng-model="Manage_User.EmailVerifiedbyUser" />
+                                                                        </span>-->
+
+                                                                        <span e-ng-change="applyHighlight($data)" ng-checked="Manage_User.EmailVerifiedbyUser" ng-disabled="true" e-form="rowform"
+                                                                            ng-attr-title="{{Manage_User.EmailVerifiedbyUser}}">
+                                                                            <input type="checkbox" ng-disabled="true" ng-model="Manage_User.EmailVerifiedbyUser" />
+                                                                        </span>
+                                                                    </td>
+                                                                    <td ng-click="ManageUserForm.$show()">
+                                                                        <span e-ng-change="applyHighlightmail($data,$index,pagination.current,Manage_User._id)" editable-select="Manage_User.IsApprovedByAdmin"
+                                                                            e-form="rowform" ng-attr-title=" {{ showStatus(Manage_User) }}"
+                                                                            ng-bind="showStatus(Manage_User)" e-ng-options="s.StatusId as s.IsApprovedByAdmin for s in UserStatusValues | orderBy:'IsApprovedByAdmin'">
+                                                                               
+                                                                            
+                                                                        </span>
+                                                                    </td>
+                                                                    <td ng-click="ManageUserForm.$show()" align="center">
+                                                                        <span e-ng-change="applyHighlight($data,$index,pagination.current,Manage_User._id)" ng-click="applyHighlight($data,$index,pagination.current,Manage_User._id)"
+                                                                            ng-checked="Manage_User.IsActive" ng-attr-title="{{Manage_User.IsActive}}"
+                                                                            editable-checkbox="Manage_User.IsActive" e-form="rowform">
+                                                                            <input type="checkbox" ng-model="Manage_User.IsActive"  ng-click="applyHighlight($data,$index)"/>
+                                                                        </span>
+                                                                    </td>
+                                                            </tbody>
+                                                        </table>
+
+
+                                                    </div>
+                                                    <div class="panel-footer">
+                                                        <div class="row">
+                                                            <div class="col col-xs-8">
+                                                                <dir-pagination-controls max-size="5"  direction-links="true" on-page-change="click(pagination.current)" boundary-links="true">
+                                                                </dir-pagination-controls>
+                                                                
+                                                            </div>
+                                                            <div class="col col-xs-4 ">
+                                                                <div  ng-show="!ManageUserForm.$visible" style="float:right" title="Items Per Page">
+                                                                    Items Per Page : <select id="ItemsPerPageID" ng-model="ItemsPerPageCount"
+                                                                        ng-change="ItemsPerPageChange()">
+                                                                          <option  ng-repeat="ItemsPerPageCount in ItemsPerPageCounts" 
+                                                                          value="{{ItemsPerPageCount.PageID}}" ng-bind="ItemsPerPageCount.PageCount"></option>
+                                                                    </select>
+                                                                  
+                                                                </div>
+                                                                <div class="btn-form" ng-show="ManageUserForm.$visible" style="float: right" ng-controller="SlideController">
+                                                                    <div ng-show="UserButtonShow">
+                                                                        <button type="submit" ng-disabled="ManageUserForm.$waiting" class="btn btn-primary fa fa-save" ng-click="CheckFunctionFacility()"
+                                                                            title="Save Changes"> Save</button>
+                                                                        <input type="button" ng-disabled="ManageUserForm.$waiting" ng-click="refreshUI();ManageUserForm.$cancel()" title="Close Edit Form Without Saving Changes"
+                                                                            class="btn btn-danger fa fa-close" value="X Cancel"
+                                                                        />
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <!-- PAGE CONTENT ENDS -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                       
+                            </body>

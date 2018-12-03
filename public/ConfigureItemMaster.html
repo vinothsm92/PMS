@@ -1,0 +1,400 @@
+<script type="text/javascript">
+    try { ace.settings.loadState('sidebar') } catch (e) { }
+
+    $(function () {
+        // init plugin (with callback)
+        $('#IDs').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#DescriptionID').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#NameID').clearSearch({ callback: function () { console.log("cleared"); } });
+     
+
+    });
+
+
+</script>
+
+<style>
+    .nav-tabs {
+        border-color: #C5D0DC;
+        margin-bottom: 0!important;
+        position: relative;
+        top: 1px;
+        border: none;
+    }
+
+    .modal-dialog {
+        width: 450px;
+        margin-top:200px;
+    }
+
+    .modal-dialogUI {
+        width: 606px;
+    }
+
+    .scrollbar {
+        overflow-y: auto;
+        height: calc(100vh - 280px);
+    }
+
+    input[type=text]::-ms-clear {
+        display: none;
+    }
+
+    #divLoading {
+        display: none;
+    }
+
+    #divLoading.show {
+        display: block;
+        position: fixed;
+        z-index: 100;
+        background-image: url("assets/Images/LoadingPanel.gif");
+        /*background-color:#666;*/
+        background-color: rgba(0, 0, 0, 0.22);
+        opacity: 10.4;
+        background-repeat: no-repeat;
+        background-position: center;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        top: 0;
+    }
+
+    ::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        color: #c2c3c0;
+    }
+
+    ::-moz-placeholder {
+        /* Firefox 19+ */
+        color: #c2c3c0;
+    }
+
+    :-ms-input-placeholder {
+        /* IE 10+ */
+        color: #c2c3c0;
+    }
+
+    :-moz-placeholder {
+        /* Firefox 18- */
+        color: #c2c3c0;
+    }
+
+    .bs-example {
+        margin: 20px;
+    }
+</style>
+<script>
+    function convertToUppercase(el) {
+        if (!el || !el.value) return;
+        el.value = el.value.toUpperCase();
+    }
+</script>
+
+<script>
+    $(function () {
+      $(".sidebar ul li ul li").closest("li").find(".active").removeClass("active");
+      $("#ConfigureItemID").addClass("active").parents(".nav li").addClass("active open");
+
+  });
+</script>
+
+
+ 
+<!-- PAGE CONTENT BEGINS -->
+<body class="no-skin clearPadding" ng-show="viewaccesspage">
+<h1 ng-show="Showmessage" style="color:red;top:50%;position:fixed;left:40%  ;">Please Select the Office Location</h1>
+<div ng-show="ShowBody">
+<div class="container">
+
+    <!-- Roles Inserted -->
+    <!-- Modal -->
+    <form name="profileformAdd">
+        <div class="modal fade" id="myModal" role="dialog" tabindex="-1">
+            <div class="modal-dialog" id="myModal">
+
+                <!-- Modal content-->
+                <div class="modal-content" style="margin-top:135px">
+                    <div class="modal-header">
+
+                        <h4 class="modal-title pull-left"> Add New Configurable Item</h4>
+                        <button type="button" class="close pull-right" data-dismiss="modal" 
+                        aria-hidden="true" title="Close" ng-click="deselect()">
+                            x
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row" style="margin-bottom:1%">
+                            <div class="col-xs-3">
+                                <h6>
+                                    <strong>ID
+                                        <span style="color:green;">*</span>
+                                    </strong>
+                                </h6>
+                            </div>
+                            <div class="col-xs-9">
+                                    <!-- <input id="ID" min="0" type="number" name="ID" class="form-control" 
+                                    placeholder="Enter the ID" title="Enter the ID"
+                                    ng-model="ConfigItem.ID" ng-disabled="UniqueIndentityIDDisable"> -->
+
+                                <input type="text" id="ID" name="ID" placeholder="ID"
+                                 maxlength="100" capitalize class="form-control" 
+                                ng-model="ConfigItem.ID" ng-disabled="UniqueIndentityIDDisable"
+                                    onkeydown="return (event.keyCode!=13);" ng-change="verifyRoleDuplicate()">
+
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:1%">
+                                <div class="col-xs-3">
+                                    <h6>
+                                        <strong>Name
+                                            <span style="color:green;">*</span>
+                                        </strong>
+                                    </h6>
+                                </div>
+                                <div class="col-xs-9">
+                                    <input type="text" id="Name" name="Name" placeholder="Name" maxlength="100" capitalize class="form-control" ng-model="ConfigItem.Name"
+                                        onkeydown="return (event.keyCode!=13);" ng-change="verifyRoleDuplicate()">
+    
+                                </div>
+                            </div>
+    
+
+                        <div class="row" style="margin-bottom:1%">
+                            <div class="col-xs-3">
+                                <h6>
+                                    <strong> Description</strong>
+                                </h6>
+                            </div>
+                            <div class="col-xs-9">
+                                <textarea name="Description" placeholder="Description" style="width: 100%; max-height: 200px; max-width: 100%;"
+                                 ng-model="ConfigItem.Description"
+                                    onkeydown="return (event.keyCode!=13);" maxlength="255"></textarea>
+                            </div>
+                        </div>
+
+                      
+                    
+
+
+
+
+
+                    </div>
+                    <div class="modal-footer" ng-controller="SlideController">
+
+                        <button class="btn btn-primary" ng-click="AddConfigItem()" id="savebutton" ng-disabled="disableds || profileformAdd.$invalid" data-dismiss="modal"
+                            title=" Save Changes">Save
+
+                        </button>&nbsp;&nbsp;
+                        <button class="btn btn-primary" data-dismiss="modal" ng-click="deselect()" title="Close Add Form Without Saving Changes">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="container">
+    <form name="ConfigureItemForm">
+    <div class="modal fade" id="PopupID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel"> Delete Configurable Item</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>You are about to Delete record, Do you like to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+                <div class="modal-footer" ng-controller="SlideController">
+                    <button class="btn btn-danger" ng-show="ConfigureItemButtonShow" ng-disabled="ConfigureItemForm.$invalid" title="Yes" 
+                    ng-click="DeleteConfigureItemKey()" data-dismiss="modal">Yes</button>&nbsp;&nbsp;
+                    <button class="btn btn-primary" data-dismiss="modal"  ng-show="ConfigureItemButtonShow"  title="No" ng-click="deselect()">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+
+
+
+    <!-- Show Roles Data's -->
+
+    <div id="divLoading">
+    </div>
+
+
+    <form editable-form name="tableform1" oncancel="cancel()" onaftersave="UpdateConfigureItemsTable(Manage_Role.Description)">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel panel-default panel-table">
+
+                    <div class="panel-heading">
+                        <div class="row">
+                          
+                                <div class="col col-xs-5" >
+                                   
+                                        
+                                        
+                                    </div>
+                            <div class="col col-xs-3">
+                                <label style="-webkit-text-fill-color:#438eb9" title="Configure Item">
+                                    <b>Configurable Item (Master) </b>
+                                </label>
+                            </div>
+                            <div class="col col-xs-4 text-right" ng-controller="SlideController" style="float:right">
+                                <div ng-show="ConfigureItemButtonShow">
+                                    <button type="button" data-toggle="modal" data-target="#myModal" 
+                                    class="btn btn-sm btn-primary btn-create" ng-click="getuniqItemID()"
+                                     title="Add New Configurable Item">Add New Configurable Item</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body scrollbar">
+
+                        <table class="table table-striped table-bordered table-list"  ng-controller="SlideController">
+                            <thead>
+                                <tr>
+                                        <th  ng-show="ConfigureItemButtonShow" style="width: 5%" ><strong>
+                                            <a href="" title="Delete">Delete</a></strong></th>
+                                   
+                                    <th style="width: 20%" align="center">
+                                        <a href="" ng-click="orderByField='ID'; reverseSort = !reverseSort" title="Name">ID</a>
+                                    </th>
+                                    <th style="width: 20%" align="center">
+                                            <a href="" ng-click="orderByField='Name'; reverseSort = !reverseSort" title="Name">Name</a>
+                                        </th>
+                                    <th style="width: 55%">
+                                        <a href="" ng-click="orderByField='Description'; reverseSort = !reverseSort" title="Description">Description</a>
+                                    </th>
+
+                                  
+
+
+
+
+                                </tr>
+                            </thead>
+                            <!--<div>-->
+                            <tbody>
+
+                                <tr>
+                                  <td ng-show="ConfigureItemButtonShow"></td>
+                                    <td>
+                                        <input type="text" id="IDs" ng-model="ConfigItem1.ID" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                        />
+                                    </td>
+                                    <td>
+                                            <input type="text" id="NameID" ng-model="ConfigItem1.Name" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                            />
+                                        </td>
+                                    <td>
+                                        <input type="text" id="DescriptionID" ng-model="ConfigItem1.Description" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                        />
+                                    </td>
+                                    
+                                   
+    
+                        
+
+
+                                
+
+
+                                </tr>
+
+                                <tr dir-paginate="Manage_Role in Manage_Roleser|filter:ConfigItem1|filter:DropFilter|filter:customViewRightsFilter|orderBy:orderByField:reverseSort|itemsPerPage:ItemsPerPageCount"
+                                    pagination-id="PopupSCrollBar" current-page="pagination.current" ng-class-odd="'odd'">
+                                   
+                                    <td align="center" ng-show="ConfigureItemButtonShow" >
+                                            <a class="btn btn-danger deleteBtn" data-toggle="modal" 
+                                            ng-click="DeleteConfigureItem(Manage_Role._id)"
+                                                data-target="#PopupID" title="Delete"><em class="fa fa-trash"></em></a>
+                                        </td>
+                                    <td ng-click="tableform1.$show()">
+                                        <span e-ng-change="applyHighlight($data,$index,pagination.current,Manage_Role._id)" editable-text="Manage_Role.ID"
+                                            e-maxlength=100 ng-attr-title="{{Manage_Role.ID}}" e-ng-disabled="UniqueIndentityIDDisable"
+                                             e-required="true" e-style="text-transform:uppercase"
+                                            e-form="rowform" ng-click="rowform.$show()" ng-bind="Manage_Role.ID | uppercase">
+
+                                        </span>
+                                    </td>
+                                    <td ng-click="tableform1.$show()">
+                                        <div>
+                                            <span e-ng-change="applyHighlight($data,$index,pagination.current,Manage_Role._id)" editable-text="Manage_Role.Name"
+                                                e-form="rowform" ng-attr-title="{{Manage_Role.Name}}" e-maxlength=500
+                                                ng-click="rowform.$show()" ng-bind=" Manage_Role.Name || 'empty'">
+
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td ng-click="tableform1.$show()">
+                                            <div>
+                                                <span e-ng-change="applyHighlight($data,$index,pagination.current,Manage_Role._id)" editable-text="Manage_Role.Description"
+                                                    e-form="rowform" ng-attr-title="{{Manage_Role.Description}}" e-maxlength=500
+                                                    ng-click="rowform.$show()" ng-bind=" Manage_Role.Description || 'empty'">
+    
+                                                </span>
+                                            </div>
+                                        </td>
+
+
+                                  
+
+                                
+                                </tr>
+                            </tbody>
+
+
+                        </table>
+                     
+                    </div>
+
+                    <div class="panel-footer">
+                        <div class="row">
+                            <div class="col col-xs-8">
+                                    <dir-pagination-controls max-size="5" pagination-id="PopupSCrollBar" 
+                                      direction-links="true" on-page-change="click(pagination.current)" boundary-links="true">
+                                        </dir-pagination-controls>
+                            </div>
+
+                            <div class="col col-xs-4">
+                                <div ng-show="!tableform1.$visible" style="float:right" title="Items Per Page">
+                                    Items Per Page :
+                                    <select id="ItemsPerPageID" ng-model="ItemsPerPageCount" ng-change="ItemsPerPageChange()">
+
+                                        <option ng-repeat="ItemsPerPageCount in ItemsPerPageCounts" value="{{ItemsPerPageCount.PageID}}" ng-bind="ItemsPerPageCount.PageCount"></option>
+                                    </select>
+
+                                </div>
+                                <div class="btn-form" ng-show="tableform1.$visible" style="float:right" ng-controller="SlideController">
+                                    <div ng-show="ConfigureItemButtonShow">
+                                        <button type="submit" ng-disabled="disableds || tableform1.$waiting" title=" Save Changes" class="btn btn-primary fa fa-save"
+                                            ng-click="NotifyClick()"> Update</button>
+                                        <input type="button" ng-disabled="tableform1.$waiting" title=" Close Edit Form Without Saving Changes" 
+                                        ng-click="refreshUI();tableform1.$cancel()"
+                                            class="btn btn-danger fa fa-close" value="X Cancel" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </form>
+</div>
+
+<!-- PAGE CONTENT ENDS -->
+</body>

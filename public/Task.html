@@ -1,0 +1,1043 @@
+<style>
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+
+    .modal-dialog {
+        width: 762px;
+    }
+
+    .scrollbar {
+        overflow-y: auto;
+        height: calc(100vh - 360px);
+    }
+
+    input[type=text]::-ms-clear {
+        display: none;
+    }
+
+    #divLoading {
+        display: none;
+    }
+
+    #divLoading.show {
+        display: block;
+        position: fixed;
+        z-index: 100;
+        background-image: url("assets/Images/LoadingPanel.gif");
+        /*background-color:#666;*/
+        background-color: rgba(0, 0, 0, 0.22);
+        opacity: 10.4;
+        background-repeat: no-repeat;
+        background-position: center;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        top: 0;
+    }
+
+    ::-moz-placeholder {
+        /* Firefox 19+ */
+        text-align: left;
+    }
+
+    .Deletemodal-dialog {
+        width: 445px;
+        margin: 30px auto;
+        padding-top: 5%;
+    }
+
+    .nav-tabs {
+        border-bottom: 0px solid #ddd;
+    }
+
+    ._720kb-datepicker-calendar-day:hover,
+    ._720kb-datepicker-calendar-day._720kb-datepicker-active {
+        background: rgba(154, 123, 123, 0.34);
+    }
+
+    /* To Highlight the Current date in calender Start */
+
+    ._720kb-datepicker-calendar-day._720kb-datepicker-today {
+        background: rgb(17, 155, 230);
+        color: white;
+    }
+
+    /* To Highlight the Current date in calender  End */
+</style>
+<script>
+    function convertToUppercase(el) {
+        if (!el || !el.value) return;
+        el.value = el.value.toUpperCase();
+    } function handleFile(e) {
+
+    }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //if ($('#UpdateStartDate')[0].type != 'date') $('#UpdateStartDate').datepicker();
+        //if ($('#UpdateEndDate')[0].type != 'date') $('#UpdateEndDate').datepicker();
+    });
+
+
+    $(function () {
+        // init plugin (with callback)       
+        $('#PhaseID1').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#NameID1').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#ResourceID1').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#DurationID1').clearSearch({ callback: function () { console.log("cleared"); } });
+
+        $('#PhaseID2').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#UpdatePhaseID2').clearSearch({ callback: function () { console.log("cleared"); } });
+
+
+
+
+        $('#ResourceNameID').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#HoursID').clearSearch({ callback: function () { console.log("cleared"); } });
+        $('#CostID').clearSearch({ callback: function () { console.log("cleared"); } });
+
+
+
+
+    });
+</script>
+
+
+
+</head>
+
+<body class="no-skin clearPadding" ng-show="viewaccesspage">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 ng-show="Showmessage" style="color:red;text-align:center;padding: calc(100vh - 540px) ;">Please Select the Office Location</h1>
+            <!-- PAGE CONTENT BEGINS -->
+            <div ng-show="ShowBody">
+                <div class="container">
+                    <!-- Modal -->
+                    <form name="Taskform">
+                        <div class="modal fade pageModal" id="myModal" role="dialog" tabindex="-1">
+                            <div class="modal-dialog ">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+
+                                        <h4 class="modal-title pull-left ">
+                                            <strong>Add Task</strong>
+                                        </h4>
+                                        <button type="button" class="close pull-right" title="Close" data-dismiss="modal" aria-hidden="true">
+                                            x
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row" style="margin-bottom:1%">
+
+                                            <div class="col-xs-2">
+                                                <h6>
+                                                    <strong>Project Name</strong>
+                                                    <span class="Mandatory">*</span>
+                                                </h6>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <select id="ProjectIDDrop" title="Please Select the Project Name" typeof="text" form="Teamform" class="form-control" required
+                                                    ng-model="GetProjectDetail._id" ng-disabled="true">
+                                                    <option value="">Select</option>
+                                                    <option ng-repeat="GetProjectDetail in GetNewProjectDetails" value={{GetProjectDetail._id}} ng-bind="GetProjectDetail.ProjectName"
+                                                    />
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <h6>
+                                                    <strong>Unique ID</strong>
+                                                    <span class="Mandatory">*</span>
+                                                </h6>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <input id="UniqueID" min="0" type="number" name="UniqueID" class="form-control" placeholder="Enter the UniqueID" title="Enter the UniqueID"
+                                                    ng-model="ManageTask.UniqueID" ng-disabled="UniqueIndentityScopeDisable">
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-bottom:1%">
+                                            <div class="col-xs-2">
+                                                <h6>
+                                                    <strong>Task</strong>
+                                                    <span class="Mandatory">*</span>
+                                                </h6>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <input id="NameID" type="text" name="Name" class="form-control" placeholder="Enter the Task Name" title="Enter the Task Name"
+                                                    ng-model="ManageTask.TaskDescription" ng-required="true">
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <h6>
+                                                    <strong>Resource </strong>
+                                                    <span class="Mandatory">*</span>
+                                                </h6>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <select id="ResourceName" required typeof="text" form="Taskform" class="form-control" required ng-model="ManageTask.TeamMemberUserID">
+                                                    <option value="">Select</option>
+                                                    <option ng-repeat="ResourcesBasedProjects in GetResourcesBasedProjects" value="{{ResourcesBasedProjects.TeamMemberUserID}}"
+                                                        ng-bind="ResourcesBasedProjects.TeamMemberUserID">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-bottom:1%">
+                                            <div class="col-xs-2">
+                                                <h6>
+                                                    <strong>Type</strong>
+                                                    <span class="Mandatory">*</span>
+                                                </h6>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <select id="Type" required typeof="text" form="Taskform" class="form-control" required ng-model="ManageTask.TypeNew">
+                                                    <option value="">Select</option>
+                                                    <option ng-repeat="Typessssss in Type" value="{{Typessssss.key}}" ng-bind="Typessssss.key">
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <h6>
+                                                    <strong>Is Billable</strong>
+                                                    <span class="Mandatory">*</span>
+                                                </h6>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <select id="IsBillable" required typeof="text" form="Taskform" class="form-control" required ng-model="ManageTask.IsBillable">
+                                                    <option value="">Select</option>
+                                                    <option ng-repeat="BillingType in IsBIllable" value="{{BillingType.key}}" ng-bind="BillingType.key">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-bottom:1%">
+                                            <div class="col-xs-2">
+                                                <h6>
+                                                    <strong>ISCR</strong>
+                                                    <span class="Mandatory">*</span>
+                                                </h6>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <select id="ISCR" required typeof="text" form="Taskform" class="form-control" required ng-model="ManageTask.IsCR">
+                                                    <option value="">Select</option>
+                                                    <option ng-repeat="ISCRs in IsCR" value="{{ISCRs.key}}" ng-bind="ISCRs.key">
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <h6>
+                                                    <strong>Effort (hrs)</strong>
+                                                    <span class="Mandatory">*</span>
+                                                </h6>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <input id="DurationID" type="number" name="Duration" min="0" class="form-control" placeholder="Enter the Effort" title="Enter the Effort"
+                                                    ng-model="ManageTask.Duration" ng-required="true">
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-bottom:1%">
+                                            <div class="col-xs-2">
+                                                <h6>
+                                                    <strong>Predecessor</strong>
+                                                </h6>
+                                            </div>
+                                            <div class="col-xs-4">
+                                                <input id="PredecessorID" type="text" name="Predecessor" class="form-control" placeholder="Enter the Predecessor" title="Enter the Predecessor"
+                                                    ng-model="ManageTask.Predecessors">
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <h6>
+                                                    <strong>Start Date
+                                            </div>
+                                            <div class="col-xs-4">
+
+                                                <div datepicker datepicker-class="test-custom-class" date-format="dd-MM-y" date-disabled-weekdays="[0,6]">
+                                                    <input type="text" id="AddStartDate" name="AddStartDateName" placeholder="Enter Start Date" title="Enter Start Date" ng-model="ManageTask.PlanStartDate"
+                                                        onkeydown="return false" class="form-control angular-datepicker-input"
+                                                        required ng-change="StartDateChange(ManageTask.PlanStartDate,GetProjectDetail._id)"
+                                                    />
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row" style="margin-bottom:1%">
+                                            <div class="col-xs-2">
+                                                <h6>
+                                                    <strong>Phase</strong>
+                                                    <span class="Mandatory">*</span>
+                                                </h6>
+                                            </div>
+                                            <div class="col-xs-4">
+
+
+                                                <select id="PhaseID" required typeof="text" form="Taskform" class="form-control" required ng-model="ManageTask.TaskCategoryName">
+                                                    <option value="">Select</option>
+                                                    <option ng-repeat="Phases in Phase" value="{{Phases.key}}" ng-bind="Phases.key">
+                                                </select>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <h6>
+                                                    <strong>End Date</strong>
+                                                    <span class="Mandatory">*</span>
+                                                </h6>
+                                            </div>
+                                            <div class="col-xs-4">
+
+                                                <div datepicker datepicker-class="test-custom-class" date-format="dd-MM-y" date-disabled-weekdays="[0,6]">
+                                                    <input type="text" id="AddEndDate" name="AddEndDateName" placeholder="Enter End Date" title="Enter End Date" ng-model="ManageTask.PlanEndDate"
+                                                        class="form-control angular-datepicker-input" required ng-disabled="Enddatedisable"
+                                                        onkeydown="return false" ng-change="EndateChange(ManageTask.PlanEndDate,GetProjectDetail._id)"
+                                                    />
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row" style="margin-bottom:1%">
+                                            <div class="col-xs-2">
+                                                <h6>
+                                                    <strong>Mail</strong>
+                                                </h6>
+                                            </div>
+                                            <div class="col-xs-4">
+
+
+                                                <input type="checkbox" name="IsActive" class="form-control" ng-model="ManageTask.isMailSend" style="width:20px;" />
+                                            </div>
+                                            <div class="col-xs-2">
+                                                    <h6>
+                                                            <strong>Configurable Item</strong>
+                                                        </h6>
+                                            </div>
+                                            <div class="col-xs-4">
+
+                                                    <select id="ConfigurableItemID" required typeof="text" form="Taskform" class="form-control" 
+                                                    required ng-model="ConfigurableItem.Name">
+                                                            <option value="">Select</option>
+                                                            <option ng-repeat="ConfigurableItem in ConfigurableItemNames" value="{{ConfigurableItem.ID}}" ng-bind="ConfigurableItem.Name">
+                                                        </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary" ng-click="SaveTask()" ng-disabled="disableds || Taskform.$invalid" title="Save Changes" data-dismiss="modal">Save</button>&nbsp;&nbsp;
+                                        <button class="btn btn-primary" ng-click="cancel()" title="Close Add Form Without Saving Changes" data-dismiss="modal">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- PAGE CONTENT BEGINS -->
+                <div>
+
+                    <!--Grid Code-->
+                    <div>
+                        <form editable-form name="tableform1" oncancel="cancel()" onaftersave="saveTable(Manage_Role.Description)">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="panel panel-default panel-table">
+
+                                        <div class="panel-heading">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <ul class="nav nav-tabs">
+                                                        <li>
+
+
+                                                        </li>
+
+                                                        <li class="active">
+                                                            <a data-toggle="tab" ng-click="ExcelUploadTasks('Grid1')" href="" title="Upload Tasks">Upload Tasks
+                                                            </a>
+
+                                                        </li>
+
+                                                        <li>
+                                                            <a data-toggle="tab" ng-click="ExcelUpdatePhaseEndDate('Grid2')" href="" title="Update Phase EndDate">Update Phase EndDate
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a data-toggle="tab" ng-click="ViewTask('Grid3')" href="" title="View Loaded Cost">View Loaded Cost
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col col-md-2" style="text-align:center">
+                                                    <label style="-webkit-text-fill-color:#438eb9;" title="Manage Task">
+                                                        <b>Manage Task </b>
+                                                    </label>
+                                                </div>
+                                                <input type="file" ng-show="FileUploadVisible" id="ExcelFileUpload" accept=".xls,.xlsx,.ods" customerfileread="" opts="ExcelTrigger" multiple="false" />
+                                                <div ng-controller="SlideController" class="col col-md-5 text-right">
+                                                    <div class="col-md-4" ng-show="FileUploadVisible">
+
+                                                        <div style="position:relative">
+                                                            <input style="width:144%" ng-show="false" type="file" name="xlfile" id="xlf" />
+                                                          
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-8" style="float:right">
+                                                        <button type="button" ng-show="FileUploadVisible" data-toggle="modal" class="btn btn-sm btn-primary btn-create" ng-click="ExcelExport()" title="Excel Template">Excel Template</button>
+                                                        <button ng-show="AddTask1&&addbuttonfalse&&FileUploadVisible" type="button" data-toggle="modal" data-target="#myModal" class="btn btn-sm btn-primary btn-create"
+                                                            ng-click="getProjName()" title="Add Task">Add Task</button>
+                                                        <br>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row" style="margin-bottom:1%">
+                                                <div class="col-xs-1" style="width:10%">
+                                                    <h6 title="Project Name">
+                                                        <strong>Project Name</strong>
+                                                        <span class="Mandatory">*</span>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <select id="ProjectIDDrop" title="Please Select the Project Name" typeof="text" form="Teamform" class="form-control" required
+                                                        ng-model="GetProjectDetail._id" ng-change="ProjectNameChange(GetProjectDetail._id)">
+                                                        <option value="" disabled>Select</option>
+                                                        <option ng-repeat="GetProjectDetail in GetNewProjectDetails" value={{GetProjectDetail._id}} ng-bind="GetProjectDetail.ProjectName"
+                                                        />
+                                                    </select>
+                                                </div>
+                                                <div class="col-xs-1" style="width:10%">
+                                                    <h6 title="Team Leader">
+                                                        <strong>Team Leader</strong>
+                                                        <span class="Mandatory">*</span>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <input type="text" id="AddTeamLead" class="form-control" ng-disabled="true" ng-model="GetteamleaderDetails[0].TeamLeaderUserID"
+                                                        placeholder="Team Leader" ng-required="true">
+                                                </div>
+
+                                                <!-- <div class="col-xs-1" style="width:10%">
+                                                    <h6 title="Filter By ">
+                                                        <strong>Filter By </strong>
+                                                        <span class="Mandatory">*</span>
+                                                    </h6>
+                                                </div> -->
+                                                <div class="col-xs-5"  ng-init="radioption='Loaded Cost'"   style="margin-left:20px;margin-top:7px">
+
+
+                                                   
+                                                            <input type="radio" id="radio1" ng-model="radioption" name="rdboption" value="Raw Cost" tabindex="1" ng-change="BindRawCost()"/>
+                                                            <label for="radio1">By Raw Cost</label>
+
+                                                            <input type="radio" id="radio2" style="margin-left:20px" ng-model="radioption"  name="rdboption"  value="Loaded Cost"  
+                                                            tabindex="2" ng-change="BindLoadedCost()"/>
+                                                            <label for="radio2">By Loaded Cost</label>
+                                                 
+                                                   
+                                                   
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="panel-body scrollbar" ng-show="Grid1visile">
+                                            <table class="table table-striped table-bordered table-list">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 15%" align="center">
+                                                            <a href="" ng-click="orderByField='TaskCategoryName'; reverseSort = !reverseSort" title="Phase">
+                                                                Phase</a>
+                                                        </th>
+                                                        <th style="width: 15%">
+                                                            <a href="" ng-click="orderByField='TaskDescription'; reverseSort = !reverseSort" title="Task">
+                                                                Task</a>
+                                                        </th>
+                                                        <th style="width: 15% " align="center">
+                                                            <a href="" ng-click="orderByField='TeamMemberUserID'; reverseSort = !reverseSort" title="Resource">
+                                                                Resource </a>
+                                                        </th>
+                                                        <th style="width: 15% " align="center">
+                                                            <a href="" ng-click="orderByField='PlanStartDate';
+                                                                reverseSort = !reverseSort" title="Start Date">Start Date</a>
+                                                        </th>
+                                                        <th style="width: 15% " align="center">
+                                                            <a href="" ng-click="orderByField='PlanEndDate';
+                                                                reverseSort = !reverseSort" title="End Date">End Date</a>
+                                                        </th>
+                                                        <th style="width: 15% " align="center">
+                                                            <a href="" ng-click="orderByField='Duration';
+                                                                reverseSort = !reverseSort" title="Effort (hrs)">Effort (hrs)</a>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                    <tr>
+
+
+                                                        <td>
+                                                            <input type="text" id="PhaseID1" ng-model="ManageTaskDetails.TaskCategoryName" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" id="NameID1" ng-model="ManageTaskDetails.TaskDescription" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" id="ResourceID1" ng-model="ManageTaskDetails.TeamMemberUserID" placeholder="search" class="searchbox"
+                                                                onkeydown="return (event.keyCode!=13);" />
+                                                        </td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>
+                                                            <input type="text" id="DurationID1" ng-model="ManageTaskDetails.Duration" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                    <tr dir-paginate="GetTaskGridValue in GetTaskGridValues|orderBy:'_id':'Desc' | filter:customProjectNameFilter | filter:ManageTaskDetails|orderBy:orderByField:reverseSort|itemsPerPage:ItemsPerPageCount"
+                                                        pagination-id="MainGridCrollBar" ng-class-odd="'odd'">
+                                                        <td>
+                                                            <span ng-attr-title="{{GetTaskGridValue.TaskCategoryName}}" ng-bind="GetTaskGridValue.TaskCategoryName">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span ng-attr-title="{{GetTaskGridValue.TaskDescription}}" ng-bind="GetTaskGridValue.TaskDescription">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span ng-attr-title="{{GetTaskGridValue.TeamMemberUserID}}" ng-bind="GetTaskGridValue.TeamMemberUserID">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span ng-attr-title="{{GetTaskGridValue.PlanStartDate}}" ng-bind="GetTaskGridValue.PlanStartDate">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span ng-attr-title="{{GetTaskGridValue.PlanEndDate}}" ng-bind="GetTaskGridValue.PlanEndDate| date: 'dd-MM-yyyy'">
+                                                            </span>
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            <span ng-attr-title="{{GetTaskGridValue.Duration}}" ng-bind="GetTaskGridValue.Duration">
+                                                            </span>
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+
+
+                                            </table>
+                                        </div>
+
+
+
+
+                                        <div class="panel-body scrollbar" ng-show="Grid2visile">
+
+                                            <table class="table table-striped table-bordered table-list">
+                                                <thead>
+                                                    <!-- <tr>
+                                                                <th style="width: 20%" align="center">
+                                                                    <a href="" ng-click="orderByField='Phase'; reverseSort = !reverseSort" title="Phase">
+                                                               Phase</a>
+                                                                </th>
+
+                                                                <th style="width: 10% " align="center">
+                                                                    <a href="" ng-click="orderByField='TeamMemberUserID'; reverseSort = !reverseSort" title="Planned Start Date">
+                                                                Planned Start Date</a>
+                                                                </th>
+                                                                <th style="width:10% " align="center"><a href="" ng-click="orderByField='PlanEndDate';
+                                                                reverseSort = !reverseSort" title="Planned End Date">Planned End Date</a>
+                                                                </th>
+                                                                <th style="width: 15% " align="center"><a href="" ng-click="orderByField='Actual Start Date';
+                                                                reverseSort = !reverseSort" title="Actual Start Date">Actual Start Date</a>
+                                                                </th>
+                                                                <th style="width: 45% " align="center"><a href="" ng-click="orderByField='ActualEndDate';
+                                                                reverseSort = !reverseSort" title="Actual End Date">Actual End Date</a>
+                                                                </th>
+                                                            </tr> -->
+
+
+
+
+
+
+
+
+
+                                                    <tr>
+                                                        <th style="width: 15%" align="center">
+                                                            <a href="" ng-click="orderByField='TaskCategoryName'; reverseSort = !reverseSort" title="Phase">
+                                                                Phase</a>
+                                                        </th>
+                                                        <th style="width: 15%">
+                                                            <a href="" ng-click="orderByField='TaskDescription'; reverseSort = !reverseSort" title="Task">
+                                                                Task</a>
+                                                        </th>
+                                                        <th style="width: 15% " align="center">
+                                                            <a href="" ng-click="orderByField='TeamMemberUserID'; reverseSort = !reverseSort" title="Resource ">
+                                                                Resource</a>
+                                                        </th>
+                                                        <th style="width: 15% " align="center">
+                                                            <a href="" ng-click="orderByField='PlanStartDate';
+                                                                reverseSort = !reverseSort" title="Start Date">Start Date</a>
+                                                        </th>
+                                                        <th style="width: 15% " align="center">
+                                                            <a href="" ng-click="orderByField='PlanEndDate';
+                                                                reverseSort = !reverseSort" title="End Date">End Date</a>
+                                                        </th>
+                                                        <th style="width: 15% " align="center">
+                                                            <a href="" ng-click="orderByField='Duration';
+                                                                reverseSort = !reverseSort" title="Actual End Date">Actual End Date</a>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <tr>
+
+
+                                                        <td>
+                                                            <input type="text" id="PhaseID2" ng-model="ClientDetailF.TaskCategoryName" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                            />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" id="UpdatePhaseID2" ng-model="ClientDetailF.TaskDescription" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                            />
+                                                        </td>
+                                                        <td>
+
+                                                        </td>
+                                                        <td>
+
+                                                        </td>
+                                                        <td></td>
+                                                        <td></td>
+
+                                                    </tr>
+                                                    <tr dir-paginate="GetTaskGridValue in GetTaskGridValues|orderBy:'_id':'Desc' | filter:customProjectNameFilter | filter:ClientDetailF|orderBy:orderByField:reverseSort|itemsPerPage:ItemsPerPageCount"
+                                                        pagination-id="MainGridCrollBar2" ng-class-odd="'odd'" ng-style="{'background-color': (GetTaskGridValue.DateMismatched == true ? '#F78369 ' : '') } ">
+
+                                                        <td>
+                                                            <span ng-attr-title="{{GetTaskGridValue.TaskCategoryName}}" ng-bind="GetTaskGridValue.TaskCategoryName">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span ng-attr-title="{{GetTaskGridValue.TaskDescription}}" ng-bind="GetTaskGridValue.TaskDescription">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span ng-attr-title="{{GetTaskGridValue.TeamMemberUserID}}" ng-bind="GetTaskGridValue.TeamMemberUserID">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span ng-attr-title="{{GetTaskGridValue.PlanStartDate}}" ng-bind="GetTaskGridValue.PlanStartDate">
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span ng-attr-title="{{GetTaskGridValue.PlanEndDate}}" ng-bind="GetTaskGridValue.PlanEndDate">
+                                                            </span>
+                                                        </td>
+                                                        
+                                                        <td>
+                                                            <div datepicker datepicker-class="test-custom-class" date-format="dd-MM-y">
+
+                                                                <input type="text" id="AddStartDate" placeholder="Enter Actual End Date" title="Enter Actual End Date" ng-model="GetTaskGridValue.ActualEndDate"
+                                                                    onkeydown="return false" class="form-control angular-datepicker-input"
+                                                                    required />
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+
+
+                                            </table>
+
+
+                                        </div>
+
+
+                                        <div class="panel-body scrollbar" ng-show="Grid3visile ">
+
+                                            <table class="table table-striped table-bordered table-list">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 10%" align="center">
+                                                            <a href="" ng-click="orderByField=' ResourceName'; reverseSort = !reverseSort" title="Resource">
+                                                                Resource </a>
+                                                        </th>
+
+                                                        <th style="width: 10% " align="center">
+                                                            <a href="" ng-click="orderByField='Hours'; reverseSort = !reverseSort" title="Planned Effort (Hours)">
+                                                                Planned Effort (hrs)</a>
+                                                        </th>
+                                                        <th style="width:10% " align="center">
+                                                            <a href="" ng-click="orderByField='Cost';
+                                                                    reverseSort = !reverseSort" title="Raw Cost per Hour">Raw Cost per Hour</a>
+                                                        </th>
+                                                        <th style="width:10% " align="center">
+                                                            <a href="" ng-click="orderByField='Cost';
+                                                                reverseSort = !reverseSort" title=" Planned Budget">Planned Budget</a>
+                                                        </th>
+                                                        <th style="width:10% " align="center">
+                                                            <a href="" ng-click="orderByField='ActualHour';
+                                                                    reverseSort = !reverseSort" title="Actual Hour">Actual Hour</a>
+                                                        </th>
+                                                        <th style="width:10% " align="center">
+                                                            <a href="" ng-click="orderByField='ActualCost';
+                                                                        reverseSort = !reverseSort" title="Actual Cost">Actual Cost</a>
+                                                        </th>
+                                                        <th style="width:10% " align="center">
+                                                            <a href="" ng-click="orderByField='ActualCost';
+                                                                            reverseSort = !reverseSort" title=" Planned Vs. Actuals">
+                                                            Planned Vs. Actuals</a>
+                                                        </th>
+
+
+
+
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <tr>
+
+
+                                                        <td>
+                                                            <input type="text" id="ResourceNameID" ng-model="LoadedTaskDetails.Name" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                            />
+                                                        </td>
+
+                                                        <!-- "{'background-color': (DurationWithName.PlannedVsActual >= 0? '#9EFFBF ' : '#fb9999') }" -->
+                                                    </tr>
+                                                    <tr dir-paginate="DurationWithName in DurationWithNames|orderBy:'_id':'Desc' | filter:customProjectNameFilter | filter:LoadedTaskDetails|orderBy:orderByField:reverseSort|itemsPerPage:ItemsPerPageCount"
+                                                        pagination-id="MainGridCrollBar3" ng-class-odd="'odd'"
+                                                         ng-style="DurationWithName.PlannedVsActual == 0 && {'background-color':'#ffffff'}  || DurationWithName.PlannedVsActual > 0 && {'background-color':'#9EFFBF'} || DurationWithName.PlannedVsActual < 0 && {'background-color':'#fb9999'}">
+
+                                                        <td>
+                                                            <span ng-attr-title="{{DurationWithName.Name}}" ng-bind="DurationWithName.Name">
+                                                            </span>
+                                                        </td>
+
+                                                        <td align="right">
+                                                            <span ng-attr-title="{{DurationWithName.Duration}}" ng-bind="DurationWithName.Duration">
+                                                            </span>
+                                                        </td>
+
+                                                        <td align="right">
+                                                            <span ng-attr-title="{{DurationWithName.PerHourCostValue}}" ng-bind="(DurationWithName.PerHourCostValue)">
+                                                            </span>
+                                                        </td>
+
+
+                                                        <td align="right">
+                                                            <span ng-attr-title="{{DurationWithName.PlannedBudget}}" ng-bind="(DurationWithName.PlannedBudget).toFixed(2)">
+                                                            </span>
+                                                        </td>
+                                                        <td align="right">
+                                                            <span ng-attr-title="{{DurationWithName.ActualHour}}" ng-bind="(DurationWithName.ActualHour)">
+                                                            </span>
+                                                        </td>
+
+                                                        <td align="right">
+                                                            <span ng-attr-title="{{DurationWithName.ActualCost}}" ng-bind="(DurationWithName.ActualCost)">
+                                                            </span>
+                                                        </td>
+                                                        <td align="right">
+
+                                                            <span ng-attr-title="{{DurationWithName.PlannedVsActual}}" ng-bind="(DurationWithName.PlannedVsActual)">
+
+
+
+                                                            </span>
+                                                        </td>
+
+
+                                                    </tr>
+                                                   
+                                                 
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+
+
+                                        <div class="panel-body scrollbar" ng-show="Grid4visile">
+
+                                                <table class="table table-striped table-bordered table-list">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 10%" align="center">
+                                                                <a href="" ng-click="orderByField=' ResourceName'; reverseSort = !reverseSort" title="Resource">
+                                                                    Resource </a>
+                                                            </th>
+    
+                                                            <th style="width: 10% " align="center">
+                                                                <a href="" ng-click="orderByField='Hours'; reverseSort = !reverseSort" title="Planned Effort (Hours)">
+                                                                    Planned Effort (hrs)</a>
+                                                            </th>
+                                                            <th style="width:10% " align="center">
+                                                                <a href="" ng-click="orderByField='Cost';
+                                                                        reverseSort = !reverseSort" title="Raw Cost per Hour">Raw Cost per Hour</a>
+                                                            </th>
+                                                            <th style="width:10% " align="center">
+                                                                <a href="" ng-click="orderByField='Cost';
+                                                                    reverseSort = !reverseSort" title=" Planned Budget">Planned Budget</a>
+                                                            </th>
+                                                            <th style="width:10% " align="center">
+                                                                <a href="" ng-click="orderByField='ActualHour';
+                                                                        reverseSort = !reverseSort" title="Actual Hour">Actual Hour</a>
+                                                            </th>
+                                                            <th style="width:10% " align="center">
+                                                                <a href="" ng-click="orderByField='ActualCost';
+                                                                            reverseSort = !reverseSort" title="Actual Cost">Actual Cost</a>
+                                                            </th>
+                                                            <th style="width:10% " align="center">
+                                                                <a href="" ng-click="orderByField='ActualCost';
+                                                                                reverseSort = !reverseSort" title=" Planned Vs. Actuals">
+                                                                Planned Vs. Actuals</a>
+                                                            </th>
+    
+    
+    
+    
+                                                        </tr>
+                                                    </thead>
+    
+                                                    <tbody>
+                                                        <tr>
+    
+    
+                                                            <td>
+                                                                <input type="text" id="ResourceNameID" ng-model="LoadedTaskDetails.Name" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                                />
+                                                            </td>
+    
+                                                            <!-- "{'background-color': (DurationWithName.PlannedVsActual >= 0? '#9EFFBF ' : '#fb9999') }" -->
+                                                        </tr>
+                                                        <tr dir-paginate="DurationWithName in DurationWithNames|orderBy:'_id':'Desc' | filter:customProjectNameFilter | filter:LoadedTaskDetails|orderBy:orderByField:reverseSort|itemsPerPage:ItemsPerPageCount"
+                                                            pagination-id="MainGridCrollBar3" ng-class-odd="'odd'"
+                                                             ng-style="DurationWithName.PlannedVsActual == 0 && {'background-color':'#ffffff'}  || DurationWithName.PlannedVsActual > 0 && {'background-color':'#9EFFBF'} || DurationWithName.PlannedVsActual < 0 && {'background-color':'#fb9999'}">
+    
+                                                            <td>
+                                                                <span ng-attr-title="{{DurationWithName.Name}}" ng-bind="DurationWithName.Name">
+                                                                </span>
+                                                            </td>
+    
+                                                            <td align="right">
+                                                                <span ng-attr-title="{{DurationWithName.Duration}}" ng-bind="DurationWithName.Duration">
+                                                                </span>
+                                                            </td>
+    
+                                                            <td align="right">
+                                                                <span ng-attr-title="{{DurationWithName.PerHourCostValue}}" ng-bind="(DurationWithName.PerHourCostValue)">
+                                                                </span>
+                                                            </td>
+    
+    
+                                                            <td align="right">
+                                                                <span ng-attr-title="{{DurationWithName.PlannedBudget}}" ng-bind="(DurationWithName.PlannedBudget).toFixed(2)">
+                                                                </span>
+                                                            </td>
+                                                            <td align="right">
+                                                                <span ng-attr-title="{{DurationWithName.ActualHour}}" ng-bind="(DurationWithName.ActualHour)">
+                                                                </span>
+                                                            </td>
+    
+                                                            <td align="right">
+                                                                <span ng-attr-title="{{DurationWithName.ActualCost}}" ng-bind="(DurationWithName.ActualCost)">
+                                                                </span>
+                                                            </td>
+                                                            <td align="right">
+    
+                                                                <span ng-attr-title="{{DurationWithName.PlannedVsActual}}" ng-bind="(DurationWithName.PlannedVsActual)">
+    
+    
+    
+                                                                </span>
+                                                            </td>
+    
+    
+                                                        </tr>
+                                                       
+                                                     
+                                                    </tbody>
+    
+                                                </table>
+                                            </div>
+
+                                        <div class="panel-footer" ng-show="Grid3visile">
+                                           
+                                            <div class="row">
+
+                                               <table>
+                                                   <tbody>
+                                                        <tr   ng-style="TotalPlannedVsActuals == 0 && {'background-color':'#ffffff'}  || TotalPlannedVsActuals > 0 && {'background-color':'#9EFFBF'} || TotalPlannedVsActuals < 0 && {'background-color':'#fb9999'}">
+                                                          
+                                                                            <td class="col-xs-3" >Summary </td>
+                                                                            <td class="col-xs-1" >
+                                                                                {{TotalEffort}}
+                
+                                                                            </td>
+                                                                            <td  class="col-xs-2">
+                                                                              
+                                                                            </td>
+                                                                            <td  class="col-xs-3" >
+                                                                                {{TotalBudget.toFixed(2)}}
+                
+                
+                                                                            </td>
+                                                                            <td class="col-xs-1">
+                                                                                {{TotalActualHour}}
+                
+                
+                
+                                                                            </td>
+                                                                            <td  class="col-xs-3">
+                                                                                {{TotalActualCost.toFixed(2)}}
+                
+                                                                            </td>
+                                                                            <td class="col-xs-3">
+                                                                                {{TotalPlannedVsActuals}}
+                
+                                                                            </td>
+                                                                     
+                                                        </tr>
+                                                       
+                                                   </tbody>
+                                               </table>
+
+
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="panel-footer" ng-show="Grid4visile">
+                                           
+                                                <div class="row">
+    
+                                                   <table>
+                                                       <tbody>
+                                                            <tr   ng-style="TotalPlannedVsActuals == 0 && {'background-color':'#ffffff'}  || TotalPlannedVsActuals > 0 && {'background-color':'#9EFFBF'} || TotalPlannedVsActuals < 0 && {'background-color':'#fb9999'}">
+                                                              
+                                                                                <td class="col-xs-3">Summary </td>
+                                                                                <td class="col-xs-1" >
+                                                                                    {{TotalEffort}}
+                    
+                                                                                </td>
+                                                                                <td  class="col-xs-2">
+                                                                                  
+                                                                                </td>
+                                                                                <td  class="col-xs-3" >
+                                                                                    {{TotalBudget.toFixed(2)}}
+                    
+                    
+                                                                                </td>
+                                                                                <td class="col-xs-1">
+                                                                                    {{TotalActualHour}}
+                    
+                    
+                    
+                                                                                </td>
+                                                                                <td  class="col-xs-3">
+                                                                                    {{TotalActualCost.toFixed(2)}}
+                    
+                                                                                </td>
+                                                                                <td class="col-xs-3">
+                                                                                    {{TotalPlannedVsActuals}}
+                    
+                                                                                </td>
+                                                                         
+                                                            </tr>
+                                                           
+                                                       </tbody>
+                                                   </table>
+    
+    
+    
+                                                </div>
+    
+                                            </div>
+    
+
+                                        <div class="panel-footer" ng-show="Grid1visile">
+                                            <div class="row">
+                                                <div class="col col-xs-8">
+                                                    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" pagination-id="MainGridCrollBar">
+                                                    </dir-pagination-controls>
+
+                                                </div>
+
+                                                <div class="col col-xs-4">
+                                                    <div ng-show="!tableform1.$visible" style="float:right">
+                                                        Items Per Page :
+                                                        <select id="ItemsPerPageID" ng-model="ItemsPerPageCount"
+                                                            ng-change="ItemsPerPageChange()">
+                                                            <option ng-repeat="ItemsPerPageCount in ItemsPerPageCounts" value="{{ItemsPerPageCount.PageID}}" ng-bind="ItemsPerPageCount.PageCount"></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="btn-form" ng-show="tableform1.$visible" style="float:right" ng-controller="SlideController">
+                                                        <div ng-show="RoleButtonShow">
+                                                            <button type="submit" ng-disabled="tableform1.$waiting" title=" Save Changes" class="btn btn-primary fa fa-save" ng-click="NotifyClick()">
+                                                            Save</button>
+                                                            <input type="button" ng-disabled="tableform1.$waiting" title=" Close Edit Form Without Saving Changes" ng-click="refreshUI();tableform1.$cancel()"
+                                                                class="btn btn-danger fa fa-close" value="X Cancel" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel-footer" ng-show="Grid2visile">
+                                            <div class="row">
+                                                <div class="col col-xs-8">
+
+
+                                                    <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" pagination-id="MainGridCrossfsfdllBar2">
+                                                    </dir-pagination-controls>
+                                                </div>
+
+
+                                                <div ng-controller="SlideController" class="col col-xs-4">
+                                                    <div ng-show="AddTask1" style="float:right">
+
+                                                        <button type="button" data-toggle="modal" class="btn btn-sm btn-primary btn-create" ng-click="TaskPhaseUpdate()" title="Update">Update</button>
+
+                                                    </div>
+                                                    <div class="btn-form">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+
+
+                </div>
+
+
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+
+
+        </div>
+        <!-- PAGE CONTENT ENDS -->
+
+    </div>
+</body>

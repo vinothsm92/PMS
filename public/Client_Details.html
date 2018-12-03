@@ -1,0 +1,582 @@
+ 
+    <script type="text/javascript">
+        try { ace.settings.loadState('sidebar') } catch (e) { }
+        $(function () {
+
+            $('#ClientNameID').clearSearch({ callback: function () { console.log("cleared"); } });
+            $('#ContactPersonID').clearSearch({ callback: function () { console.log("cleared"); } });
+            $('#EmailID').clearSearch({ callback: function () { console.log("cleared"); } });
+            $('#ClientLocationID').clearSearch({ callback: function () { console.log("cleared"); } });
+            $('#PhoneNumberID').clearSearch({ callback: function () { console.log("cleared"); } });
+            $('#OtherInfoID').clearSearch({ callback: function () { console.log("cleared"); } });
+        });
+
+        $(function () {
+        $(".sidebar ul li ul li").closest("li").find(".active").removeClass("active");
+        $("#Client_DetailsID").addClass("active").parents(".nav li").addClass("active open");
+
+    });
+    </script>
+
+
+    <style>
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        ::-webkit-input-placeholder {
+            /* Chrome/Opera/Safari */
+            color: #c2c3c0;
+        }
+
+        ::-moz-placeholder {
+            /* Firefox 19+ */
+            color: #c2c3c0;
+        }
+
+        :-ms-input-placeholder {
+            /* IE 10+ */
+            color: #c2c3c0;
+        }
+
+        :-moz-placeholder {
+            /* Firefox 18- */
+            color: #c2c3c0;
+        }
+
+        .modal-dialog {
+            width: 762px;
+        }
+
+        .scrollbar {
+            overflow-y: auto;
+            height: calc(100vh - 280px);
+        }
+
+        input[type=text]::-ms-clear {
+            display: none;
+        }
+
+        #divLoading {
+            display: none;
+        }
+
+        #divLoading.show {
+            display: block;
+            position: fixed;
+            z-index: 100;
+            background-image: url("assets/Images/LoadingPanel.gif");
+            /*background-color:#666;*/
+            background-color: rgba(0, 0, 0, 0.22);
+            opacity: 10.4;
+            background-repeat: no-repeat;
+            background-position: center;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            top: 0;
+        }
+
+        ::-moz-placeholder {
+            /* Firefox 19+ */
+            text-align: left;
+        }
+
+        .Deletemodal-dialog {
+            width: 445px;
+            margin: 30px auto;
+            padding-top: 5%;
+        }
+    </style>
+    <script>
+        function convertToUppercase(el) {
+            if (!el || !el.value) return;
+            el.value = el.value.toUpperCase();
+        }
+    </script>
+
+
+
+
+
+<body class="no-skin clearPadding"  ng-show="viewaccesspage">
+<div class="row">
+    <div class="col-xs-12">
+        <h1 ng-show="Showmessage" style="color:red;text-align:center;padding: calc(100vh - 540px) ;">Please Select the Office Location</h1>
+        <!-- PAGE CONTENT BEGINS -->
+        <div ng-show="ShowBody">
+
+            <div class="container">
+                <!-- Modal -->
+                <form name="Cilentform">
+                    <div class="modal fade" id="myModal" role="dialog" tabindex="-1">
+                        <div class="modal-dialog ">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+
+                                    <h4 class="modal-title pull-left ">
+                                        <strong>Add Client Details</strong>
+                                    </h4>
+                                    <button type="button" class="close pull-right" title="Close" ng-click="clear()" data-dismiss="modal" aria-hidden="true">
+                                        x
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="row" style="margin-bottom:1%">
+                                        <div class="col-xs-2">
+                                            <h6>
+                                                <strong>Client Name</strong>
+                                                <span class="Mandatory">*</span>
+                                            </h6>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <input id="ClientNameid" type="text" name="ClientName" onKeyPress="if(this.value.length==100) return false;" class="form-control"
+                                                placeholder="Enter Client Name" title="Enter Client Name" ng-model="clientdetails.ClientName"
+                                                ng-required="true" ng-change="AddDuplicate(clientdetails.ClientName)" capitalize>
+                                            <span ng-show="Cilentform.ClientName.$error.required &&
+                                                                     (Cilentform.ClientName.$dirty )" style="color:red"
+                                                class="help-block">Client Name is required.</span>
+
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <h6>
+                                                <strong>Client Location</strong>
+                                                <span class="Mandatory">*</span>
+                                            </h6>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <input type="text" name="ClientLocation" onKeyPress="if(this.value.length==25) return false;" class="form-control" ng-model="clientdetails.ClientLocation"
+                                                placeholder="Enter Client Location" title="Enter Client Location" ng-required="true">
+                                            <span ng-show="Cilentform.ClientLocation.$error.required &&
+                                                                     (Cilentform.ClientLocation.$dirty )" style="color:red"
+                                                class="help-block">Client Location is required.</span>
+
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row" style="margin-bottom:1%">
+                                        <div class="col-xs-2">
+                                            <h6>
+                                                <strong>Contact Person</strong>
+                                                <span class="Mandatory">*</span>
+                                            </h6>
+                                        </div>
+                                        <div class="col-xs-4">
+
+                                            <input type="text" name="ContactPerson" max class="form-control" onKeyPress="if(this.value.length==25) return false;" ng-model="clientdetails.ContactPerson"
+                                                placeholder="Enter Contact Person" title="Enter Contact Person" ng-required="true">
+                                            <span ng-show="Cilentform.ContactPerson.$error.required && (Cilentform.ContactPerson.$dirty )" style="color:red" class="help-block">Contact Person is required.</span>
+
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <h6>
+                                                <strong>Phone Number</strong>
+                                                <span class="Mandatory">*</span>
+                                            </h6>
+
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <input type="number" onKeyPress="if(this.value.length==13) return false;" style="text-align: left;" name="PNumber" placeholder="Enter Phone Number"
+                                                title="Enter Phone Number" class="form-control" ng-model="clientdetails.PhoneNumber"
+                                                ng-maxlength="13" ng-minlength="10" ng-required="true">
+                                            <span ng-show="Cilentform.PNumber.$error.required && (Cilentform.PNumber.$dirty )" style="color:red" class="help-block">Phone Number is required.</span>
+                                            <span ng-show="!Cilentform.PNumber.$valid && !Cilentform.PNumber.$error.required" style="color:red" class="help-block">Enter Valid Phone Number.</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="row" style="margin-bottom:1%">
+                                        <div class="col-xs-2">
+                                            <h6>
+                                                <strong>Email ID</strong>
+                                                <span class="Mandatory">*</span>
+                                            </h6>
+                                        </div>
+                                        <div class="col-xs-4">
+
+                                            <input type="email" name="EmailID" class="form-control" ng-model="clientdetails.EmailID" placeholder="Enter Email ID" title="Enter Email ID"
+                                                ng-required="true" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/">
+
+                                            <span style="color:Red" ng-show="Cilentform.EmailID.$error.required && (Cilentform.EmailID.$dirty || submitted)"> Email is required </span>
+                                            <span style="color:Red" ng-show="Cilentform.EmailID.$dirty&&Cilentform.EmailID.$error.pattern">Please Enter Valid Email address</span>
+
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <h6>
+                                                <strong>Other Info</strong>
+                                            </h6>
+
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <textarea name="Description" style="width: 100%; max-height: 200px; max-width: 100%;" ng-model="clientdetails.Description"
+                                                onkeydown="return (event.keyCode!=13);" placeholder="Enter any Other Information about Client"
+                                                title="Enter any Other Information about Client" maxlength="255"></textarea>
+
+                                        </div>
+
+                                    </div>
+
+
+
+
+
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" ng-click="AddClientDetails();Cilentform.$setPristine()" ng-disabled="disableds || Cilentform.$invalid"
+                                        data-dismiss="modal" title=" Save Changes">Save</button>&nbsp;&nbsp;
+                                    <button class="btn btn-primary" data-dismiss="modal" ng-click="clear()" type="reset" title="Close Add Form Without Saving Changes">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!--Delete Client UI Popup-->
+            <div class="container">
+                <div class="modal fade" id="DeletePopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="Deletemodal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title" id="myModalLabel"> Delete Client Detail</h4>
+                            </div>
+
+                            <div class="modal-body">
+                                <p>You are about to Delete record, Do you like to proceed?</p>
+                                <p class="debug-url"></p>
+                            </div>
+                            <div class="modal-footer" ng-controller="SlideController">
+                                <div ng-show="AddClientButtonShow">
+                                    <button class="btn btn-danger" title="Yes" ng-click="DeleteClientKey()" data-dismiss="modal">Yes</button>&nbsp;&nbsp;
+                                    <button class="btn btn-primary" data-dismiss="modal" title="No" ng-click="deselect()">No</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Edit Client UI Popup-->
+            <div class="container">
+                <form name="UpdateCilentform">
+                    <div class="modal fade" id="EditCilentDetailPopup" role="dialog" tabindex="-1">
+                        <div class="modal-dialog ">
+                             <div class="modal-content">
+                                <div class="modal-header">
+
+                                    <h4 class="modal-title pull-left ">
+                                        <strong>Update Client Detail ({{GetClientName}})</strong>
+                                    </h4>
+                                    <button type="button" class="close pull-right" title="Close" data-dismiss="modal" aria-hidden="true">
+                                        x
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    <div class="row" style="margin-bottom:1%">
+                                        <div class="col-xs-2">
+                                            <h6>
+                                                <strong>Client Name</strong>
+                                                <span class="Mandatory">*</span>
+                                            </h6>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <input id="ClientNameidd" type="text" name="ClientName" onKeyPress="if(this.value.length==100) return false;" class="form-control"
+                                                placeholder="Enter Client Name" title="Enter Client Name" ng-model="UpdateClientDetails[0].ClientName"
+                                                ng-change="UpdateDuplicate(UpdateClientDetails[0].ClientName)" ng-required="true"
+                                                capitalize>
+                                            <span ng-show="UpdateCilentform.ClientName.$error.required &&
+                                                                     (UpdateCilentform.ClientName.$dirty )" style="color:red"
+                                                class="help-block">Client Name is required.</span>
+
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <h6>
+                                                <strong>Client Location</strong>
+                                                <span class="Mandatory">*</span>
+                                            </h6>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <input type="text" name="ClientLocation" class="form-control" onKeyPress="if(this.value.length==25) return false;" ng-model="UpdateClientDetails[0].ClientLocation"
+                                                placeholder="Enter Client Location" title="Enter Client Location" ng-required="true">
+                                            <span ng-show="UpdateCilentform.ClientLocation.$error.required &&
+                                                                     (UpdateCilentform.ClientLocation.$dirty )" style="color:red"
+                                                class="help-block">Client Location is required.</span>
+
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row" style="margin-bottom:1%">
+                                        <div class="col-xs-2">
+                                            <h6>
+                                                <strong>Contact Person</strong>
+                                                <span class="Mandatory">*</span>
+                                            </h6>
+                                        </div>
+                                        <div class="col-xs-4">
+
+                                            <input type="text" name="ContactPerson" class="form-control" onKeyPress="if(this.value.length==25) return false;" ng-model="UpdateClientDetails[0].ContactPerson"
+                                                placeholder="Enter Contact Person" title="Enter Contact Person" ng-required="true">
+                                            <span ng-show="UpdateCilentform.ContactPerson.$error.required && (UpdateCilentform.ContactPerson.$dirty )" style="color:red"
+                                                class="help-block">Contact Person is required.</span>
+
+
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <h6>
+                                                <strong>Phone Number</strong>
+                                                <span class="Mandatory">*</span>
+                                            </h6>
+
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <input type="number" style="text-align: left;" name="PNumber" placeholder="Enter Phone Number" title="Enter Phone Number"
+                                                ng-maxlength="13" ng-minlength="10" class="form-control" ng-model="UpdateClientDetails[0].PhoneNumber"
+                                                onKeyPress="if(this.value.length==13) return false;" ng-required="true">
+
+                                            <span ng-show="UpdateCilentform.PNumber.$error.required && (UpdateCilentform.PNumber.$dirty )" style="color:red" class="help-block">Phone Number is required.</span>
+                                            <span ng-show="!UpdateCilentform.PNumber.$valid && !UpdateCilentform.PNumber.$error.required" style="color:red" class="help-block">Enter Valid Phone Number.</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="row" style="margin-bottom:1%">
+                                        <div class="col-xs-2">
+                                            <h6>
+                                                <strong>Email ID</strong>
+                                                <span class="Mandatory">*</span>
+                                            </h6>
+                                        </div>
+                                        <div class="col-xs-4">
+
+                                            <input type="email" name="UEmailID" class="form-control" ng-model="UpdateClientDetails[0].EmailID" placeholder="Enter Email ID"
+                                                ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" title="Enter Email ID" ng-required="true">
+
+                                            <span style="color:Red" ng-show="UpdateCilentform.UEmailID.$error.required && (UpdateCilentform.UEmailID.$dirty || submitted)">
+                                            Email is required </span>
+                                            <span style="color:Red" ng-show="UpdateCilentform.UEmailID.$dirty&&UpdateCilentform.UEmailID.$error.pattern">Please Enter Valid Email address</span>
+                                        </div>
+                                        <div class="col-xs-2">
+                                            <h6>
+                                                <strong>Other Info</strong>
+                                            </h6>
+
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <textarea name="Description" style="width: 100%; max-height: 200px; max-width: 100%;" ng-model="UpdateClientDetails[0].OtherInfo"
+                                                onkeydown="return (event.keyCode!=13);" placeholder="Enter any Other Information about Client"
+                                                title="Enter any Other Information about Client" maxlength="255"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer" ng-controller="SlideController">
+                                    <div ng-show="AddClientButtonShow">
+                                        <button class="btn btn-primary" ng-click="UpdateClientData();UpdateCilentform.$setPristine()" ng-disabled="disableds || UpdateCilentform.$invalid"
+                                            data-dismiss="modal" title="Save Changes">Update</button>&nbsp;&nbsp;
+                                        <button class="btn btn-primary" data-dismiss="modal" ng-click="deselect()" type="reset" title="Close Edit Form Without Saving Changes">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <!--Grid Code-->
+        <div>
+            <form editable-form name="tableform1" oncancel="cancel()" onaftersave="saveTable(Manage_Role.Description)">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-default panel-table">
+
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-5">
+
+                                    </div>
+                                    <div class="col col-xs-4">
+                                        <label style="-webkit-text-fill-color:#438eb9" title="Client Details">
+                                            <b>Client Details </b>
+                                        </label>
+                                    </div>
+                                    <div class="col col-xs-3 text-right" ng-controller="SlideController">
+                                        <div ng-show="AddClientButtonShow">
+                                            <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-sm btn-primary btn-create" title="Add Client Details">Add Client Details</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body scrollbar">
+
+                                <table class="table table-striped table-bordered table-list" ng-controller="SlideController">
+                                    <thead>
+                                        <tr>
+                                            <th ng-show="AddClientButtonShow" style="width:2.5%">
+                                                <strong>
+                                                    <a href="" title="Edit">Edit</a>
+                                                </strong>
+                                            </th>
+                                            <th ng-show="AddClientButtonShow" style="width:2.5%">
+                                                <strong>
+                                                    <a href="" title="Delete">Delete</a>
+                                                </strong>
+                                            </th>
+                                            <th style="width: 15%" align="center">
+                                                <a href="" ng-click="orderByField='ClientName'; reverseSort = !reverseSort" title="Client Name">Client Name</a>
+                                            </th>
+                                            <th style="width: 15%">
+                                                <a href="" ng-click="orderByField='ContactPerson'; reverseSort = !reverseSort" title="Contact Person">Contact Person</a>
+                                            </th>
+                                            <th style="width: 15% " align="center">
+                                                <a href="" ng-click="orderByField='EmailID'; reverseSort = !reverseSort" title="Email ID">Email ID</a>
+                                            </th>
+                                            <th style="width: 15% " align="center">
+                                                <a href="" ng-click="orderByField='ClientLocation';
+                                                                        reverseSort = !reverseSort" title="Client Location">Client Location</a>
+                                            </th>
+                                            <th style="width: 15% " align="center">
+                                                <a href="" ng-click="orderByField='PhoneNumber';
+                                                                        reverseSort = !reverseSort" title="Phone Number">Phone Number</a>
+                                            </th>
+                                            <th style="width: 15% " align="center">
+                                                <a href="" ng-click="orderByField='OtherInfo';
+                                                                        reverseSort = !reverseSort" title="OtherInfo">Other Info</a>
+                                            </th>
+
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        <tr>
+                                            <td ng-show="AddClientButtonShow"></td>
+                                            <td ng-show="AddClientButtonShow"></td>
+                                            <td>
+                                                <input type="text" id="ClientNameID" ng-model="ClientDetailF.ClientName" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                />
+                                            </td>
+                                            <td>
+                                                <input type="text" id="ContactPersonID" ng-model="ClientDetailF.ContactPerson" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                />
+                                            </td>
+                                            <td>
+                                                <input type="text" id="EmailID" ng-model="ClientDetailF.EmailID" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                />
+                                            </td>
+                                            <td>
+                                                <input type="text" id="ClientLocationID" ng-model="ClientDetailF.ClientLocation" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                />
+                                            </td>
+                                            <td>
+                                                <input type="text" id="PhoneNumberID" ng-model="ClientDetailF.PhoneNumber" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                />
+                                            </td>
+                                            <td>
+                                                <input type="text" id="OtherInfoID" ng-model="ClientDetailF.OtherInfo" placeholder="search" class="searchbox" onkeydown="return (event.keyCode!=13);"
+                                                />
+                                            </td>
+
+
+                                        </tr>
+
+                                        <tr dir-paginate="ClientDetail in ClientDetails|orderBy:'_id':'Desc' | filter:ClientDetailF|orderBy:orderByField:reverseSort|itemsPerPage:ItemsPerPageCount"
+                                            ng-class-odd="'odd'">
+
+                                            <td align="center" ng-show="AddClientButtonShow">
+                                                <a class="editpadding btn btn-default deleteBtn" data-toggle="modal" ng-click="EditClientClick(ClientDetail._id,ClientDetail.ClientName)"
+                                                    data-target="#EditCilentDetailPopup">
+                                                    <em class="fa fa-pencil" title="Edit"></em>
+                                                </a>
+                                            </td>
+                                            <td align="center" ng-show="AddClientButtonShow">
+
+                                                <a class="btn btn-danger deleteBtn" data-toggle="modal" title="Delete" ng-click="DeleteCilentDetails(ClientDetail._id)" data-target="#DeletePopup">
+                                                    <em class="fa fa-trash"></em>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <span ng-attr-title="{{ClientDetail.ClientName}}" ng-bind="ClientDetail.ClientName | uppercase">
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span ng-attr-title="{{ClientDetail.ContactPerson}}" ng-bind="ClientDetail.ContactPerson">
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span ng-attr-title="{{ClientDetail.EmailID}}" ng-bind="ClientDetail.EmailID">
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span ng-attr-title="{{ClientDetail.ClientLocation}}" ng-bind="ClientDetail.ClientLocation">
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span style="float:left" ng-attr-title="{{ClientDetail.PhoneNumber}}" ng-bind="ClientDetail.PhoneNumber">
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span ng-attr-title="{{ClientDetail.OtherInfo}}" ng-bind="ClientDetail.OtherInfo || 'empty'">
+                                                </span>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+
+
+                                </table>
+                            </div>
+
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col col-xs-8">
+                                        <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true">
+                                        </dir-pagination-controls>
+                                    </div>
+
+                                    <div class="col col-xs-4">
+                                        <div ng-show="!tableform1.$visible" style="float:right" title="Items Per Page">
+                                            Items Per Page :
+                                            <select id="ItemsPerPageID" ng-model="ItemsPerPageCount" ng-change="ItemsPerPageChange()">
+                                                <option ng-repeat="ItemsPerPageCount in ItemsPerPageCounts" value="{{ItemsPerPageCount.PageID}}" ng-bind="ItemsPerPageCount.PageCount"></option>
+                                            </select>
+                                        </div>
+                                        <div class="btn-form" ng-show="tableform1.$visible" style="float:right" ng-controller="SlideController">
+                                            <div ng-show="AddClientButtonShow">
+                                                <button type="submit" ng-disabled="tableform1.$waiting" title=" Save Changes" class="btn btn-primary fa fa-save" ng-click="NotifyClick()">
+                                                Save</button>
+                                                <input type="button" ng-disabled="tableform1.$waiting" title=" Close Edit Form Without Saving Changes" ng-click="refreshUI();tableform1.$cancel()"
+                                                    class="btn btn-danger fa fa-close" value="X Cancel" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+    <!-- PAGE CONTENT ENDS -->
+
+</div>
+</body>

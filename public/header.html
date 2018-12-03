@@ -1,0 +1,207 @@
+<html ng-app="login">
+
+<head>
+
+    <title>PROJECT MANAGEMENT SYSTEM</title>
+
+    <script src="assets/js/jquery-2.1.4.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/ace-elements.min.js"></script>
+
+
+   
+
+    <script src="assets/js/notify.js"></script>
+    <script src="assets/js/route.js"></script>
+    <script src="controller/UserNameShow.js"></script>
+    <script src="assets/js/Angular-Cookies.js"></script>
+
+
+    <style>
+
+    </style>
+
+
+</head>
+
+<body>
+
+    <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+        <span class="sr-only">Toggle sidebar</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+ 
+        <div class="navbar-header col-lg-5 pull-left">
+
+           
+
+            <a class="navbar-brand" ng-controller="UserNameShowCtrl">
+             
+
+                <small>
+                <img ng-src="{{enterpriseLogo}}" ng-if="!!enterpriseLogo" class="msg-photo" 
+                alt="Alex's Avatar" ng-style="{'width':logoWidth,'height':logoHeight,'float':left}" />
+            </small>
+
+            </a>
+        </div>
+        <div class="col-lg-5">
+            <a class="navbar-brand " style="margin-top:2%"><Strong><span ng-bind="ProjectName"></span></Strong></a>
+
+
+           
+        </div>
+    
+        <div class="navbar-buttons col-lg-2 navbar-header pull-right" role="navigation" ng-controller="UserNameShowCtrl">
+         
+    
+    
+            <table>
+    
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <ul class="nav ace-nav">
+                            <li class="light-blue dropdown-modal" style="width: 120%">
+    
+                                <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                            <img src="assets/Images/user.png" />
+                          
+    
+                            <span class="user-info">
+                                <small>Welcome</small>
+                                <span ng-bind="LoggedinUsers"></span>
+                             
+                            </span>
+    
+                            <i class="ace-icon fa fa-caret-down"></i>
+                        </a>
+    
+                                <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+    
+                                    <li>
+                                        <a href='' data-toggle="modal" data-target="#PasswordmyModal">
+                                          
+                                            <img src="assets/Images/ChangePassword.png" style="width:20px;height:20px;" /> Change
+                                            Password
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="logout.html" ng-click="LogoutClick()">
+                                            <i class="ace-icon fa fa-power-off" ></i>
+                                            Logout
+                                        </a>
+    
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                <td>
+                    <span style="color:white;margin-right:10px;"> Select Facility  </span>
+                </td>
+                <td>
+    
+                    <select id="MaterialFacility" form="DistanceMatrixFormId" class="form-control" ng-change="FacilityChange(value.storedObject)"
+                        ng-model="value.storedObject" style="width: 120%">
+          
+                            <option disabled selected value>Select</option>
+                                <option ng-repeat="FacilityId in FacilityIDSource | orderBy:'FacilityID':'Desc'" 
+                                ng-selected="FacilityId.FacilityID == value.storedObject" 
+                                
+                                value="{{FacilityId.FacilityID}} " ng-bind="ShowActiveFacilityName(FacilityId)">
+                            
+                            </option>
+                                
+                    </select>
+    
+                </td>
+    
+                </tr>
+            </table>
+    
+    
+        </div>
+
+
+
+    <div ng-controller="ChangePasswordctrl">
+
+        <form name="profileform" id="changepassword">
+            <div class="modal fade" id="PasswordmyModal" role="dialog" tabindex='-1' data-backdrop="static">
+                <div class="modal-dialog" style="width: 518px;padding-top:100px">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title pull-left"><strong>Change Password</strong></h4>
+                            <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true" title="Close" ng-click="deselect();profileform.$setPristine()">x</button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row" style="margin-bottom: 2%">
+                                <div class="col-xs-1"></div>
+                                <div class="col-xs-4">
+                                    <h6><strong>Old Password</strong><span class="Mandatory">*</span></h6>
+                                </div>
+                                <div class="col-xs-6">
+                                    <input type="password" name="Oldpassord" required class="form-control" ng-model="ChangePassword.OldPassword">
+                                </div>
+                                <div class="col-xs-1"></div>
+                            </div>
+                            <div class="row" style="margin-bottom: 2%">
+                                <div class="col-xs-1"></div>
+                                <div class="col-xs-4">
+                                    <h6><strong>New Password</strong><span class="Mandatory">*</span></h6>
+                                </div>
+                                <div class="col-xs-6">
+                                    <input type="password" name="Newpassord" required ng-minlength="6" maxlength="15" class="form-control" ng-pattern="/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d.$@$!%*#?&]{6,}$/"
+                                        ng-model="ChangePassword.NewPassword">
+                                    <p ng-show="profileform.Newpassord.$error.pattern && (profileform.Newpassord.$dirty || submitted)" class="help-block" style="color:red">Password should contain atleast one (Alphabet, Special Character, Number)</p>
+                                    <p ng-show="profileform.Newpassord.$error.required && (profileform.Newpassord.$dirty || submitted)" class="help-block" style="color:red">Please enter the Password</p>
+                                    <p ng-show="profileform.Newpassord.$error.minlength && (profileform.Newpassord.$dirty || submitted)" class="help-block" style="color:red">Password is too short(Minimum 6 Characters).</p>
+                                  
+                                </div>
+                                <div class="col-xs-1"></div>
+                            </div>
+
+                            <div class="row" style="margin-bottom: 2%">
+                                <div class="col-xs-1"></div>
+                                <div class="col-xs-4">
+                                    <h6><strong>Confirm Password</strong><span class="Mandatory">*</span></h6>
+                                </div>
+                                <div class="col-xs-6">
+                                    <input type="password" name="Confirmpassord" required maxlength="15" class="form-control" ng-model="ChangePassword.ConfirmPassword"
+                                        ng-compare="Newpassord">
+
+
+                                    <p ng-show="profileform.Confirmpassord.$error.required && (profileform.Confirmpassord.$dirty || submitted)" class="help-block"
+                                        style="color:red">Please enter the Confirm Password</p>
+                                    <p ng-show="profileform.Confirmpassord.$error.compare && 
+                                                    (profileform.Confirmpassord.$dirty || submitted)" class="help-block"
+                                        style="color:red">Confirm password does not match.</p>
+                                      </div>
+                                <div class="col-xs-1">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" ng-disabled="disableds || profileform.$invalid" ng-click=ChangeButtonClick();profileform.$setPristine()
+                                data-dismiss="modal" title="Save Changes">Save</button>&nbsp;&nbsp;
+                            <button class="btn btn-primary" data-dismiss="modal" ng-click="deselect();profileform.$setPristine()" title="Close the Form without Saving Changes">Cancel</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+</body>
+
+</html>

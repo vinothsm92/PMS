@@ -1,0 +1,141 @@
+<html>
+<head>
+    <script src="assets/js/jquery-2.1.4.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/ace-elements.min.js"></script>
+     <script src="assets/js/ace.min.js"></script>
+
+     <!-- Angular.js -->
+   
+    <script src="controller/UserNameShow.js"></script>
+   
+   
+    <script src="assets/js/Angular-Cookies.js"></script>
+</head>
+
+<body ng-controller="SlideController">
+
+    <ul class="nav nav-list" >
+     
+
+        <li ng-show="Security || Security1 || Security2||HideSecurityMenu ">
+            <a href="#" class="dropdown-toggle">
+                <i class="menu-icon fa fa-desktop"></i>
+                <span class="menu-text">
+                    Security
+                </span>
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+
+            <ul class="submenu">
+                <li ng-show="show0" id="ManageRoleID" >
+                    <a href="ManageRole.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Manage Role
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li  ng-show="show1"   id="ManageUserID"  >
+                    <a href="manageuser.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Manage User
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li  ng-show="show2" id="ManageFacilityID" >
+                    <a href="ManageFacility.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Manage Facility
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+            </ul>
+        </li>
+        <li ng-show="Configuration1 || Configuration2 || Configuration3||Configuration4||Configuration5||HideConfigeMenu " >
+            <a href="#"  class="dropdown-toggle">
+                <i class="menu-icon fa fa-pencil-square-o"></i>
+                <span class="menu-text"> Configuration </span>
+
+                <b class="arrow fa fa-angle-down"></b>
+            </a>
+
+            <b class="arrow"></b>
+            <ul class="submenu">
+			    <li ng-show="show3"   id="enterpriseconfigID" >
+                    <a href="enterpriseconfig.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Enterprise Configuration
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+                    <li   ng-show="show4"   id="ExpensesID" >
+                    <a href="Expenses.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Expensesjkjkjjkj
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+				 <li  ng-show="show5"  id="Client_DetailsID" >
+                    <a href="Client_Details.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Client Configuration
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li   ng-show="show6"   id="ManageProjectsID">
+                    <a href="ManageProjects.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Project Definition
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+        
+                  <li  ng-show="show7"    id="ManageTeamsID">
+                    <a href="ManageTeams.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                       Manage Team
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                  <li  ng-show="show8"    id="TaskID">
+                    <a href="Task.html">
+                        <i class="menu-icon fa fa-caret-right"></i>
+                        Manage Task
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+
+                <li  ng-show="show9"    id="TimeSheetID">
+                        <a href="TimeSheet.html">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                           Time Sheet 
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li  ng-show="show10"    id="TeamLeadTimeSheetID">
+                        <a href="TeamLeadTimeSheet.html">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                          TeamLead Time Sheet
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+            </ul>
+        </li>
+       
+    </ul><!-- /.nav-list -->
+
+    <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+        <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+    </div>
+
+</body>
+</html>

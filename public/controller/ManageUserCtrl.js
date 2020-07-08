@@ -25,7 +25,10 @@ app.controller('ManageUserController', ['$scope', '$http', '$window', '$filter',
         //     event.preventDefault();
         // });
 
+        $http.get('/Manage_Usershow').then(function (response) {
 
+            $scope.Manage_Users = response.data;
+        });
         $scope.MenuActive = "active";
         var refresh = function () {
 
@@ -64,7 +67,7 @@ app.controller('ManageUserController', ['$scope', '$http', '$window', '$filter',
 
         $scope.saveManageUserTable = function () {
 
-            debugger
+            
             $scope.LoggedinUsers = $cookieStore.get('LoggedinUser');
             var UpdatedById = $scope.LoggedinUsers;
             var ResourceIDchk = '';

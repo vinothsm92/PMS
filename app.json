@@ -1,0 +1,8 @@
+{
+    "name":"PMS",
+    "description":"Test",
+    "repository":"https://github.com/vinothsm92/PMS.git",
+    "logo":"http://node-js-sample.herokuapp.com/node.svg",
+    "keywords":["node", "angular", "Express"],
+    "image":"heroku/nodejs"
+}

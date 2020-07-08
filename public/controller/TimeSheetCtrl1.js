@@ -387,7 +387,7 @@ app.controller('TimeSheetCtrl1', ['$scope', '$http', '$window', '$filter', '$coo
 
                 $scope.ProjectNames=[];
                 $http.get('/GetProjNameByUser/' + Mainusername + '/' + FacilityService).then(function (response) {
-                    debugger
+                    
                     $scope.ProjectNamess = response.data;
                     if (editpage == "true") {
                         $scope.showActiveUser = true;
@@ -2750,7 +2750,7 @@ app.controller('TimeSheetCtrl1', ['$scope', '$http', '$window', '$filter', '$coo
         $scope.ShowDate = false;
         $scope.TodateDisabled = true;
         $scope.FromDate = function () {
-debugger
+
             $scope.ShowButton = false;
             $scope.ShowGrid = false;
             $scope.ShowDate = false;

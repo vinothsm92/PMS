@@ -14,8 +14,8 @@ const expressValidator = require('express-validator');
 var app = express();
 var multer = require('multer');
 var request = require('request');
-var async = require('asyncawait/async');
-var await = require('asyncawait/await');
+// var async = require('asyncawait/async');
+// var await = require('asyncawait/await');
 //test branch
 var fs = require('fs')
 
@@ -26,11 +26,24 @@ app.set('views', __dirname + '\\public');
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 app.use(bodyParser.json());
-mongoose.connect(process.env.MONGODB_URI);
-mongoose.connection.on('error', () => {
-    console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
-    process.exit();
-});
+
+
+//bring in mongo uri from mlab
+const mongoURI =
+'mongodb://vinothsm:vinoth1@ds151293.mlab.com:51293/sample';
+//monnect mongodb
+mongoose.connect(
+mongoURI,
+{
+useMongoClient: true
+}
+);
+
+// mongoose.connect(process.env.MONGODB_URI);
+// mongoose.connection.on('error', () => {
+    // console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
+    // process.exit();
+// });
 
 
 
@@ -68,15 +81,15 @@ var MarginReportTemplate = require('./public/model/Schema/MarginReportTemplateSc
 //app.use(express.static(__dirname + "/public"));
 
 
-app.use(session({
-    resave: true,
-    saveUninitialized: true,
-    secret: process.env.SESSION_SECRET,
-    store: new MongoStore({
-        url: process.env.MONGODB_URI,
-        autoReconnect: true
-    })
-}));
+// app.use(session({
+//     resave: true,
+//     saveUninitialized: true,
+//     secret: process.env.SESSION_SECRET,
+//     store: new MongoStore({
+//         url: process.env.MONGODB_URI,
+//         autoReconnect: true
+//     })
+// }));
 
 app.use(bodyParser.json({ limit: "200mb" }));
 app.use(bodyParser.urlencoded({ limit: "200mb", extended: true, parameterLimit: 200000 }));
@@ -101,7 +114,7 @@ app.get('/logout', function (req, res) {
 
 app.get('/loggedin', function (req, res) {
 
-    res.send(req.isAuthenticated() ? req.user.UserName : '0');
+    res.send(1);
 
 });
 
@@ -517,7 +530,7 @@ app.get('/GetBillableTimeSheet', TimeSheetConfig.GetBillableTimeSheet);
 app.get('/GetBillableTeamLeadTimeSheet', TeamLeadTimeSheetConfig.GetBillableTeamLeadTimeSheet);
 app.get('/BillableUser', userController.BillableUser);
 app.get('/GetProjectDetailsReport', function (req, res) {
-    debugger
+    
     marginReportTemplate();
 });
 //margin report template
@@ -898,279 +911,158 @@ var Service = require('node-windows').Service;
 var mongo = require('mongodb');
 
 
-var marginReportTemplate = async(function () {
+// var marginReportTemplate = async(function () {
 
 
 
-    var Projects =
-        await(ManageprojectConfig.GetAllProjectDetails());
-    var current = new Date();     // get current date    
-    var weekstart = current.getDate() - current.getDay() + 1;
-    var weekend = weekstart + 6;       // end day is the first day + 6 
+    // var Projects =
+        // await(ManageprojectConfig.GetAllProjectDetails());
+    // var current = new Date();     // get current date    
+    // var weekstart = current.getDate() - current.getDay() + 1;
+    // var weekend = weekstart + 6;       // end day is the first day + 6 
 
-    var monday = new Date(current.setDate(weekstart));
-    var sunday = new Date(current.setDate(weekend));
-
-
-    var MarginReport = [];
-    var startDate = (monday); //YYYY-MM-DD
-    var endDate = (sunday); //YYYY-MM-DD
-    //get between dates
-    var getDateArray = function (start, end) {
-        var arr = new Array();
-        var dt = new Date(start);
-        while (dt <= end) {
-            arr.push(new Date(dt));
-            dt.setDate(dt.getDate() + 1);
-        }
-        return arr;
-    }
-
-    var dateArr = getDateArray(startDate, endDate);
+    // var monday = new Date(current.setDate(weekstart));
+    // var sunday = new Date(current.setDate(weekend));
 
 
-    function getFormattedDate(date) {
+    // var MarginReport = [];
+    // var startDate = (monday); //YYYY-MM-DD
+    // var endDate = (sunday); //YYYY-MM-DD
+    // //get between dates
+    // var getDateArray = function (start, end) {
+        // var arr = new Array();
+        // var dt = new Date(start);
+        // while (dt <= end) {
+            // arr.push(new Date(dt));
+            // dt.setDate(dt.getDate() + 1);
+        // }
+        // return arr;
+    // }
 
-        var year = date.getFullYear();
-
-        var month = (1 + date.getMonth()).toString();
-
-        month = month.length > 1 ? month : '0' + month;
-
-        var day = date.getDate().toString();
-
-        day = day.length > 1 ? day : '0' + day;
-
-        return day + '-' + month + '-' + year;
-
-    }
-
-    var Dates = [];
-
-    for (i = 0; i < 7; i++) {
-        Dates.push(getFormattedDate(dateArr[i]));
-    }
+    // var dateArr = getDateArray(startDate, endDate);
 
 
-    const monthNames = ["January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
+    // function getFormattedDate(date) {
 
-    for (var i = 0; i < Projects.length; i++) {
-        var ID = Projects[i]._doc._id;
+        // var year = date.getFullYear();
 
-        ID = new mongo.ObjectID(ID);
+        // var month = (1 + date.getMonth()).toString();
 
-        var TaskDetails = await(ManageTaskConfig.GetTaskBasedProjDetails(ID));
-        var TeamLeadTSDetails = await(TeamLeadTimeSheetConfig.GetTeamLeadTSDetails(ID));
-        var ProjectTeamMembers = await(ManageTeamConfig.GetProjectTeamMembers(ID));
+        // month = month.length > 1 ? month : '0' + month;
 
-        //  var GetLoadedCostCalc = 
+        // var day = date.getDate().toString();
 
+        // day = day.length > 1 ? day : '0' + day;
 
-        if (TaskDetails.length > 0) {
-            var Hours = 0;
-            var PlannedCost = 0;
-            var actCost=0;
-            for (j = 0; j < TaskDetails.length; j++) {
-                MarginReport = [];
-                for (k = 0; k < 7; k++) {
-                    Dates[k];
+        // return day + '-' + month + '-' + year;
 
-                    var dateFrom = TaskDetails[j]._doc.PlanStartDate;
-                    var dateTo = TaskDetails[j]._doc.PlanEndDate;
+    // }
+
+    // var Dates = [];
+
+    // for (i = 0; i < 7; i++) {
+        // Dates.push(getFormattedDate(dateArr[i]));
+    // }
 
 
+    // const monthNames = ["January", "February", "March", "April", "May", "June",
+        // "July", "August", "September", "October", "November", "December"
+    // ];
+
+    // for (var i = 0; i < Projects.length; i++) {
+        // var ID = Projects[i]._doc._id;
+
+        // ID = new mongo.ObjectID(ID);
+
+        // var TaskDetails = await(ManageTaskConfig.GetTaskBasedProjDetails(ID));
+        // var TeamLeadTSDetails = await(TeamLeadTimeSheetConfig.GetTeamLeadTSDetails(ID));
+        // var ProjectTeamMembers = await(ManageTeamConfig.GetProjectTeamMembers(ID));
+
+        // //  var GetLoadedCostCalc = 
 
 
-                    var dateCheck = Dates[k];
+        // if (TaskDetails.length > 0) {
+            // var Hours = 0;
+            // var PlannedCost = 0;
+            // var actCost=0;
+            // for (j = 0; j < TaskDetails.length; j++) {
+                // MarginReport = [];
+                // for (k = 0; k < 7; k++) {
+                    // Dates[k];
 
-                    var d1 = dateFrom.split("-");
-                    var d2 = dateTo.split("-");
-
-                    var c = dateCheck.split("-");
-
-                    var from = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]);  // -1 because months are from 0 to 11
-                    var to = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
-
-                    var check = new Date(c[2], parseInt(c[1]) - 1, c[0]);
+                    // var dateFrom = TaskDetails[j]._doc.PlanStartDate;
+                    // var dateTo = TaskDetails[j]._doc.PlanEndDate;
 
 
-                    if (check >= from && check <= to) {
-                        MonthName = monthNames[check.getMonth()];
 
-                        UserName = TaskDetails[j]._doc.TeamMemberUserID;
-                        HRBillable = await(CostConfig.GetLoadedCostCalc('HRB', MonthName, UserName, c[2]));
-                        HRNONBillable = await(CostConfig.GetLoadedCostCalc('HRNB', MonthName, UserName, c[2]));
-                        NonHR = await(CostConfig.GetLoadedCostCalc('NHR', MonthName, UserName, c[2]));
-                        HRBillableForMonth = await(CostConfig.GetLoadedCostCalcMonth('HRB', MonthName, parseInt(c[2])));
 
-                        HRNONBillableForMonth = await(CostConfig.GetLoadedCostCalcMonth('HRNB', MonthName, parseInt(c[2])));
+                    // var dateCheck = Dates[k];
 
-                        NonHRForMonth = await(CostConfig.GetLoadedCostCalcMonth('NHR', MonthName, parseInt(c[2])));
-                       // console.log(HRBillable)
-                        if(HRBillable.length==0){
-                            Amount =0;
-                        }
-                        else{
-                            Amount = HRBillable[0]._doc.Amount;
-                        }
+                    // var d1 = dateFrom.split("-");
+                    // var d2 = dateTo.split("-");
+
+                    // var c = dateCheck.split("-");
+
+                    // var from = new Date(d1[2], parseInt(d1[1]) - 1, d1[0]);  // -1 because months are from 0 to 11
+                    // var to = new Date(d2[2], parseInt(d2[1]) - 1, d2[0]);
+
+                    // var check = new Date(c[2], parseInt(c[1]) - 1, c[0]);
+
+
+                    // if (check >= from && check <= to) {
+                        // MonthName = monthNames[check.getMonth()];
+
+                        // UserName = TaskDetails[j]._doc.TeamMemberUserID;
+                        // HRBillable = await(CostConfig.GetLoadedCostCalc('HRB', MonthName, UserName, c[2]));
+                        // HRNONBillable = await(CostConfig.GetLoadedCostCalc('HRNB', MonthName, UserName, c[2]));
+                        // NonHR = await(CostConfig.GetLoadedCostCalc('NHR', MonthName, UserName, c[2]));
+                        // HRBillableForMonth = await(CostConfig.GetLoadedCostCalcMonth('HRB', MonthName, parseInt(c[2])));
+
+                        // HRNONBillableForMonth = await(CostConfig.GetLoadedCostCalcMonth('HRNB', MonthName, parseInt(c[2])));
+
+                        // NonHRForMonth = await(CostConfig.GetLoadedCostCalcMonth('NHR', MonthName, parseInt(c[2])));
+                       // // console.log(HRBillable)
+                        // if(HRBillable.length==0){
+                            // Amount =0;
+                        // }
+                        // else{
+                            // Amount = HRBillable[0]._doc.Amount;
+                        // }
                       
-                       // console.log(Amount)
-                        if (HRBillableForMonth.length == 0) {
-                            HRBillableCost = 0;
-                        }
-                        else {
-                            HRBillableCost = HRBillableForMonth[0].sum;
+                       // // console.log(Amount)
+                        // if (HRBillableForMonth.length == 0) {
+                            // HRBillableCost = 0;
+                        // }
+                        // else {
+                            // HRBillableCost = HRBillableForMonth[0].sum;
 
-                        }
+                        // }
 
-                        if (HRNONBillableForMonth.length == 0) {
-                            HRNONBillableCost = 0;
-                        }
-                        else {
-                            HRNONBillableCost = HRNONBillableForMonth[0].sum;
+                        // if (HRNONBillableForMonth.length == 0) {
+                            // HRNONBillableCost = 0;
+                        // }
+                        // else {
+                            // HRNONBillableCost = HRNONBillableForMonth[0].sum;
 
-                        }
+                        // }
 
-                        if (NonHRForMonth.length == 0) {
-                            NonHRCost = 0;
+                        // if (NonHRForMonth.length == 0) {
+                            // NonHRCost = 0;
 
-                        }
-                        else {
-                            NonHRCost = NonHRForMonth[0].sum;
+                        // }
+                        // else {
+                            // NonHRCost = NonHRForMonth[0].sum;
 
-                        }
-                        if (HRBillableForMonth.length == 0 && HRNONBillableForMonth.length == 0 && NonHRForMonth.length == 0) {
-                            loadedCost = 0;
-                        }
-                        else {
+                        // }
+                        // if (HRBillableForMonth.length == 0 && HRNONBillableForMonth.length == 0 && NonHRForMonth.length == 0) {
+                            // loadedCost = 0;
+                        // }
+                        // else {
                             
-                            total = HRBillableCost + HRNONBillableCost + NonHRCost;
-                            loadedCost = total / HRBillableCost;
+                            // total = HRBillableCost + HRNONBillableCost + NonHRCost;
+                            // loadedCost = total / HRBillableCost;
                             
-                        }
-                       
-
-
-
-                      
-
-
-
-                        PerHourCost = (Amount * loadedCost / 160);
-
-                        var From = new Date(d1[2] + '-' + (d1[1]) + '-' + d1[0]);
-                        var To = new Date(d2[2] + '-' + (d2[1]) + '-' + d2[0]);
-                        var BetweenDates = getDateArray((From), (To));
-                        oneDayHour = TaskDetails[j]._doc.Duration / BetweenDates.length;
-                       
-                        Hours += TaskDetails[j]._doc.Duration / BetweenDates.length;
-                        PlannedCost += (oneDayHour * PerHourCost);
-
-                    }
-
-
-
-                }
-                var GetWeekcount = await(MarginReportTemplate.GetWeekNo());
-                GetWeekcount = GetWeekcount.filter(function (sl) {
-                    return sl.ProjectName == Projects[i]._doc.ProjectName
-                })
-                if (GetWeekcount.length > 0) {
-                   
-                    var week = GetWeekcount[GetWeekcount.length-1]._doc;
-                  
-                    w = week.week;
-
-                    w = w.split("Week");
-                    
-                    week = "Week" + (parseInt(w[1]) + 1);
-                    if (week == undefined) {
-
-                    }
-                }
-                else {
-                    week = 'Week1'
-                }
-
-
-
-
-            }
-            actHours = 0;
-            for (j = 0; j < TeamLeadTSDetails.length; j++) {
-                MarginReport = [];
-                for (k = 0; k < 6; k++) {
-                    Dates[k];
-
-
-
-                    var actdateFrom = TeamLeadTSDetails[j]._doc.StartDate;
-                    var actdateTo = TeamLeadTSDetails[j]._doc.EndDate;
-
-                    var dateCheck = Dates[k];
-
-
-                    var actd1 = actdateFrom.split("-");
-                    var actd2 = actdateTo.split("-");
-                    var c = dateCheck.split("-");
-
-
-                    var actfrom = new Date(actd1[2], parseInt(actd1[1]) - 1, actd1[0]);  // -1 because months are from 0 to 11
-                    var actto = new Date(actd2[0], parseInt(actd2[1]) - 1, actd2[2]);
-                    var check = new Date(c[2], parseInt(c[1]) - 1, c[0]);
-
-
-
-                    if (dateCheck == actdateFrom) {
-                        MonthName = monthNames[check.getMonth()];
-
-                       UserName=TeamLeadTSDetails[j]._doc.UserName;
-                        HRBillable = await(CostConfig.GetLoadedCostCalc('HRB', MonthName, UserName, c[2]));
-                        HRNONBillable = await(CostConfig.GetLoadedCostCalc('HRNB', MonthName, UserName, c[2]));
-                        NonHR = await(CostConfig.GetLoadedCostCalc('NHR', MonthName, UserName, c[2]));
-                        HRBillableForMonth = await(CostConfig.GetLoadedCostCalcMonth('HRB', MonthName, parseInt(c[2])));
-
-                        HRNONBillableForMonth = await(CostConfig.GetLoadedCostCalcMonth('HRNB', MonthName, parseInt(c[2])));
-
-                        NonHRForMonth = await(CostConfig.GetLoadedCostCalcMonth('NHR', MonthName, parseInt(c[2])));
-                        console.log(HRBillable)
-                        Amount = HRBillable[0]._doc.Amount;
-                        console.log(Amount)
-                        if (HRBillableForMonth.length == 0) {
-                            HRBillableCost = 0;
-                        }
-                        else {
-                            HRBillableCost = HRBillableForMonth[0].sum;
-
-                        }
-
-                        if (HRNONBillableForMonth.length == 0) {
-                            HRNONBillableCost = 0;
-                        }
-                        else {
-                            HRNONBillableCost = HRNONBillableForMonth[0].sum;
-
-                        }
-
-                        if (NonHRForMonth.length == 0) {
-                            NonHRCost = 0;
-
-                        }
-                        else {
-                            NonHRCost = NonHRForMonth[0].sum;
-
-                        }
-                        if (HRBillableForMonth.length == 0 && HRNONBillableForMonth.length == 0 && NonHRForMonth.length == 0) {
-                            loadedCost = 0;
-                        }
-                        else {
-                            
-                            total = HRBillableCost + HRNONBillableCost + NonHRCost;
-                            loadedCost = total / HRBillableCost;
-                            
-                        }
+                        // }
                        
 
 
@@ -1179,73 +1071,194 @@ var marginReportTemplate = async(function () {
 
 
 
-                        PerHourCost = (Amount * loadedCost / 160);
+                        // PerHourCost = (Amount * loadedCost / 160);
 
-                        var From = new Date(d1[2] + '-' + (d1[1]) + '-' + d1[0]);
-                        var To = new Date(d2[2] + '-' + (d2[1]) + '-' + d2[0]);
-                        var BetweenDates = getDateArray((From), (To));
-                        oneDayHour = TeamLeadTSDetails[j]._doc.Hours;
-                        console.log(oneDayHour + ',' + PerHourCost + '.' + BetweenDates.length)
+                        // var From = new Date(d1[2] + '-' + (d1[1]) + '-' + d1[0]);
+                        // var To = new Date(d2[2] + '-' + (d2[1]) + '-' + d2[0]);
+                        // var BetweenDates = getDateArray((From), (To));
+                        // oneDayHour = TaskDetails[j]._doc.Duration / BetweenDates.length;
                        
-                        actCost += (oneDayHour * PerHourCost);
-                        actHours += TeamLeadTSDetails[j]._doc.Hours;
+                        // Hours += TaskDetails[j]._doc.Duration / BetweenDates.length;
+                        // PlannedCost += (oneDayHour * PerHourCost);
 
-                    }
+                    // }
 
-                }
-                var GetWeekcount = await(MarginReportTemplate.GetWeekNo());
-                GetWeekcount = GetWeekcount.filter(function (sl) {
-                    return sl.ProjectName == Projects[i]._doc.ProjectName
-                })
+
+
+                // }
+                // var GetWeekcount = await(MarginReportTemplate.GetWeekNo());
+                // GetWeekcount = GetWeekcount.filter(function (sl) {
+                    // return sl.ProjectName == Projects[i]._doc.ProjectName
+                // })
                 // if (GetWeekcount.length > 0) {
-                //     var week = GetWeekcount[0]._doc;
-                //     w = week.week;
-                //     console.log(w)
-                //     w = w.split("Week")
-                //     console.log(w)
-                //     console.log(w[1])
-                //     week = "Week" + (parseInt(w[1]) + 1);
-                //     if (week == undefined) {
+                   
+                    // var week = GetWeekcount[GetWeekcount.length-1]._doc;
+                  
+                    // w = week.week;
 
-                //     }
+                    // w = w.split("Week");
+                    
+                    // week = "Week" + (parseInt(w[1]) + 1);
+                    // if (week == undefined) {
+
+                    // }
                 // }
                 // else {
-                //     week = 'Week1'
+                    // week = 'Week1'
                 // }
 
 
 
 
-            }
-            if (Hours > 0) {
-                var obj = {};
-                obj.week = week;
-                obj.ProjectName = Projects[i]._doc.ProjectName;
-                obj.StartDate = Dates[0];
-                obj.EndDate = Dates[6];
-
-                obj.PlannedEfforts = Hours;
-                obj.PlannedRevenue = PlannedCost;
-                obj.ActualEfforts = actHours;
-                obj.ActualRevenue = actCost;
-                MarginReport.push(obj);
-            }
-            if (MarginReport.length > 0) {
-                for (a = 0; a < MarginReport.length; a++) {
+            // }
+            // actHours = 0;
+            // for (j = 0; j < TeamLeadTSDetails.length; j++) {
+                // MarginReport = [];
+                // for (k = 0; k < 6; k++) {
+                    // Dates[k];
 
 
-                    await(MarginReportTemplate.AddReport(MarginReport[a]));
-                }
-            }
+
+                    // var actdateFrom = TeamLeadTSDetails[j]._doc.StartDate;
+                    // var actdateTo = TeamLeadTSDetails[j]._doc.EndDate;
+
+                    // var dateCheck = Dates[k];
 
 
-        }
+                    // var actd1 = actdateFrom.split("-");
+                    // var actd2 = actdateTo.split("-");
+                    // var c = dateCheck.split("-");
 
 
-    }
+                    // var actfrom = new Date(actd1[2], parseInt(actd1[1]) - 1, actd1[0]);  // -1 because months are from 0 to 11
+                    // var actto = new Date(actd2[0], parseInt(actd2[1]) - 1, actd2[2]);
+                    // var check = new Date(c[2], parseInt(c[1]) - 1, c[0]);
 
 
-});
+
+                    // if (dateCheck == actdateFrom) {
+                        // MonthName = monthNames[check.getMonth()];
+
+                       // UserName=TeamLeadTSDetails[j]._doc.UserName;
+                        // HRBillable = await(CostConfig.GetLoadedCostCalc('HRB', MonthName, UserName, c[2]));
+                        // HRNONBillable = await(CostConfig.GetLoadedCostCalc('HRNB', MonthName, UserName, c[2]));
+                        // NonHR = await(CostConfig.GetLoadedCostCalc('NHR', MonthName, UserName, c[2]));
+                        // HRBillableForMonth = await(CostConfig.GetLoadedCostCalcMonth('HRB', MonthName, parseInt(c[2])));
+
+                        // HRNONBillableForMonth = await(CostConfig.GetLoadedCostCalcMonth('HRNB', MonthName, parseInt(c[2])));
+
+                        // NonHRForMonth = await(CostConfig.GetLoadedCostCalcMonth('NHR', MonthName, parseInt(c[2])));
+                        // console.log(HRBillable)
+                        // Amount = HRBillable[0]._doc.Amount;
+                        // console.log(Amount)
+                        // if (HRBillableForMonth.length == 0) {
+                            // HRBillableCost = 0;
+                        // }
+                        // else {
+                            // HRBillableCost = HRBillableForMonth[0].sum;
+
+                        // }
+
+                        // if (HRNONBillableForMonth.length == 0) {
+                            // HRNONBillableCost = 0;
+                        // }
+                        // else {
+                            // HRNONBillableCost = HRNONBillableForMonth[0].sum;
+
+                        // }
+
+                        // if (NonHRForMonth.length == 0) {
+                            // NonHRCost = 0;
+
+                        // }
+                        // else {
+                            // NonHRCost = NonHRForMonth[0].sum;
+
+                        // }
+                        // if (HRBillableForMonth.length == 0 && HRNONBillableForMonth.length == 0 && NonHRForMonth.length == 0) {
+                            // loadedCost = 0;
+                        // }
+                        // else {
+                            
+                            // total = HRBillableCost + HRNONBillableCost + NonHRCost;
+                            // loadedCost = total / HRBillableCost;
+                            
+                        // }
+                       
+
+
+
+                      
+
+
+
+                        // PerHourCost = (Amount * loadedCost / 160);
+
+                        // var From = new Date(d1[2] + '-' + (d1[1]) + '-' + d1[0]);
+                        // var To = new Date(d2[2] + '-' + (d2[1]) + '-' + d2[0]);
+                        // var BetweenDates = getDateArray((From), (To));
+                        // oneDayHour = TeamLeadTSDetails[j]._doc.Hours;
+                        // console.log(oneDayHour + ',' + PerHourCost + '.' + BetweenDates.length)
+                       
+                        // actCost += (oneDayHour * PerHourCost);
+                        // actHours += TeamLeadTSDetails[j]._doc.Hours;
+
+                    // }
+
+                // }
+                // var GetWeekcount = await(MarginReportTemplate.GetWeekNo());
+                // GetWeekcount = GetWeekcount.filter(function (sl) {
+                    // return sl.ProjectName == Projects[i]._doc.ProjectName
+                // })
+                // // if (GetWeekcount.length > 0) {
+                // //     var week = GetWeekcount[0]._doc;
+                // //     w = week.week;
+                // //     console.log(w)
+                // //     w = w.split("Week")
+                // //     console.log(w)
+                // //     console.log(w[1])
+                // //     week = "Week" + (parseInt(w[1]) + 1);
+                // //     if (week == undefined) {
+
+                // //     }
+                // // }
+                // // else {
+                // //     week = 'Week1'
+                // // }
+
+
+
+
+            // }
+            // if (Hours > 0) {
+                // var obj = {};
+                // obj.week = week;
+                // obj.ProjectName = Projects[i]._doc.ProjectName;
+                // obj.StartDate = Dates[0];
+                // obj.EndDate = Dates[6];
+
+                // obj.PlannedEfforts = Hours;
+                // obj.PlannedRevenue = PlannedCost;
+                // obj.ActualEfforts = actHours;
+                // obj.ActualRevenue = actCost;
+                // MarginReport.push(obj);
+            // }
+            // if (MarginReport.length > 0) {
+                // for (a = 0; a < MarginReport.length; a++) {
+
+
+                    // await(MarginReportTemplate.AddReport(MarginReport[a]));
+                // }
+            // }
+
+
+        // }
+
+
+    // }
+
+
+// });
 
 //End
 

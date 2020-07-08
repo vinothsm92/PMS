@@ -242,7 +242,7 @@ app.controller('TimeSheetReport', ['$scope', '$http', '$window', '$filter', '$co
         var MainTabText = '';
         $scope.Grid1visile = true;
 
-        debugger
+        
         $http.get('/GetProjectDetails1/' + FacilityService).then(function (response) {
             $scope.GetProjectDetails = response.data;
 
@@ -810,7 +810,7 @@ app.controller('TimeSheetReport', ['$scope', '$http', '$window', '$filter', '$co
         }
 
         $scope.GO = function (startDate, endDate) {
-debugger
+
             $("div#divLoading").addClass('show');
             $scope.CheckTotalcount = 0;
             $scope.TotalCount = $scope.Projectmodel.length * $scope.Resourcemodel.length;
@@ -888,7 +888,7 @@ debugger
                             $scope.CheckTotalcount += 1;
                             if ($scope.TimeSheetReports.length > 0) {
                                 if ($scope.TimeSheetReports[0].UserName == 'Vinoth' && $scope.TimeSheetReports[0].ProjectID == '5b154e05e0ad8be81f4ed772') {
-                                    debugger
+                                    
                                     var a = 0;
                                 }
                             }
@@ -1099,12 +1099,12 @@ debugger
         }
 
         $scope.ProjectNameFilter = function (data) {
-            debugger
+            
 
             $scope.FClinetName = data;
         };
         $scope.customProjectNameFilter = function (TimeSheetReports) {
-debugger
+
             if ($scope.FClinetName == undefined) { return true }
             else {
                 var mstream = $scope.showProjectNames1(TimeSheetReports.ProjectID);

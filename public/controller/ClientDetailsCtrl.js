@@ -257,7 +257,7 @@ app.controller('ClientDetails', ['$scope', '$http', '$window', '$filter', '$cook
 
 
         var logincheck = function () {
-
+            
             $http.get('loggedin').success(function (user) {
                 // Authenticated
                 if (user != '0') {

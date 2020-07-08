@@ -36,14 +36,14 @@ app.controller('ConfigItemCtrl', ['$scope', '$http', '$window', '$filter', '$coo
 
 
 
-        debugger;
+        
         FacilityService = $cookieStore.get('FacilityID1');
         $scope.value = StoreService;
         var username = $cookieStore.get('LoggedinUser');
         //Facility DropDown Change Event
         $scope.$watch('value.storedObject', function (newVal) {
 
-            debugger;
+            
 
             if (newVal != '') {
                 FacilityService = newVal;
@@ -118,7 +118,7 @@ app.controller('ConfigItemCtrl', ['$scope', '$http', '$window', '$filter', '$coo
 
 
         $scope.UpdateConfigureItemsTable = function () {
-            debugger;
+            
             if (NotifyCount != 1) {
                 var RoleNamechk = '';
                 for (var i = 0; i < $scope.Manage_Roleser.length; i++) {
@@ -260,7 +260,7 @@ app.controller('ConfigItemCtrl', ['$scope', '$http', '$window', '$filter', '$coo
 
 
             var logincheck = function () {
-
+                
                 $http.get('loggedin').success(function (user) {
 
                     // Authenticated
@@ -337,7 +337,7 @@ app.controller('ConfigItemCtrl', ['$scope', '$http', '$window', '$filter', '$coo
 
 
             $scope.applyHighlight = function ($data, index, pageNumber, id) {
-                debugger
+                
                 for (var i = 0; i < $scope.Manage_Roleser.length; i++) {
                     if ($scope.Manage_Roleser[i]._id == id) {
                         $scope.Manage_Roleser[i].DirtyFlag = "True";

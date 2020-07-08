@@ -34,7 +34,10 @@ app.controller('FacilityController', ['$scope', '$http', '$window', '$filter', '
         $scope.AssignFacility = "";
     };
 
+    $http.get('/ViewFacility').then(function (response) {
+        $scope.ViewFacilitys = response.data;
 
+    });
 
     $scope.refreshUI = function () {
         refresh();
@@ -167,7 +170,7 @@ app.controller('FacilityController', ['$scope', '$http', '$window', '$filter', '
     var FacilityidCount = 0;
     //Assign Facility Code
     $scope.GetFacilityId = function (id, FacilityName, Active) {
-debugger
+
         GetUserMappingTable(id);
 
         var FaclityId = id;
@@ -391,7 +394,7 @@ debugger
 
     $scope.UpdateFacilityValues = function () {
           
-debugger
+
 
 
         var Countryid = document.getElementById('UpdateCountryid');

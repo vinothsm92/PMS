@@ -68,7 +68,7 @@ app.controller('UtilisationReport', ['$scope', '$http', '$window', '$filter', '$
         }
 
         $scope.Export = function (data) {
-            debugger
+            
            
           
 
@@ -159,7 +159,7 @@ app.controller('UtilisationReport', ['$scope', '$http', '$window', '$filter', '$
 
         });
         $scope.Go = function () {
-            debugger
+            
             $scope.UserReports = [];
             ReportType = document.getElementById("Report").value
             if (ReportType == "" || ReportType == undefined) {
@@ -341,7 +341,7 @@ app.controller('UtilisationReport', ['$scope', '$http', '$window', '$filter', '$
             $scope.UserReports = [];
         }
         $scope.GetClickUserName = function (UserName, billable) {
-            debugger
+            
             $scope.SelectedUserName = UserName;
             $scope.billable = billable;
             $scope.BillableDetails = [];
@@ -375,7 +375,7 @@ app.controller('UtilisationReport', ['$scope', '$http', '$window', '$filter', '$
 
                     $scope.ProjectNames = $scope.ProjName.sort();
 
-                    debugger
+                    
 
                     for (i = 0; i < $scope.ProjectNames.length; i++) {
                         ProjID = $scope.GetProjectDetails.filter(function (el) {

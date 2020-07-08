@@ -358,7 +358,7 @@ app.controller('ManageTeamController', ['$scope', '$http', '$window', '$filter',
         }
 
         $scope.EditTeamResourceClick = function (index, data) {
-            debugger;
+            
             $scope.GetResourcesBasedProjects.splice(index, 1);
         }
         $scope.TeamResourceClick = function (index, data) {

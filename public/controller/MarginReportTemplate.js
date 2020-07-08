@@ -68,7 +68,7 @@ app.controller('MarginReportTemplate', ['$scope', '$http', '$window', '$filter',
         }
 
         $scope.Export = function (data) {
-            debugger
+            
 
 
 
@@ -96,7 +96,7 @@ app.controller('MarginReportTemplate', ['$scope', '$http', '$window', '$filter',
             $scope.ItemsPerPageCount1 = $scope.ItemsPerPageCounts1[0].PageID;
         });
         var logincheck = function () {
-
+            
             $http.get('loggedin').success(function (user) {
 
                 // Authenticated
@@ -180,7 +180,7 @@ app.controller('MarginReportTemplate', ['$scope', '$http', '$window', '$filter',
     ];
 
         $scope.Go = function () {
-            debugger
+            
             $scope.UserReports = [];
             ProjectNameID = document.getElementById("ProjectNameID").value;
             if (ProjectNameID == "" || ProjectNameID == undefined) {
@@ -299,7 +299,7 @@ app.controller('MarginReportTemplate', ['$scope', '$http', '$window', '$filter',
 
 
         $scope.GetClickUserName = function (StartDate, EndDate, week) {
-            debugger
+            
             $scope.weekno = week;
             $scope.MarginReport = [];
             $('#Div1').modal('show');

@@ -124,7 +124,10 @@ app.controller('RoleViewCtrlq', ['$scope', '$http', '$window', '$filter', '$cook
 
         //bind all resource types grid
 
+        $http.get('/Manage_Rolesshow').then(function (response) {
+            $scope.Manage_Roleser = response.data;
 
+        });
 
         var MainManageRoleGridRebindBasedTab = function (data) {
             if (data == "AllResource") {
@@ -270,7 +273,7 @@ app.controller('RoleViewCtrlq', ['$scope', '$http', '$window', '$filter', '$cook
                         }
                         count = 0;
                     }
-                    debugger
+                    
                     $notify.success('Success', 'Role is updated successfully');
 
 
@@ -314,14 +317,14 @@ app.controller('RoleViewCtrlq', ['$scope', '$http', '$window', '$filter', '$cook
                         refresh();
                     })
                 }
-                debugger
+                
                 $notify.success('Success', 'Role is updated successfully');
                 $('#Div1').modal('hide');
             }
         };
 
         $scope.refreshUI = function () {
-            debugger
+            
             if (GetTabData == "") {
                 refresh();
             } else { MainManageRoleGridRebindBasedTab(GetTabData); }
@@ -476,7 +479,7 @@ app.controller('RoleViewCtrlq', ['$scope', '$http', '$window', '$filter', '$cook
 
 
         $scope.applyHighlight = function ($data, index, pageNumber, id) {
-            debugger
+            
             for (var i = 0; i < $scope.Manage_Roleser.length; i++) {
                 if ($scope.Manage_Roleser[i]._id == id) {
                     $scope.Manage_Roleser[i].DirtyFlag = "True";

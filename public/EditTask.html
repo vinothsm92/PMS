@@ -47,7 +47,7 @@
         app.controller('EditCtrl', ['$scope', '$http', '$window', '$filter', '$notify',
             '$cookieStore', '$timeout',
             function ($scope, $http, $window, $filter, $notify, $cookieStore, $timeout) {
-                debugger
+                
 
 
 
@@ -77,7 +77,7 @@
 
 
                 $http.get('/GetTaskEvent/' + GetEventID).then(function (response) {
-                    debugger
+                    
 
                     $scope.Items = false;
                     $scope.Start = true;
@@ -108,7 +108,7 @@
                 };
                 $scope.OKdisabled = false;
                 $scope.save = function () {
-                    debugger
+                    
                     var Today = document.getElementById("CurrentDate").value;
                     var PlanStartDate = document.getElementById("PlanStartDate").value;
 
@@ -291,7 +291,7 @@
                 };
 
                 $scope.CalcDuration = function (Duration11) {
-                    debugger
+                    
 
 
                     if (Duration11 > 12) {

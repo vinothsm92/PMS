@@ -16,7 +16,7 @@ var Schema = new Schema({
 var CommonCosts = mongoose.model("pms_CommonCosts", Schema);
 
 exports.RemoveCommonCost = (req, res, next) => {
-    debugger;
+    
     var Month = req.params.Month;
     var Year = parseInt(req.params.Year);
     var FacilityID = req.params.FacilityService;
@@ -28,7 +28,7 @@ exports.RemoveCommonCost = (req, res, next) => {
 };
 
 exports.AddCommonCost = (req, res) => {
-    debugger;
+    
     
     CommonCosts.collection.insert(req.body, onInsert);
     function onInsert(err, docs) {

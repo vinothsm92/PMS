@@ -70,7 +70,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
 
         //Excel Import
         $scope.$watch("ExcelTrigger", function (ExcelMasterValue) {
-            debugger
+            
 
             if (ExcelMasterValue != undefined) {
 
@@ -391,9 +391,9 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
                         }
                         //Update AlreadyExists Record
                         if ($scope.AlreadyExistsTaskData.length != 0) {
-                            debugger;
+                            
                             for (i = 0; i < $scope.AlreadyExistsTaskData.length; i++) {
-                                debugger
+                                
                                 var id = $scope.AlreadyExistsTaskData[i].id || "";
                                 var TaskDescription = $scope.AlreadyExistsTaskData[i].TaskDescription;
                                 var PlanStartDate = $scope.AlreadyExistsTaskData[i].PlanStartDate;
@@ -459,8 +459,8 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
                             //     });
                             // });
                             for (i = 0; i < $scope.TaskData.length; i++) {
-                                debugger
-                                debugger
+                                
+                                
                                 var id = $scope.TaskData[i].id || "";
                                 var TaskDescription = $scope.TaskData[i].TaskDescription;
                                 var PlanStartDate = $scope.TaskData[i].PlanStartDate;
@@ -558,7 +558,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
         //Facility DropDown Change Event
 
         $scope.$watch('value.storedObject', function (newVal) {
-            // debugger;
+            // 
             $scope.GetTaskGridValues = "";
             $scope.GetteamleaderDetails = "";
             $scope.DurationWithNames = "";
@@ -631,7 +631,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
         });
         var refresh = function () {
             //
-            //  debugger;
+            //  
             if (FacilityService == "" || FacilityService == undefined) {
                 $scope.ShowBody = false;
                 $scope.Showmessage = true;
@@ -796,7 +796,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
 
         var slctdProjectid = '';
         $scope.ViewTask = function (Grid3) {
-            // debugger;
+            // 
             $scope.addbuttonfalse = false;
             $scope.DurationWithNames = '';
             $scope.Grid1visile = false;
@@ -847,7 +847,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
 
 
         $scope.ProjectNameChange = function (ProjectID) {
-            // debugger;
+            // 
             var r1 = document.getElementById('radio1').checked;
             //   alert(FilterByRowCost)
             var r2 = document.getElementById('radio2').checked;
@@ -992,7 +992,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
                             ////////////////////////////////// bind actual hour,actual cost,PlannedVsActual value
                             var obj = {}
                             // for (p = 0; p < $scope.DurationWithNamesMain.length; p++) {
-                            //     debugger;
+                            //     
                             //     $scope.DurationWithNames[p].Name = $scope.DurationWithNamesMain[p].UserName;
                             //     actlHourVal = $scope.DurationWithNamesMain[p].Hours;
                             //     $scope.DurationWithNames[p].ActualHour = actlHourVal / 60;
@@ -1001,7 +1001,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
                             // }
                             // console.log($scope.DurationWithNames);
                             for (p = 0; p < $scope.DurationWithNames.length; p++) {
-                                //  debugger;
+                                //  
                                 if ($scope.DurationWithNamesMain[p] != undefined) {
                                     //$scope.DurationWithNames[p].Name = $scope.DurationWithNamesMain[p].UserName;  //check this 
                                     // alert($scope.DurationWithNames[p].Name);
@@ -1028,7 +1028,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
                             $scope.TotalPlannedVsActuals = 0;
                             console.log($scope.DurationWithNames);
                             for (s = 0; s < $scope.DurationWithNames.length; s++) {
-                                //    debugger;
+                                //    
 
                                 $scope.TotalEffort = $scope.TotalEffort + $scope.DurationWithNames[s].Duration;
                                 $scope.TotalBudget = $scope.TotalBudget + $scope.DurationWithNames[s].PlannedBudget;
@@ -1201,7 +1201,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
                             ////////////////////////////////// bind actual hour,actual cost,PlannedVsActual value
                             var obj = {}
                             // for (p = 0; p < $scope.DurationWithNamesMain.length; p++) {
-                            //     debugger;
+                            //     
                             //     $scope.DurationWithNames[p].Name = $scope.DurationWithNamesMain[p].UserName;
                             //     actlHourVal = $scope.DurationWithNamesMain[p].Hours;
                             //     $scope.DurationWithNames[p].ActualHour = actlHourVal / 60;
@@ -1210,7 +1210,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
                             // }
 
                             for (p = 0; p < $scope.DurationWithNames.length; p++) {
-                                //   debugger;
+                                //   
                                 if ($scope.DurationWithNamesMain[p] != undefined) {
 
                                     $scope.DurationWithNames[p].Name = $scope.DurationWithNames[p].Name;
@@ -1236,7 +1236,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
                             $scope.TotalActualCost = 0;
                             $scope.TotalPlannedVsActuals = 0;
                             for (s = 0; s < $scope.DurationWithNames.length; s++) {
-                                //     debugger;
+                                //     
                                 $scope.TotalEffort = $scope.TotalEffort + $scope.DurationWithNames[s].Duration;
                                 $scope.TotalBudget = $scope.TotalBudget + $scope.DurationWithNames[s].PlannedBudget;
                                 $scope.TotalActualHour = $scope.TotalActualHour + $scope.DurationWithNames[s].ActualHour;
@@ -1649,7 +1649,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
         //Excel download Code
         $scope.ExcelExport = function () {
 
-            //  debugger;
+            //  
 
             $http.get('/PMSConfig/TaskContent.json').success(function (data) {
 
@@ -1785,7 +1785,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
 
 
                 }).then(function (response) {
-                    debugger
+                    
                     var url = '/template/' + response.data;
                     $window.open(url);
 
@@ -1816,7 +1816,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
             for (; l < data.byteLength / w; ++l) o += String.fromCharCode.apply(null, new Uint16Array(data.slice(l * w, l * w + w)));
             o += String.fromCharCode.apply(null, new Uint16Array(data.slice(l * w)));
             return o;
-        } debugger
+        } 
         try {
             function xw_xfer(data, cb) {
                 var worker = new Worker(rABS ? XW.rABS : XW.norABS);
@@ -2219,7 +2219,7 @@ app.controller('TaskDetails', ['$scope', '$http', '$window', '$filter', '$cookie
                 }
                 //Update AlreadyExists Record
                 if ($scope.AlreadyExistsTaskData.length != 0) {
-                    //     debugger;
+                    //     
                     for (i = 0; i < $scope.AlreadyExistsTaskData.length; i++) {
                         var id = $scope.AlreadyExistsTaskData[i].id;
                         var TaskDescription = $scope.AlreadyExistsTaskData[i].TaskDescription;

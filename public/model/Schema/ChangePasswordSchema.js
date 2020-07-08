@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
 
 }, { versionKey: false });
 
-var ChangePwd = mongoose.model("pms_users", userSchema);
+var ChangePwd = mongoose.model("Users", userSchema);
 
 
 

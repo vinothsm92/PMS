@@ -200,7 +200,7 @@ app.controller('ExpenseCtrl', ['$scope', '$http', '$window', '$filter', '$cookie
 
 
         var getAllExpensesTotalCost = function (Month, Year) {
-            debugger;
+            
 
             $http.get('/GettotalExpenseValues/' + Month + '/' + Year + '/' + FacilityService).then(function (response) {
                 $scope.TotalExpenses1 = response.data;
@@ -215,7 +215,7 @@ app.controller('ExpenseCtrl', ['$scope', '$http', '$window', '$filter', '$cookie
 
         var exportClckCount=0;
         $scope.GenerateLoadedCosts = function () 
-        {debugger;
+        {
             $scope.textbox = angular.element(document.getElementById("ExpenseMonth")).val().trim();
 
             var e = document.getElementById("ExpenseTypeID");
@@ -243,7 +243,7 @@ app.controller('ExpenseCtrl', ['$scope', '$http', '$window', '$filter', '$cookie
         }
         $scope.showLoadedCost = false;
         var getLoadedCostValue = function (Month, Year, ExpenseID) {
-            debugger;
+            
             $scope.TotalExpenses = 0;
             $scope.TotalExpenses1 = 0
             var HRNonHRBCost = 0;
@@ -342,7 +342,7 @@ app.controller('ExpenseCtrl', ['$scope', '$http', '$window', '$filter', '$cookie
         }
 
         var addExpenseData = function (Month, Year, ResourceType, Message) {
-            debugger;
+            
             $scope.Total = 0;
             for (i = 0; i < $scope.ResourceCosts.length; i++) {
 
@@ -494,7 +494,7 @@ app.controller('ExpenseCtrl', ['$scope', '$http', '$window', '$filter', '$cookie
         }
 
         $scope.getdaymonth = function (data) {
-            debugger
+            
             var data = document.getElementById("WorkingDaysPA").value;
             if (data == "") {
                 data = 0;
@@ -606,7 +606,7 @@ app.controller('ExpenseCtrl', ['$scope', '$http', '$window', '$filter', '$cookie
 
 
         $scope.ResourceLoad = function () {
-            debugger;
+            
           //  $scope.showLoadedCost = true;
             $scope.Total = 0;
             $scope.ValueDivide = "";
@@ -682,7 +682,7 @@ app.controller('ExpenseCtrl', ['$scope', '$http', '$window', '$filter', '$cookie
         }
 
         $scope.CopyDataToMonth = function () {
-            debugger
+            
             var CheckExpenseType = document.getElementById("ExpenseTypeID").value;
             if (CheckExpenseType == "" || CheckExpenseType == undefined) {
                 $notify.warning('Warning', "Please Select Expense Type");
@@ -735,7 +735,7 @@ app.controller('ExpenseCtrl', ['$scope', '$http', '$window', '$filter', '$cookie
         $scope.updateCommonCost = function () {
 
 
-            debugger
+            
 
             var getmonth = document.getElementById("ExpenseMonth").value;
 

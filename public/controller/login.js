@@ -129,7 +129,7 @@ app.controller('RegisterCtrl', ['$rootScope', '$scope', '$http', '$window', '$fi
 
         }
         $scope.registerClick = function () {
-              debugger;
+              
          $("div#divLoading").addClass('show');
 
             $http.post('/signup', $scope.register).success(function (response) {

@@ -100,12 +100,12 @@ app.controller('ProjectDetails', ['$scope', '$http', '$window', '$filter', '$coo
 
         //filter client name
         $scope.ClientNameFilter = function (data) {
-            debugger
+            
 
             $scope.FClinetName = data;
         };
         $scope.RoleNameFilter = function (data) {
-            debugger
+            
             $scope.FRoleName = data;
         };
         $scope.checkDate = function () {
@@ -123,7 +123,7 @@ app.controller('ProjectDetails', ['$scope', '$http', '$window', '$filter', '$coo
             }
         };
         $scope.customRoleNameFilter = function (ProjectMapping) {
-            debugger
+            
             if ($scope.FRoleName == undefined) { return true }
             else {
                 var mstream = $scope.showRoleName(ProjectMapping);
@@ -132,7 +132,7 @@ app.controller('ProjectDetails', ['$scope', '$http', '$window', '$filter', '$coo
         };
 
         $scope.showProjectRoleNameFilter = function (Roleid) {
-            debugger
+            
             if ($scope.Manage_Roleser.length > 0) {
                 var SelectStream1 = [];
                 if (Roleid) {
@@ -321,7 +321,7 @@ app.controller('ProjectDetails', ['$scope', '$http', '$window', '$filter', '$coo
 
 
         $scope.ProjectMappingclick = function (id, ProjName) {
-            debugger
+            
             document.getElementById("ProjMappingUserID").value="";
             document.getElementById("ProjMappingRoleID").value="";
             $scope.customRoleNameFilter={};
@@ -381,7 +381,7 @@ app.controller('ProjectDetails', ['$scope', '$http', '$window', '$filter', '$coo
         }
 
         $scope.UpdateProjectMapping = function () {
-            debugger
+            
 
             $http.get('/CheckProjectMapping/' + $scope.setProjectID + '/' + FacilityService).then(function (response) {
                 $scope.GetProjectMapping = response.data;

@@ -24,7 +24,7 @@ var Schema = new Schema({
 
 
 
-var newRole = mongoose.model("pms_Role", Schema);
+var newRole = mongoose.model("Role", Schema);
 
 exports.AddNewRole = (req, res) => {
 

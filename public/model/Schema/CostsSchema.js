@@ -16,7 +16,7 @@ var Schema = new Schema({
 var Costs = mongoose.model("pms_Costs", Schema);
 
 exports.RemoveResourceCost = (req, res, next) => {
-    debugger;
+    
     var Month = req.params.Month;
     var Year = parseInt(req.params.Year);
     var ResourceType = req.params.ExpenseID;
@@ -29,7 +29,7 @@ exports.RemoveResourceCost = (req, res, next) => {
 };
 
 exports.AddResourceCost = (req, res) => {
-    debugger;
+    
     req.body.forEach(function (obj) {
         obj.UpdatedOn = Date();
         delete obj._id;
@@ -87,7 +87,7 @@ exports.getTotalExpense = (req, res) => {
 };
 
 exports.getTotalBillableExpense = (req, res) => {
-    debugger;
+    
     var Month = req.params.Month;
     var Year = parseInt(req.params.Year);
 
@@ -101,7 +101,7 @@ exports.getTotalBillableExpense = (req, res) => {
 };
 
 exports.getAllCost = (req, res) => {
-    debugger;
+    
  
 
 
@@ -150,7 +150,7 @@ exports.GetLoadedCostCalcMonth = (ResourceType, Month, Year) => {
 
 
 exports.GettotalExpenseValues = (req, res) => {
-    debugger;
+    
     var Month = req.params.Month;
     var Year = parseInt(req.params.Year);
     var FacilityID = req.params.FacilityService;

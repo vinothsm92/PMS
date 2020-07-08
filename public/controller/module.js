@@ -171,7 +171,7 @@ app.controller('UserNameShowCtrl', ['$scope', '$http', '$window', '$filter', '$c
     function ($scope, $http, $window, $filter, $cookieStore, StoreService) {
 
         //bind Enterprise Logo start
-        var logincheck = function () {
+        var logincheck = function () {debugger
             $http.get('loggedin').success(function (user) {
                 // Authenticated
                 if (user != '0') {

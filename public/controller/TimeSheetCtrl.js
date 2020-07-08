@@ -115,7 +115,7 @@ app.controller('TimeSheetCtrl', ['$scope', '$http', '$window', '$filter', '$cook
 
             else {
                 $http.get('/GetTaskTotHours/' + Mainusername + '/' + FacilityService).then(function (response) {
-                    debugger
+                    
                     $scope.getTaskTotalHours = response.data;
 
                 });
@@ -346,7 +346,7 @@ app.controller('TimeSheetCtrl', ['$scope', '$http', '$window', '$filter', '$cook
 
                         if (viewtab == "TaskView") {
 
-                            debugger
+                            
                             // if ($scope.CheckRecordPublish[0].Publish == 0) {
 
                             // }
@@ -387,7 +387,7 @@ app.controller('TimeSheetCtrl', ['$scope', '$http', '$window', '$filter', '$cook
 
 
                 $http.get('/GetProjNameByUser/' + Mainusername + '/' + FacilityService).then(function (response) {
-                    debugger
+                    
                     $scope.ProjectNames = response.data;
                     if (editpage == "true") {
                         $scope.showActiveUser = true;
@@ -478,7 +478,7 @@ app.controller('TimeSheetCtrl', ['$scope', '$http', '$window', '$filter', '$cook
 
         var GetUserTimeSheet = function () {
             $http.get('/GetUserTimeSheet/' + Mainusername + '/' + FacilityService).then(function (response) {
-                debugger
+                
                 $scope.GetUserTimeSheet = response.data;
 
             });
@@ -600,7 +600,7 @@ app.controller('TimeSheetCtrl', ['$scope', '$http', '$window', '$filter', '$cook
         $scope.Publish = function () {
 
 
-debugger
+
             if ($scope.getAllWeekDays.length == 0) {
                 $notify.warning('Warning', 'Get all the records');
                 return true;
@@ -638,7 +638,7 @@ debugger
                 $notify.warning('Warning', 'No records found');
                 return true;
             }
-            debugger
+            
             if ($scope.SelectStream1[0].Publish == 1) {
                 $notify.warning('Warning', 'Timesheet already Published');
                 return true;
@@ -688,7 +688,7 @@ debugger
 
             $http.get('/GetTimeSheet/' + Mainusername + '/' + FacilityService + '/' + getProjectID).then(function (response) {
 
-                debugger
+                
                 $scope.events = [];
                 if (viewtab = "TimeSheetView") {
 
@@ -1767,7 +1767,7 @@ debugger
 
                 if (ProjectID != undefined)
                     $http.get('/GetTimeSheet/' + Mainusername + '/' + FacilityService + '/' + getProjectID).then(function (response) {
-                        debugger
+                        
                         $scope.events = [];
                         if (response.data == 0) {
                             $scope.showtimesheet1 = true;
@@ -1833,7 +1833,7 @@ debugger
                         var PlanEndDate = data[k].PlanEndDate.split('-');
 
 
-                        debugger
+                        
                         var startDate = new Date(PlanStartDate[2] + "-" + PlanStartDate[1] + "-" + PlanStartDate[0]); //YYYY-MM-DD
                         var endDate = new Date(PlanEndDate[2] + "-" + PlanEndDate[1] + "-" + PlanEndDate[0]); //YYYY-MM-DD
 
@@ -1852,7 +1852,7 @@ debugger
                         for (d = 0; d < dateArr.length; d++) {
 
                             if(d==274){
-                                debugger
+                                
                               
                             }
                             var dateString = dateArr[d];
@@ -1939,7 +1939,7 @@ debugger
         $scope.showtimesheet = false
 
         $scope.getuserProject = function () {
-            debugger;
+            
             $scope.showtimesheet1 = false;
             $scope.TotHours = 0;
 
@@ -1966,14 +1966,14 @@ debugger
             });
         }
         $scope.getProjectID = function () {
-            debugger
+            
             $scope.TotHours = 0;
             var ProjectID = document.getElementById("ProjectNameID").value;
             getProjectID = ProjectID
             GetUserTimeSheet();
             $http.get('/GetTimeSheet/' + Mainusername + '/' + FacilityService + '/' + getProjectID).then(function (response) {
                 $scope.events = [];
-                debugger
+                
                 if (Tab == "TimeSheetView") {
                     if (response.data == 0) {
                         $scope.showtimesheet1 = true;
@@ -2417,7 +2417,7 @@ debugger
                 $scope.events = [];
 
                 $http.get('/GetTimeSheet/' + Mainusername + '/' + FacilityService + '/' + getProjectID).then(function (response) {
-                    debugger
+                    
                     $scope.events = [];
                     var data = response.data;
                     $scope.TimeSheetdata = response.data;

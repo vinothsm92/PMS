@@ -49,7 +49,7 @@
             function ($scope, $http, $window, $filter, $notify, $cookieStore, $timeout) {
 
 
-             debugger
+             
 
                 var GetEventID1 = sessionStorage.getItem("gettaskid");
                 var getUserName = sessionStorage.getItem("getUserName");
@@ -118,7 +118,7 @@
                   
                 };
                 $scope.save = function () {
-                    debugger
+                    
                     var Activity = document.getElementById("name").value;
                     var Comments = document.getElementById("Comments").value;
                     var TaskType = document.getElementById("TaskTypeID").value;
@@ -220,7 +220,7 @@
                 };
 
                 $scope.CalcDuration = function (Duration11) {
-                    debugger
+                    
                     var Duration11 = document.getElementById('Hours').value;
                     if (Duration11 > 12) {
                         $scope.OKdisabled = true;
@@ -241,7 +241,7 @@
                 }
 
                 $scope.CalcDuration1 = function (Duration11) {
-                    debugger
+                    
                     var Duration11 = document.getElementById('Minutes').value;
                     if (Duration11 > 59) {
                         $scope.OKdisabled = true;

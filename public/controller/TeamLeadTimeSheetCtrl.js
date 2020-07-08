@@ -1036,7 +1036,7 @@ app.controller('TeamLeadTaskDetails', ['$scope', '$http', '$window', '$filter', 
             ProjectID = document.getElementById("ProjectNameID").value;
             $scope.ShowGrid = false;
             $scope.ShowButton = false;
-            debugger
+            
             $http.get('/GetProjUserName/' + FacilityService + '/' + ProjectID).then(function (response) {
 
                 $scope.GetUserNames = response.data;

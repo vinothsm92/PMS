@@ -981,7 +981,7 @@ if (typeof DayPilot === 'undefined') {
         return new DayPilot.Date(this.ticks + $Q * 24 * 60 * 60 * 1000);
     };
     DayPilot.Date.prototype.addHours = function($R) {
-        //debugger;
+        //
         return this.addTime($R * 60 * 60 * 1000);
     };
     DayPilot.Date.prototype.addMilliseconds = function($S) {
@@ -3320,7 +3320,7 @@ if (typeof DayPilot.Global === 'undefined') {
             var $05 = this.columns;
             var cl = $05.length;
             var r = ($0y) ? $0x.insertRow(-1) : $0x.rows[0];
-            //debugger;
+            //
             for (var j = 0; j < cl; j++) {
                 var c = ($0y) ? r.insertCell(-1) : r.cells[j];
                 if ($0y) {
@@ -3410,7 +3410,7 @@ if (typeof DayPilot.Global === 'undefined') {
             };
             $0C.unselectable = "on";
             var $J = this.startDate.addHours(i);
-            //debugger;
+            //
             var $0D = $J.getHours();
             var am = $0D < 12;
             var $0E = $z.timeFormat();

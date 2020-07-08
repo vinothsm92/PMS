@@ -9,10 +9,7 @@
   "license": "ISC",
   "dependencies": {
     "angular-fixed-table-header": "^0.2.1",
-    "async": "^2.1.5",
-    "asyncawait": "^1.0.7",
     "bcrypt-nodejs": "0.0.3",
-    "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
     "bootstrap-ui-datetime-picker": "^2.5.4",
     "chalk": "^2.4.1",
